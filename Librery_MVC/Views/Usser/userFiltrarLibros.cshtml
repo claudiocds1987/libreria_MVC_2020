@@ -79,7 +79,16 @@
                             <td class="text-center">
                                 <input type="hidden" name="inputText" id="inputText" value="@item.IdLibro" />
                                 @Html.ActionLink("Mostrar", "MostrarLibro", "Usser", new { idLibro = item.IdLibro }, new { @class = "btn btn-primary", @id = "btnMostrar_lb" })
-                                <button onclick="createTable('@item.IdLibro', '@item.Nombre');" class="btn btn-warning" id="btnAgregar">Seleccionar</button>
+
+                                @if (TempData["user"] != null)
+                                {
+                                    <button onclick="createTable('@item.IdLibro', '@item.Nombre');" class="btn btn-warning" id="btnAgregar">Seleccionar</button>
+                                }
+                                else
+                                {
+                                    <button onclick="alert('Debe estar logeado para realizar esta acción')" class="btn btn-warning" id="btnAgregar">Seleccionar</button>
+                                }
+
                             </td>
                         }
 

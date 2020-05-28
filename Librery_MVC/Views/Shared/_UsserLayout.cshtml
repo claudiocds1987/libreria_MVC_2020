@@ -41,7 +41,7 @@
 <body class="fondo-User">
 
     @{
-        /*Para mostrar el usuario en todas las view. Nota: cada view va a tener que invocar a esta TempData para que se muestre el user*/
+        /*Para mostrar el usuario en todas las view. Nota: en cada actionResult del controller va a tener que invocar a esta TempData[User]*/
         TempData.Keep("User");
     }
 
@@ -64,6 +64,8 @@
                             @*<li>@Html.ActionLink("Lista de libros", "userListarLibros", "Usser")</li>*@
                             <li><a href="@Url.Action("userListarLibros", "Usser")"><span class="glyphicon glyphicon-education" id="glyphicon-education" aria-hidden="true"></span>libros</a></li>
                             <li><a href="@Url.Action("", "Usser")"><span class="glyphicon glyphicon-envelope" id="glyphicon-envelope" aria-hidden="true"></span>Contacto</a></li>
+                            <li><a href="@Url.Action("userLogin", "Usser")">Login</a></li>
+                            <li><a href="@Url.Action("CrearUsuario", "Usser")">Registrarse</a></li>
                             @*<li>@Html.ActionLink((String)ViewBag.Email, "Contact", "Home")</li>*@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">

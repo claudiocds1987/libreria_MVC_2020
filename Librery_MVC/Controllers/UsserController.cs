@@ -11,7 +11,7 @@ namespace Librery_MVC.Controllers
     public class UsserController : Controller
     {       
         // GET: Usser
-        public ActionResult Index()
+        public ActionResult userLogin()
         {
             //Cuando el usuario cierre sesion, se borra el Tempdata["Email"]
             if (TempData["userName"] != null)
@@ -25,22 +25,21 @@ namespace Librery_MVC.Controllers
 
             if(user!= null && password != null)
             {
-                //aca funcion que verifica si existe email.
+                //funcion que verifica si existe el nombre de usuario.
                 //bool R = us.SearchEmailUsser(email);
                 bool R = us.SearchUsserName(user);
 
                 if (R == false)
-                {
-                    //ir al index y avisar que no existe el email
+                {          
                     ViewBag.Msg = "No existe el usuario";
                     return View();
                 }
                 else
                 {
-                    //Aca comprueba que la contraseña pertenezca al mismo usuario
+                    //compruebo que la contraseña pertenezca al mismo usuario
                     exist = us.SearchUserPassword(user,password);
                 }
-                //si el nombreDeUsuario y password son correctos redirige a actionResult Principal()
+                //si el nombreDeUsuario y password son correctos redirige a actionResult index()
                 if (exist == true)
                 {
                     //TempData es similar a session/local storage, tiene corta duracion, 
@@ -48,11 +47,10 @@ namespace Librery_MVC.Controllers
                     //en _UsserLayout poner  @{TempData.Keep("Email");}
                     
                     TempData["user"] = user;//guardo el nombre de usuario ingreasdo en TempData
-                    return RedirectToAction("Principal");//redirige al actionResult Principal()
+                    return RedirectToAction("index");//redirige al actionResult index()
                 }
                 else
-                {
-                    //Ir al Index y mostrar mensaje de que la contraseña no es valida
+                {                    
                     ViewBag.Msg = "La contraseña no es válida.";
                     return View();
                 }
@@ -248,7 +246,7 @@ namespace Librery_MVC.Controllers
 
         }
 
-        public ActionResult Principal()
+        public ActionResult index()
         {
             //Guardo en el ViewBag.Email el email guardado en TempData
             ViewBag.User = TempData["User"];
@@ -283,6 +281,7 @@ namespace Librery_MVC.Controllers
         {
             //Creo y Guardo en el ViewBag.User el userName guardado en TempData
             ViewBag.User = TempData["User"];
+            //?ViewBag.User = Request.Form["user"];
 
             int tam = Convert.ToInt32(Request.Form["idTotales"]);
             LibroService ls = new LibroService();

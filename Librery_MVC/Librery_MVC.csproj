@@ -323,9 +323,8 @@
     <Content Include="Views\Home\LibroEditado.cshtml" />
     <Content Include="Views\Home\LibroInsertado.cshtml" />
     <Content Include="Views\Home\BajaLibro.cshtml" />
-    <Content Include="Views\Usser\index.cshtml" />
     <Content Include="Views\Shared\_UsserLayout.cshtml" />
-    <Content Include="Views\Usser\Principal.cshtml" />
+    <Content Include="Views\Usser\index.cshtml" />
     <Content Include="Views\Home\ListarClientes.cshtml" />
     <Content Include="Views\Usser\CrearUsuario.cshtml" />
     <Content Include="Views\Usser\RegistrarUsuario.cshtml" />
@@ -340,6 +339,7 @@
     <Content Include="Views\Home\registrarAdmin.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\InsertarLibro.cshtml" />
+    <Content Include="Views\Usser\userLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

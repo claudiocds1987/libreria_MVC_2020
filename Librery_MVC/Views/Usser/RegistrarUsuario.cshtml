@@ -14,13 +14,13 @@
         //window.location.href = "/Home/Libros";
     </script>
 
-    <h1>@Html.ActionLink("Ir a iniciar sesión", "Index", "Usser");</h1>
+    <h1>@Html.ActionLink("Ir a iniciar sesión", "userLogin", "Usser");</h1>
 }
 else
 {
     <script type="text/javascript">
         window.alert("Error!, los datos no se pudieron guardar.\Vuelva a intentar otra vez");
-                window.location.href = "/Usser/Index";
+                window.location.href = "/Usser/index";
     </script>
    
 }
