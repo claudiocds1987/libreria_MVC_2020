@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    @*/*alertifyjs es un framework de js para ventanas alert elegantes**********/*@
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/alertify.min.css" />
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/themes/semantic.min.css" />
+    <script src="~/js-frameworks/alertifyjs/alertify.min.js"></script>
+    @*/*************************************************************************/*@
+
+    <title>@ViewBag.Title - Libreria MVC</title>
+
+    @*/*****            framework bxSlider para sliders                     ******/*@
+    <link rel="stylesheet" href="~/js-frameworks/bxSlider/jquery.bxslider.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="~/js-frameworks/bxSlider/jquery.bxslider.js"></script>
+
+    @*/*************************************************************************/*@
+
+    @*---------------enlazo misEstilos.css---------------------------*@
+    @Styles.Render("~/Content/misEstilos.css")
+    @*---------------------------------------------------------------*@
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        .bordeRojoValidacion {
+            border-color: red;
+        }
+    </style>
+
+</head>
+<body class="fondo-User">
+
+    @{
+        /*Para mostrar el usuario en todas las view. Nota: cada view va a tener que invocar a esta TempData para que se muestre el user*/
+        TempData.Keep("User");
+    }
+
+    <div class="navbar navbar-inverse navbar-fixed-top" id="nav-fixedTop">
+
+        <div class="cont-principal">
+            <nav id="navigation" class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" id="brand" href="#">LibraryMVC</a>
+                    </div>
+                    <div class="collapse navbar-collapse fade-in" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li><a href="@Url.Action("Principal", "Usser")"><span class="glyphicon glyphicon-home" id="glyphicon-home" aria-hidden="true"></span>Home</a></li>
+                            @*<li>@Html.ActionLink("Lista de libros", "userListarLibros", "Usser")</li>*@
+                            <li><a href="@Url.Action("userListarLibros", "Usser")"><span class="glyphicon glyphicon-education" id="glyphicon-education" aria-hidden="true"></span>libros</a></li>
+                            <li><a href="@Url.Action("", "Usser")"><span class="glyphicon glyphicon-envelope" id="glyphicon-envelope" aria-hidden="true"></span>Contacto</a></li>
+                            @*<li>@Html.ActionLink((String)ViewBag.Email, "Contact", "Home")</li>*@
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user" id="glyphicon-user"></span>@ViewBag.User<span class="caret"></span></a>
+                                <ul class="dropdown-menu" id="dropdown-menu">
+                                    @*<li>@Html.ActionLink("Mis compras", "userListarLibros", "Usser")</li>*@
+                                    <li><a href="@Url.Action("MisCompras", "Usser")"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>Mis compras</a></li>
+                                    <li><a href="@Url.Action("#", "Usser")"><span class="glyphicon glyphicon-wrench" id="glyphicon-wrench" aria-hidden="true"></span>Ajustes</a></li>
+                                    <li><a href="@Url.Action("index", "Usser")"><span class="glyphicon glyphicon-off" id="glyphicon-wrench" aria-hidden="true"></span>Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@RenderSection("scripts", required: false)*@
+
+</body>
+</html>

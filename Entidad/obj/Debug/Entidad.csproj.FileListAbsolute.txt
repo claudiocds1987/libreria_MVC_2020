@@ -1,0 +1,6 @@
+Z:\UTN 2019 MATERIAS\Laboratorio_IV\ASP.NET\Librery_MVC\Entidad\bin\Debug\Entidad.dll
+Z:\UTN 2019 MATERIAS\Laboratorio_IV\ASP.NET\Librery_MVC\Entidad\bin\Debug\Entidad.pdb
+Z:\UTN 2019 MATERIAS\Laboratorio_IV\ASP.NET\Librery_MVC\Entidad\obj\Debug\Entidad.csprojAssemblyReference.cache
+Z:\UTN 2019 MATERIAS\Laboratorio_IV\ASP.NET\Librery_MVC\Entidad\obj\Debug\Entidad.csproj.CoreCompileInputs.cache
+Z:\UTN 2019 MATERIAS\Laboratorio_IV\ASP.NET\Librery_MVC\Entidad\obj\Debug\Entidad.dll
+Z:\UTN 2019 MATERIAS\Laboratorio_IV\ASP.NET\Librery_MVC\Entidad\obj\Debug\Entidad.pdb

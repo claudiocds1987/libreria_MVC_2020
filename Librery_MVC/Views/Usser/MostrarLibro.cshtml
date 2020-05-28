@@ -1,0 +1,49 @@
+﻿@model Librery_MVC.Models.Libro
+@using Librery_MVC.Models
+@using Librery_MVC.Services
+
+@{
+    Layout = "~/Views/Shared/_UsserLayout.cshtml";
+    Autor autor = new Autor();
+    Categoria category = new Categoria();
+    Editorial editorial = new Editorial();
+    AutorService sa = new AutorService();
+    EditorialService es = new EditorialService();
+    CategoriaService cs = new CategoriaService();
+
+    autor = sa.getAutor(Model.IdAutor);
+    category = cs.getCategoria(Model.IdCategoria);
+    editorial = es.GetEditorial(Model.IdEditorial);
+
+}
+
+<div class="row" id="div-row">
+
+    <div class="col-md-4 contImgBook">
+
+        <img src="/@Model.UrlImagen.Replace("\\", "/")" />       
+        <a class="btn btn-primary" id="btn-volver" href="@Url.Action("userListarLibros", "Usser")">Volver</a>
+    </div>
+
+    <div class="col-md-8 contInfo">
+
+        <h2 class="text-center">@Model.Nombre</h2><br />
+        <p>@Model.Descripcion</p>
+        <label for="autor">Autor:</label>
+        <span>@autor.Nombre</span><br />
+        <label for="categoria">Categoria:</label>
+        <span>@category.Nombre</span><br />
+        <label for="editorial">Editorial:</label>
+        <span>@editorial.Nombre</span><br />
+        <label for="precio">Precio:</label>
+        <span>@Model.Precio</span><br />
+        <label for="cantidad">Cantidad disponible:</label>
+        <span>@Model.Cantidad</span>
+
+    </div>
+
+
+</div>
+
+
+

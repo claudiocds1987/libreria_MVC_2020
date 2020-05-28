@@ -1,0 +1,170 @@
+﻿@using Librery_MVC.Models;
+@using Librery_MVC.Services;
+
+@{
+    ViewBag.Title = "InsertarLibro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Autor autor = new Autor();
+    Categoria category = new Categoria();
+    Editorial editorial = new Editorial();
+    AutorService sa = new AutorService();
+    CategoriaService cs = new CategoriaService();
+    EditorialService es = new EditorialService();
+    List<Autor> autorList = new List<Autor>();
+    List<Categoria> categoryList = new List<Categoria>();
+    List<Editorial> editorialList = new List<Editorial>();
+    autorList = sa.ListAutores();
+    categoryList = cs.getAllCategories();
+    editorialList = es.getAllEditorials();
+}
+
+<h2>Agregar Libro</h2>
+
+@if (ViewBag.Msg !=null)
+{
+    <h4 style="color:red">@ViewBag.Msg</h4>
+}
+
+@using (Html.BeginForm("LibroInsertado", "Home", FormMethod.Post, new { onsubmit = "return checkDataInsertBook();" }))
+{
+    <div id="div-form-insertarLibro">
+
+        <div class="agrupar">
+
+            <div class="form-group col-md-10">
+                <label>Nombre:</label>
+                <input type="Text" class="form-control" id="txt_bookName" name="txt_bookName" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" title="Ingrese solo palabras" placeholder="Nombre de libro" required />
+            </div>
+
+            <div class="form-group col-md-2">
+                <label>Año:</label>
+                <input type="number" class="form-control" id="nbr_lanzamiento" name="nbr_lanzamiento" min="500" max="9999" placeholder="Ej: 2020" required />
+            </div>
+
+        </div>
+
+        <div class="agrupar">
+
+            <div class="form-group col-md-4">
+                <label>Autor:</label>
+                <select name="ddlAutor" class="form-control inputFiltros" id="ddlAutor" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+
+                    @foreach (Autor item in autorList)
+                    {
+                        <option value=@item.IdAutor>@item.Nombre</option>
+                    }
+
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label>Categoria:</label>
+                <select name="ddlcategory" class="form-control" id="ddlcategory" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+
+                    @foreach (Categoria item in categoryList)
+                    {
+                        <option value=@item.IdCategoria>@item.Nombre</option>
+                    }
+
+                </select>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label>Editorial:</label>
+                <select name="ddlEditorial" class="form-control" id="ddlEditorial" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+
+                    @foreach (Editorial item in editorialList)
+                    {
+                        <option value=@item.IdEditorial>@item.Nombre</option>
+                    }
+
+                </select>
+            </div>
+
+        </div>
+
+        <div class="agrupar">
+
+            <div class="form-group col-md-4">
+                <label>Descripción:</label>
+                <textarea name="txta_description" maxlength="500" class="form-control" rows="4" cols="40" placeholder="Descripcion del libro" required></textarea>
+            </div>
+
+            <div class="form-group col-md-2">
+                <label>Precio:</label>
+                <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" required />             
+            </div>
+
+            <div class="form-group col-md-2">
+                <label>Cantidad:</label>
+                <input type="number" class="form-control" id="nbr_quantity" name="nbr_quantity" min="1" max="250000" maxlength="10" required />
+            </div>
+
+            <div class="form-group col-md-4">
+                <label>Imagen:</label>
+                <input type="file" class="form-control" id="itf_urlImage" name="itf_urlImage" placeholder="Url imagen" /><br />
+            </div>
+
+        </div>
+
+        <div class="agrupar">
+          
+            <div class="form-group text-center" id="cont-botones-insertarLibro">
+                <input type="submit" class="btn btn-primary" name="btn_AgregarLibro" value="Agregar Libro" />
+                <input type="reset" class="btn btn-warning" value="Restaurar">
+                <a class="btn btn-danger" href="@Url.Action("adminPrincipal", "Home")">Cancelar</a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+}
+
+
+
+<script>
+    //Nota: esta funcion se activa desde un parametro del formulario
+    function confirmation() {
+        if (confirm("Esta seguro/a que Desea guardar los cambios?")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function checkDataInsertBook() {
+
+        var confirmar = confirmation();
+
+        if (confirmar) {
+
+            var price = $('#txt_price').val();
+
+            if (isNumber(price)) {
+                alert('el precio esta mal');
+            } else
+                return true;
+
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    function isNumber(num) {
+
+        if (isNaN(num))
+            return true;
+        else
+            return false;
+
+    }
+
+  
+</script>
+
+

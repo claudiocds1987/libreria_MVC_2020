@@ -1,0 +1,300 @@
+﻿@model Librery_MVC.Models.Usser
+
+@{
+    /**/
+
+    Layout = "~/Views/Shared/_UsserLayout.cshtml";
+}
+
+<h1 id="titulo">Creación de usuario</h1>
+
+@if (ViewBag.Msg != null)
+{
+    <h4 style="color:red">@ViewBag.Msg</h4>
+}
+
+@using (Html.BeginForm("RegistrarUsuario", "Usser", FormMethod.Post, new { name = "f1" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div id="cont-formulario">
+
+        <div class="form-group">
+            <label for="lblName">Nombre:</label>
+            <input type="text" class="form-control" id="txtName" name="txtName" onkeyup="return removeClass(this);" minlength="3" maxlength="25" placeholder="Nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lblApe">Apellido:</label>
+            <input type="text" class="form-control" id="txtSurname" name="txtSurname" onkeyup="return removeClass(this);" maxlength="45" placeholder="Apellido" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lblDate">Fecha de nacimiento:</label>
+            @*Propiedades para que el usuario sea mayor de edad min = 1921-01-01 max = 2003-01-01*@
+            <input type="date" class="form-control" id="date-input" min="01-01-1921" max="01-01-2003" name="date-input" onkeyup="return removeClass(this);" placeholder="DateBirth" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lblEmail">Email:</label>
+            <input type="email" class="form-control" id="txtEmail" name="txtEmail" onkeyup="return removeClass(this);" maxlength="45" placeholder="Email" required>          
+        </div>
+
+        <div class="form-group">
+            <label for="lblUserName">Nombre de usuario:</label>
+            <input type="text" class="form-control" id="txtUsserName" name="txtUsserName" onkeyup="return removeClass(this);" placeholder="Nombre de usuario" maxlength="45">
+        </div>
+
+        <div class="form-group">
+            <label for="lblPwd">Contraseña:</label>
+            <input type="password" class="form-control" name="txtClave1" onkeyup="return removeClass(this);" id="clave1" maxlength="45" placeholder="Contraseña" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lblPwd">Repita la contraseña:</label>
+            <input type="password" class="form-control" name="txtClave2" onkeyup="return removeClass(this);" id="clave2" minlength="5" maxlength="45" placeholder="Repetir contraseña" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lblDom">Domicilio:</label>
+            <input type="text" class="form-control" id="txtAddress" name="txtAddress" onkeyup="return removeClass(this);" placeholder="Domicilio" maxlength="45">
+        </div>
+
+        <div id="button-group">
+            <button type="button" id="btn-guardar" onClick="checkData()">Guardar</button>            
+            <button type="reset" id="btn-reset">Resetear</button>
+        </div>
+
+    </div>
+}
+
+@*Para que funcionen los Helpers (se podrian poner en el loyout tmb)*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+@*------------------------------------------------------------------------*@
+
+<script type="text/javascript">
+
+   
+    function checkData() {
+       
+        var name = $('#txtName').val();
+        var surname = $('#txtSurname').val();
+        var pass1 = $('#clave1').val();
+        
+
+        if (validarCamposInput()) {
+
+            if (name.length < 3 || name.length > 25) {
+                alert("El nombre debe tener un min de 3 caracteres y un maximo de 25 letras!")
+                $("#txtName").addClass('bordeRojoValidacion')
+                return
+            }
+            else if (!checkStringWithoutSpace(name)) {
+                alert("El nombre debe tener solo letras y sin espacios!")
+                $("#txtName").addClass('bordeRojoValidacion')
+                return
+            }
+            else if (surname.length < 3 || surname.length > 25) {
+                alert("El apellido debe tener un min de 3 caracteres y un maximo de 25 letras!")
+                $("#txtSurname").addClass('bordeRojoValidacion')
+                return
+            }
+            else if (!checkStringWithoutSpace(surname)) {
+                alert("El apellido debe tener solo letras y sin espacios!")
+                $("#txtSurname").addClass('bordeRojoValidacion')
+                return
+            }
+            else if (pass1.length < 5 || pass1.lengh > 45) {
+                alert("La contraseña debe tener un minimo de 5 y un maximo de 45 caracteres!")
+                $("#clave1").addClass('bordeRojoValidacion')
+                return false;
+            }
+            else if (checkWhiteSpace(pass1)) {
+                alert("La contraseña no puede tener espacios!")
+                $("#clave1").addClass('bordeRojoValidacion')
+                return false;
+            }
+            else if (!validateEmail()) {
+                alert("El Email es invalido!")
+                return
+            }
+            else if (!validateDate()){
+                return
+            }
+            else if (!EqualPasswords()) {
+                alert("Las contraseñas deben ser iguales!")
+                return
+            }
+            else {
+                document.f1.submit();//pulsa el submit y manda los datos del form
+            }
+
+        }
+        else {
+            alert("Hay campos vacios!");
+            return;
+        }      
+    }
+  
+    function checkStringWithoutSpace(cadena) {
+
+        //expresion regular que verifica si el elemento tiene solo letras
+        const pattern = new RegExp('^[A-Z]+$', 'i');
+        var noValido = /\s/;//espacio vacio
+
+        if (!pattern.test(cadena)) {//1ro comprueba si tiene solo letras
+            return false
+        }
+        else if (noValido.test(cadena)) { // 2do se chequea que el string no tenga espacio
+            return false
+        }
+        else {
+            return true
+        }    
+    }
+
+    function checkWhiteSpace(cadena) {
+
+        var whiteSpace = /\s/;//espacio vacio
+
+        if (whiteSpace.test(cadena)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function EqualPasswords() {
+        clave1 = document.f1.txtClave1.value
+        clave2 = document.f1.txtClave2.value
+
+        if (clave1 != clave2) {
+            addClassToClaves()
+            return false;
+        }
+        else
+            return true;
+
+    }
+
+    function validateEmail() {
+        if (!/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(f1.txtEmail.value)) {          
+            $("#txtEmail").addClass('bordeRojoValidacion');
+            return false;
+        }
+        else
+            return true;
+
+    }
+
+    function validateDate() {
+        //obteniendo la fecha actual del sistema
+        var hoy = new Date();
+
+        var dd = hoy.getDate(); //obtengo solo el dia actual
+        var mm = hoy.getMonth() + 1; //obtengo solo el mes actual
+        var yyyy = hoy.getFullYear(); //obtengo solo el año actual
+
+        //obteniendo la fecha del input type = "date"
+        var dateInput = new Date($('#date-input').val());
+
+        var dayInput = dateInput.getDate() + 1; //obtengo solo el dia actual del #date-input
+        var monthInput = dateInput.getMonth() + 1; //obtengo solo el mes actual del #date-input
+        var yearInput = dateInput.getFullYear(); //obtengo solo el año actual del #date-input
+
+        var numbers = yearInput.toString();
+        var cont = 0;
+
+        //obteniendo el "limite" max del año de nacimiento. Ej: 2020 - 18 = 2002 entonces toda persona que haya nacido en el año 2002 para atras
+        // se considera mayor de 18 años.
+        var minLimit = yyyy - 100;
+        var maxLimit = yyyy - 18;
+
+
+        //si tiene mas de 100 años de edad
+        if (yearInput < minLimit) {
+            alert("Sobrepasa el rango maximo de edad!")
+            $("#date-input").addClass('bordeRojoValidacion');
+            return false;
+        }
+
+        for (var i = 0; i < numbers.length; i++) {
+            cont++;
+        }
+
+        if (cont > 4) {
+            alert("Ingrese un año valido!");
+            $("#date-input").addClass('bordeRojoValidacion');
+            return false;
+        }
+
+        //pregunto por el rango de edad (entre 18 y 100 años)
+        if (yearInput >= minLimit && yearInput <= maxLimit) {
+            //puede que este a pocos meses o a pocos dias de cumplir 18
+            if (yearInput == maxLimit) {
+                //pregunto por el mes de nacimiento
+                if (monthInput < mm) {
+                    alert("Debe ser mayor de 18 años!")
+                    $("#date-input").addClass('bordeRojoValidacion');
+                    return false;
+                }
+
+                else if (monthInput == mm) {
+                    //pregunto por el dia de nacimiento
+                    if (dayInput < dd) {
+                        alert("Debe ser mayor de 18 años!")
+                        $("#date-input").addClass('bordeRojoValidacion');
+                        return false;
+                    }
+                }
+            }
+            else
+                return true;
+        }   
+        else {
+            alert("Debe ser mayor de 18 años!") //si tiene menos de 18 años de edad
+            $("#date-input").addClass('bordeRojoValidacion');
+            return false;
+        }
+    }
+
+
+    function validarCamposInput() {
+
+        var inputVacio = false;
+        $(".form-group > input").each(function () {
+            if (this.value == "") {
+
+                $("#" + this.id).addClass('bordeRojoValidacion');
+                inputVacio = true;
+                //importante! la clase bordeRojoValidacion esta declarada en _UsserLayout
+            }
+        });
+
+        if (inputVacio == true)
+            return false;
+        else
+            return true;
+    }
+
+    //funcion que quita el marcado rojo sobre el input cuando no esta vacio
+    //esta funcion esta en el evento onClick de cada input
+    function removeClass(caracter) {
+        if (caracter != "") {
+            $("#" + caracter.id).removeClass('bordeRojoValidacion');
+        }
+    }
+
+    //funcion que marca en rojo los input de claves cuando no son iguales
+    function addClassToClaves() {
+        $('#clave1').addClass('bordeRojoValidacion');
+        $('#clave2').addClass('bordeRojoValidacion');
+    }
+
+
+</script>
+
+

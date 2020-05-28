@@ -1,0 +1,606 @@
+﻿@model List<Librery_MVC.Models.Libro>
+@using Librery_MVC.Models;
+@using Librery_MVC.Services;
+
+@{
+
+    Layout = "~/Views/Shared/_UsserLayout.cshtml";
+    Autor autor = new Autor();
+    Categoria category = new Categoria();
+    Editorial editorial = new Editorial();
+    AutorService sa = new AutorService();
+    CategoriaService cs = new CategoriaService();
+    EditorialService es = new EditorialService();
+    List<Autor> autorList = new List<Autor>();
+    List<Categoria> categoryList = new List<Categoria>();
+    autorList = sa.ListAutores();
+    categoryList = cs.getAllCategories();
+
+}
+
+<div class="row" id="filter-row">
+
+    <div class="col col-md-4" id="column1">
+
+        <div class="panel" id="panel-filter">
+
+            <div class="panel-body" id="filter-panel-body">
+
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Nombre de libro</label>
+                    <input class="form-control" id="nombreLibro" maxlength="80" placeholder="Ingrese nombre del libro" />
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Autor</label>
+                    <select name="ddlAutor" class="form-control inputFiltros" id="ddlAutor" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+
+                        @if (!String.IsNullOrEmpty(ViewBag.Autor))
+                        {
+                            //para que no me quede el nombre del autor duplicado en el dropDownList de autores
+                            for (int i = 0; i < autorList.Count; i++)
+                            {
+                                if (autorList[i].IdAutor.Equals(ViewBag.IdAut))
+                                {
+                                    autorList.RemoveAt(i);
+                                    i--;
+                                }
+                            }
+
+                            <option value=@ViewBag.IdAut>@ViewBag.Autor</option>
+                            <option value="todos">Todos</option>
+                            foreach (Autor item in autorList)
+                            {
+                                <option value=@item.IdAutor>@item.Nombre</option>
+                            }
+
+                        }
+                        else
+                        {
+                            <option value="todos">Todos</option>
+                            foreach (Autor item in autorList)
+                            {
+                                <option value=@item.IdAutor>@item.Nombre</option>
+                            }
+                        }
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1" id="puta">Categoria</label>
+                    <select name="ddlCategory" class="form-control inputFiltros" id="ddlCategory" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+                        @if (!String.IsNullOrEmpty(ViewBag.Categoria))
+                        {
+                            //para que no me quede el nombre de la categoria duplicado en el dropDownList de categoria
+                            for (int x = 0; x < categoryList.Count; x++)
+                            {
+                                if (categoryList[x].IdCategoria.Equals(ViewBag.IdCat))
+                                {
+                                    categoryList.RemoveAt(x);
+                                    x--;
+                                }
+                            }
+
+                            <option value=@ViewBag.IdCat>@ViewBag.Categoria</option>
+                            <option value="todos">Todos</option>
+                            foreach (Categoria item in categoryList)
+                            {
+                                <option value=@item.IdCategoria>@item.Nombre</option>
+                            }
+
+                        }
+                        else
+                        {
+                            <option value="todos">Todos</option>
+                            foreach (Categoria item in categoryList)
+                            {
+                                <option value=@item.IdCategoria>@item.Nombre</option>
+                            }
+                        }
+
+                    </select>
+                </div>
+
+                <div class="text-center" id="cont-btn_buscar">
+                    <button class="btn btn-default" id="btn_buscar" type="button" onclick="filtrar();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div id="table-sscroll">
+            @*en el div "miDiv" muestro las tablaSeleccionados*@
+            <div id="miDiv"></div>
+        </div>
+
+        <div id="nada">
+            @using (Html.BeginForm("Comprar", "Usser", FormMethod.Post))
+            {
+                <div id="idHidden"></div>
+                <div id="cantId"></div>
+
+                <div id="cont-btnComprar">
+                    <button class="btn btn-primary" id="btnComprar" value="" type="submit"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>Ir a carrito</button>
+                </div>
+
+            }
+        </div>
+
+    </div>
+
+    <div class="col col-md-8" id="IdDeAlgunDivDondeColocarasEsaVista">
+
+        <h4>Lista de libros</h4>
+
+        <table cellspacing="0" class="table table-striped table-primary mt-5 table-bordered" id="tableBooks">
+            <thead>
+                <tr>
+                    <th class="text-center">Imagen</th>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Autor</th>
+                    <th class="text-center">Categoria</th>
+                    <th class="text-center">Precio</th>
+                    <th class="text-center">Accion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="7">Resultados 0</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    function filtrar() {
+
+        var uri = '@Url.Action("userFiltrarLibros", "Usser")';
+        var nombre = $('#nombreLibro').val();
+        var autor = $('#ddlAutor').val();
+        var categoria = $('#ddlCategory').val();
+        var filtros = new Array();
+        filtros.push(nombre);
+        filtros.push(autor);
+        filtros.push(categoria);
+      
+        $.ajax({
+            url: uri,
+            data: { data: filtros },
+            //!data: { data: $("#nombreLibro").val() },
+            type: 'POST',
+            success: function (respuestaDelServidor) {
+                $("#IdDeAlgunDivDondeColocarasEsaVista").html(respuestaDelServidor);
+            }
+        });
+
+    }
+
+</script>
+
+<script>
+
+    //DECLARACION DE VARIABLES QUE SE VAN A USAR EN LAS FUNCIONES
+    //traigo lo que esta guardado en las sessionStorage
+    var json = sessionStorage.getItem('arrayId');
+    var json2 = sessionStorage.getItem('arrayNames');
+
+    ////declaro los array
+    var arrId = [];
+    var arrNames = [];
+
+    //NO BORRAR, ES NECESARIO CUANDO SE RECARGA LA PAGINA//
+
+    if (json != null) {
+        arrId = JSON.parse(json);
+    }
+
+    if (json2 != null) {
+        arrNames = JSON.parse(json2);
+
+    }
+
+
+    /*----------------------------------------------------------------------------*
+    *    Function: createTable(ArrayId[], ArrayNames[]).                          *
+    *                                                                             *
+    *    Parametro: string ArrayId[], string ArrayNames[].                        *
+    *                                                                             *
+    *    Accion: 1) hace el primer push() en los array                            *
+    *            2) Elimina datos repetidos en los array                          *
+    *            3) Guarda los array en las sessionStorage                        *
+    *            4) llama a la funcion createSelectedTable(arrId[], arrNames[])   *
+    *            5) llama a la funcion sendAllIdToInput()                         *
+    *                                                                             *
+    *    Objetivo: limpiar datos repetidos en los arrays para enviarlos a la      *
+    *              funcion createSelectedTable(arrId[], arrNames[])               *
+    *
+    *    return: nada.                                                            *
+    *---------------------------------------------------------------------------- */
+    function createTable(idLibro, nombreLibro) {
+
+        var repeated = false;
+        //traigo el array guardado en el sessionStorage
+        idBook = JSON.parse(sessionStorage.getItem('arrayId'));
+        names = JSON.parse(sessionStorage.getItem('arrayNames'));
+
+        if (idBook != null) {
+
+            var tam = idBook.length;
+
+            //verifico datos repetidos
+            for (var p = 0; p < tam; p++) {
+
+                if (idBook[p] == idLibro) {
+                    repeated = true;
+                }
+            }
+
+            if (repeated == true) {
+                alert("Usted ya seleccionó este libro");
+            }
+            else {
+                //alert("carga porque no es libro repetido")
+                //guardo los idLibro y nombres de libro en los array
+                arrId.push(idLibro);
+                arrNames.push(nombreLibro);
+                //guardo los array en sessionStorage
+                sessionStorage.setItem('arrayId', JSON.stringify(arrId));
+                sessionStorage.setItem('arrayNames', JSON.stringify(arrNames));
+
+                //Necesario para el refresh de la pagina
+                var tabla = sessionStorage.getItem('tablaSeleccionados');
+
+                if (tabla != null) {
+                    sessionStorage.removeItem('tablaSeleccionados');
+                    createSelectedTable(arrId, arrNames);
+                }
+
+                createSelectedTable(arrId, arrNames);
+
+                //pasando los id a los input hidden de un formulario para enviarlos al controlador
+                sendAllIdToInput()
+            }
+
+        }
+        else {
+            //alert("1ra carga en array")
+            //cargando por 1ra vez en los array
+            arrId.push(idLibro);
+            arrNames.push(nombreLibro);
+            //guardo los array en sessionStorage
+            sessionStorage.setItem('arrayId', JSON.stringify(arrId));
+            sessionStorage.setItem('arrayNames', JSON.stringify(arrNames));
+
+            createSelectedTable(arrId, arrNames);
+
+            //pasando los id a los input hidden de un formulario para enviarlos al controlador
+            sendAllIdToInput()
+
+        }
+
+
+    }
+
+
+    /*----------------------------------------------------------------------------*
+    *    Function: createSelectedTable(ArrayId[], ArrayNames[]).                  *
+    *                                                                             *
+    *    Parametro: string ArrayId[], string ArrayNames[].                        *
+    *                                                                             *
+    *    Accion: Crea la tabla tablaSeleccionados y la muestra en el div #miDiv.  *
+    *                                                                             *
+    *    Objetivo: Crear la tabla tablaSeleccionados y la guarda en una           *
+    *              sessionStorage.                                                *
+    *                                                                             *
+    *    return: nada.                                                            *
+    *---------------------------------------------------------------------------- */
+    function createSelectedTable(arreId, arreNames) {
+
+        var tamNames = arreNames.length;
+        //Los estilos de la tabla  como color, fuente etc.. estan declarados en misEstilos.css
+        var table = '<table cellspacing="0" width="100%" class="table table-hover table-bordered" id="tablaSeleccionados"><thead><tr><th scope="col">Libros seleccionados</th><th scope="col">Accion</th></tr></thead><tbody>';
+
+        for (var e = 0; e < tamNames; e++) {
+
+            table += '<tr>';
+            table += '<input type="hidden" name="inputText" id="inputText" value=' + arrId[e] + '/>';
+            table += '<td>' + arreNames[e] + '</td>';
+            table += "<td><button onclick='deleteRow(this);' class='btn btn-danger' id='" + arreNames[e] + "'" + " value='" + arreId[e] + "'" + ">Eliminar</button></td>";
+            table += '</tr>';
+        };
+
+        table += '</tbody></table>';
+        //$('#miDiv').append(table); tambien funciona como ".append"
+        //.html "reemplaza informacion html", append "agrega informacion"
+        $('#miDiv').html(table);//muestra la tabla en el div #miDiv de PRUEBA1.cshtml
+        //guarda la tabla en una sessionStorage
+        sessionStorage.setItem('tablaSeleccionados', table);
+
+        //para ocultar/mostrar el boton comprar segun la cantidad de elementos que hay en tablaSeleccionados
+        var rows = contarFilas();
+
+        if (rows == 1) {
+            //oculta el boton Comprar
+            document.getElementById('btnComprar').style.display = 'none';
+        }
+        else {
+            //muestra el boton comprar
+            document.getElementById('btnComprar').style.display = 'block';
+            sendAllIdToInput()
+        }
+
+    }
+
+
+    /*----------------------------------------------------------------------------*
+    *    Function: deleteRow(this).                                               *
+    *                                                                             *
+    *    Parametro: this(boton).                                                  *
+    *                                                                             *
+    *    Accion: Borra una fila de la tabla tablaSeleccionados.                   *
+    *                                                                             *
+    *    Objetivo: Que el usuario pueda borrar todas las filas que desea de la    *
+    *              tabla tablaSeleccionados y al mismo tiempo actualizar la       *
+    *              tablaSeleccionados.                                            *
+    *                                                                             *
+    *    return: nada.                                                            *
+    *---------------------------------------------------------------------------- */
+    function deleteRow(r) {
+
+        var i = r.parentNode.parentNode.rowIndex;
+        //borro la fila del libro que se eliminó
+        document.getElementById('tablaSeleccionados').deleteRow(i);//no borrar
+
+        var id = r.value;//obtengo el "value" del button
+        var name = r.id;//obtengo el "id" del button, el id del button es el nombre del libro
+
+        UpdateTable(id, name);
+
+    }
+
+
+    /*----------------------------------------------------------------------------*
+    *    Function: UpdateTable(idLibro, nombreLibro).                             *
+    *                                                                             *
+    *    Parametro: string id, string name.                                       *
+    *                                                                             *
+    *    Accion: Actualiza la tablaSeleccionados.                                 *
+    *                                                                             *
+    *    Objetivo: Actualizar la tablaSeleccionados. Si la tabla llegara a tener  *
+    *              1 fila, muestra emptyTable.                                    *
+    *                                                                             *
+    *    return: nada.                                                            *
+    *---------------------------------------------------------------------------- */
+    function UpdateTable(id, name) {
+
+        //obteniendo los array de las sessionStorage
+        arrId = JSON.parse(sessionStorage.getItem('arrayId'));
+        arrNames = JSON.parse(sessionStorage.getItem('arrayNames'));
+
+        var tamId = arrId.length;
+        var tamNames = arrNames.length;
+
+        //borrando datos duplicados en arrId
+        for (var g = 0; g < tamId; g++) {
+
+            if (arrId[g] == id) {
+                arrId.splice(g, 1);
+            }
+
+        }
+        //borrando datos duplicados en arrNames
+        for (var d = 0; d < tamNames; d++) {
+
+            if (arrNames[d] == name) {
+                arrNames.splice(d, 1);
+            }
+        }
+
+        //2)borro las sessionStorage que contienen a los arraId y arrNames
+        sessionStorage.removeItem('arrayId');
+        sessionStorage.removeItem('arrayNames');
+
+        //3)vuelvo a crear las sessionStorage con los datos actualizados
+        sessionStorage.setItem('arrayId', JSON.stringify(arrId));
+        sessionStorage.setItem('arrayNames', JSON.stringify(arrNames));
+
+        //4)traigo los array actualizados
+        var id = JSON.parse(sessionStorage.getItem('arrayId'));
+        var namess = JSON.parse(sessionStorage.getItem('arrayNames'));
+
+        createSelectedTable(id, namess);
+
+        //si la tablaSeleccionados tiene 1 fila, muestra una tabla vacia
+        var nFilas = contarFilas();
+
+        if (nFilas <= 1) {
+            showEmptyTable();
+        }
+
+    }
+
+
+    /*----------------------------------------------------------------------------*
+    *    Function: showTable().                                                   *
+    *                                                                             *
+    *    Parametro: vacio.                                                        *
+    *                                                                             *
+    *    Accion: Agrega la tablaSeleccionados guardada en sessionStorage          *
+    *            al div #miDiv.                                                   *
+    *                                                                             *
+    *    Objetivo: En caso de que haya refresh en la pagina, muestra la           *
+    *              tablaSeleccionados(si existe).                                 *
+    *                                                                             *
+    *    return: nada.                                                            *
+    *---------------------------------------------------------------------------- */
+    function showTable() {
+
+        //oculto el boton comprar al cargarse la pagina por 1ra vez
+        document.getElementById('btnComprar').style.display = 'none';
+        var filas = 1;
+        var tablaSeleccionados = sessionStorage.getItem('tablaSeleccionados');
+        //si existe tablaSeleccionados mostrala en el div #miDiv
+        if (tablaSeleccionados != null) {
+            //mostrando tablaSeleccionados en el div
+            $("#miDiv").append(sessionStorage.getItem('tablaSeleccionados'));
+
+            //Contando la cantidad de filas en tablaSeleccionados
+            filas = contarFilas();
+
+            if (filas <= 1) {
+                //oculto el boton comprar al cargarse la pagina
+                document.getElementById('btnComprar').style.display = 'none';
+                //si filas <= 1 es porque no hay elementos en tablaSeleccionados
+                showEmptyTable();
+            }
+            else {
+                //muestro boton Comprar
+                document.getElementById('btnComprar').style.display = 'block';
+                sendAllIdToInput()
+            }
+
+        }
+        else {
+            showEmptyTable();
+            //si no existe tablaSeleccionados oculta el boton comprar
+            document.getElementById('btnComprar').style.display = 'none';
+        }
+
+    }
+
+
+    /*----------------------------------------------------------------------------*
+    *    Function: contarFilas().                                                 *
+    *                                                                             *
+    *    Parametro: vacio.                                                        *
+    *                                                                             *
+    *    Accion: Cuenta la cantidad de filas que hay en la tablaSeleccionados     *
+    *                                                                             *
+    *    Objetivo: Poder mostrar la tabla emptyTable y ocultar el boton           *
+    *              Comprar. Si la cantidad de filas es <= 1 quiere decir que no   *
+    *              hay elementos seleccionados en la tablaSeleccionados.          *
+    *                                                                             *
+    *   return: numero de filas.                                                  *
+    *---------------------------------------------------------------------------- */
+    function contarFilas() {
+
+        var tabla = document.getElementById('tablaSeleccionados');
+        var filas = tabla.rows.length;
+        var cont = 0;
+
+        for (var i = 0; i < filas; i++) {
+            cont++;
+        }
+
+        return cont;
+    }
+
+    /*----------------------------------------------------------------------------*
+    *    Function: showEmptyTable().                                              *
+    *                                                                             *
+    *    Parametro: vacio.                                                        *
+    *                                                                             *
+    *    Accion: Crea una tabla vacia                                             *
+    *                                                                             *
+    *    Objetivo: Mostrar esta cuando no hay elementos seleccionados.            *
+    *                                                                             *
+    *    return: nada.                                                            *
+    *                                                                             *
+    *---------------------------------------------------------------------------- */
+
+    function showEmptyTable() {
+
+        var table = '<table cellspacing="0" width="100%" class="table table-hover table-bordered" id="emptyTable"><thead><tr><th scope="col">Libros seleccionados</th><th scope="col">Accion</th></tr></thead><tbody>';
+
+        table += '<tr>';
+        table += '<td colspan="2">0 elementos seleccionados</td>';
+        table += '</tr>'
+        table += '</tbody></table>';
+
+        $('#miDiv').html(table);//agrega la tabla en el div #miDiv de PRUEBA1.cshtml
+
+        //Nota: $('#miDiv').html(table); y $('#miDiv').append(table); NO SON LO MISMO
+
+        // ".append" agrega contenido al div, pero si previamente en el div existía algo, con .append
+        // se agrega el nuevo elemento al final del ultimo elemento que ya existía en el div.
+
+        // ".html" te agrega el contenido al div, pero si en ese div existía algo te lo reemplaza/borra.
+        //ej: si en un <div id="div1"> tengo una table1, al hacer $('#div1').html(table2)
+        // la table1 la borra.
+
+    }
+
+    /*-----------------------------------------------------------------------------
+        Function: sendAllIdToInput().
+
+        Parametro: vacio.
+
+        Accion: 1) Crea uno o varios input ocultos enumerados (name='cont++'), donde
+                  en cada value (value='" + arrIdBook[i]) almacena el id del libro
+                  seleccionado. Envía este input a un div vacio de html.
+                  nota: (name='cont++') es porque necesito generar diferentes "name" en los
+                  input para poder capturar los diferentes valores de c/u de los input
+                  con un for desde el controlador.
+                  Si c/u de los input tuvera el mismo name, capturaria el mismo valor:
+
+                  ej suponiendo que: <input name= "hola" value = 10 />
+                                     <input name= "hola" value = 20 />
+
+                  String bookName1 = Request.Form["hola"]; capturo 10
+                  String bookName2 = Request.Form["hola"]; capturo 10
+
+                2) Crea otro input oculto aasignandole al value la "cantidad total"
+                   de los id seleccionados (value='" + cont "). Envía este input a
+                   otro div vacio de html.
+
+        Objetivo: Enviar a un formulario los input que tienen la informacion de c/u
+                  de los libros seleccionados (paso 1) y el input que contiene la
+                  cantidad total de libros seleccionados (paso 2), para que el
+                  formulario envie esa informacion al controlador.
+
+        return: nada.
+
+    -----------------------------------------------------------------------------*/
+    function sendAllIdToInput() {
+
+        //traigo el array guardado en el sessionStorage
+        var arrIdBook = JSON.parse(sessionStorage.getItem('arrayId'));
+
+        if (arrIdBook != null) {
+            var tam = arrIdBook.length;
+            var cont = 0;
+            var input = "";
+
+            for (var i = 0; i < tam; i++) {
+
+                input += "<input type='hidden' name='" + cont++ + "' value='" + arrIdBook[i] + "'/>"
+
+            }
+
+            $('#idHidden').html(input);//pone ocultos los input en el div#idHidden
+            var inputId = "<input type='hidden' name='idTotales' value='" + cont + "'/>";
+            $('#cantId').html(inputId);//pone la cant de id en el div#cantId
+
+        }
+
+    }
+
+
+</script>
+
+<script>
+    window.addEventListener("load", showTable, false);
+</script>
+
+
+
+

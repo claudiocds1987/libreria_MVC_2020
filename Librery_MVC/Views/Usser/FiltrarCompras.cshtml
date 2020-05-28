@@ -1,0 +1,77 @@
+﻿@model List<Librery_MVC.Models.Compra>
+@using Librery_MVC.Models;
+@using Librery_MVC.Services;
+
+@{
+    Layout = null;
+    DateTime actualDate = DateTime.Today;
+    int actualYear = actualDate.Year;
+    LibroService ls = new LibroService();   
+    /*Para mostrar el usuario en todas las view. Nota: cada view va a tener que invocar a esta TempData para que se muestre el user*/
+    TempData.Keep("User");
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*/*alertifyjs es un framework de js para ventanas alert elegantes**********/*@
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/alertify.min.css" />
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/themes/semantic.min.css" />
+    <script src="~/js-frameworks/alertifyjs/alertify.min.js"></script>
+    @*/*************************************************************************/*@
+    <title>Historial de compras</title>
+</head>
+<body>
+
+    @if (ViewBag.Msg != null)
+    {
+        <h4>@ViewBag.Msg</h4>
+    }
+    else
+    {
+        <table cellspacing="0" class="table table-striped table-primary mt-5 table-bordered">
+
+            <thead>
+                <tr>
+                    <th class="text-center">Fecha</th>
+                    <th class="text-center">Libro</th>
+                    <th class="text-center">P/unidad</th>
+                    <th class="text-center">Cantidad</th>
+                </tr>
+            </thead>
+
+            <tbody id="respuesta-ajax">
+
+                @if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="4" style="color:red">
+                            No se encontraron resultados
+                        </td>
+                    </tr>
+                }
+
+                @foreach (Compra item in Model)
+                {
+                    string bookName = ls.getBookName(item.idBook);
+                    
+                    <tr>
+                        <td class="text-center">@item.date.ToShortDateString()</td>
+                        <td>@bookName</td>
+                        <td class="text-center">$@item.price</td>
+                        <td class="text-center">@item.quantity</td>
+                    </tr>
+                }
+
+            </tbody>
+            
+        </table>
+    }
+
+
+
+</body>
+</html>

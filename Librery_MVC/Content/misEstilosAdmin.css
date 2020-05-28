@@ -1,0 +1,196 @@
+﻿body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;    
+}
+
+.fondo-Admin{
+    background-image: url(/principal/imagenes/fondo-cemento.jpg);
+}
+/*nota: Esta clase en div que estan en index y crearAdmin*/
+.footerAdmin {
+    margin-top: 15px !important;
+}
+
+/*************************************************************************
+                  index.cshtml (lado admin)
+*************************************************************************/
+
+#caja {    
+    background-color: #F2F2F2;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    margin: 0 auto;   
+    width: 300px;
+}
+
+#caja h3 {
+    color: #5858FA;
+    text-align: center;
+}
+
+#cont-img {
+    margin-top: 45px;
+    text-align: center;
+}
+
+#img-logo {
+    height: 180px;
+    width: 180px;
+}
+
+#form-login {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#cont-inputs {
+    margin-top: 15px;
+}
+
+#cont-inputs input {
+    background-color: #D8D8D8 !important;
+    border: none !important;
+    font-weight: 500 !important;
+    height: 45px !important;
+    padding-left: 10px !important;
+    width: 100% !important;
+}
+
+#adminEmail {
+    margin-bottom: 8px;
+}
+
+#wash {
+    color: #5858FA;
+    font-weight: 400;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#cont-btns {
+    margin-top: 20px;
+    margin-bottom: 45px;
+    width: 100%;
+}
+
+#cont-btns button {
+    border: none;
+    color: white;
+    width: 100%;
+    height: 45px;
+}
+
+#btn-entrar {
+    background-color: #5858FA;
+    margin-bottom: 8px;
+}
+
+#btn-entrar:hover {
+    background-color: #8181F7;
+}
+
+#btn-registrar {
+    background-color: blue;
+}
+
+#btn-registrar a {
+    text-decoration: none;
+    color: white;
+}
+
+#btn-registrar:hover {
+    background-color: #2E64FE;
+}
+
+/*************************************************************************
+                  crearAdmin.cshtml
+*************************************************************************/
+#cont-formulario-admin {
+    width: 300px;
+    margin: 25px auto 0 auto;
+}
+
+/*************************************************************************
+                  InsertarLibro.cshtml
+*************************************************************************/
+
+#div-form-insertarLibro {
+    background-color: #F2F2F2;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    margin: 0 auto;
+    max-width: 740px;
+    padding: 20px;
+}
+
+.agrupar{
+    border: 1px solid #dddddd !important;
+    border-radius: 4px;
+    max-width: 700px !important;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+#cont-botones-insertarLibro {
+    margin-top: 20px !important;
+}
+
+
+/*************************************************************************
+                  editarLibro.cshtml
+*************************************************************************/
+#div-form-editarLibro {
+    background-color: #F2F2F2;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    margin: 0 auto;
+    max-width: 740px;
+    padding: 20px;
+}
+
+.grupo {
+    border: 1px solid #dddddd !important;
+    border-radius: 4px;
+    max-width: 700px !important;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+.grupo input{
+    font-weight: normal;
+    text-align: center;
+}
+
+.grupo select{
+    font-weight: normal;
+}
+
+.grupo textarea{
+    font-weight: normal;
+}
+
+/*inputs**************************/
+#txt_idBook{
+    text-align:center;
+}
+
+#itf_urlImage {
+    max-width: 370px !important;
+}
+/**********************************/
+#cont-buttons{
+    margin-top: 10px;
+}
+

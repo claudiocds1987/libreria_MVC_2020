@@ -1,0 +1,106 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @*---------------enlazo misEstilos.css---------------------------*@
+    @Styles.Render("~/Content/misEstilosAdmin.css")
+    @*---------------------------------------------------------------*@
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body style="background-image: url(/principal/imagenes/fondo-cemento.jpg)">
+
+    <div class="navbar navbar-inverse navbar-fixed-top" id="navbar-indexAdmin">
+        <div class="container">
+            <div class="navbar-header" id="navbar-header">
+                <span class="navbar-brand">Modo administrador</span>
+                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>*@
+                @*@Html.ActionLink("Login", "Index", "Usser", new { area = "" }, new { @class = "navbar-brand" })*@
+
+            </div>           
+        </div>
+    </div>
+
+    <div id="div-view">
+
+        <div class="container">
+            <h2 style="color: red">@ViewBag.Msg</h2>
+
+            @using (Html.BeginForm("adminPrincipal", "Home", FormMethod.Post))
+            {
+
+                <div id="caja">
+
+                    <div id="cont-img">
+                        <img id="img-logo" src="~/principal/imagenes/bookLogo.png" alt="logo">
+                    </div>
+                    <h3>INICIAR SESIÓN</h3>
+
+                    <div id="form-login">
+
+                        <div id="cont-inputs">
+                            <input type="text" id="adminEmail" name="adminEmail" placeholder="Email" required>
+                            <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                        </div>
+
+                        <div id="wash">
+                            ¿Olvidaste tu contraseña?
+                        </div>
+
+                        <div id="cont-btns">
+                            <button type="submit" id="btn-entrar">ENTRAR</button>
+                            @*<button type="button" id="btn-registrar">REGISTRARSE</button>*@
+                            <button type="button" onclick="callcrearAdminView()" id="btn-registrar">Registrarse</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+
+        @*<hr />*@
+        <div class="footerAdmin">
+            <center><p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p></center>
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+
+    function callcrearAdminView() {
+
+        var uri = '@Url.Action("crearAdmin", "Home")';
+
+        $.ajax({
+             url: uri,
+             //data: { dataId: idArray, dataQuantity: quantityArray, usuario:user, precioTotal:finalPrice },
+             type: 'POST',
+             success: function (respuestaDelServidor) {
+                  $("#div-view").html(respuestaDelServidor);
+             }
+        });
+
+    }
+
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+</body>
+</html>

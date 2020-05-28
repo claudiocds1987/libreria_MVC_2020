@@ -1,0 +1,29 @@
+﻿@model Librery_MVC.Models.Usser
+@using Librery_MVC.Services;
+
+@{
+    Layout = "~/Views/Shared/_UsserLayout.cshtml";
+    UsserService us = new UsserService();
+    int filasAfectadas = us.InsertUser(Model);
+}
+
+@if (filasAfectadas > 0)
+{
+    <script type="text/javascript">
+        window.alert("Los datos de usuario se guardaron exitosamente!.\n Inicie sesión con sus datos");
+        //window.location.href = "/Home/Libros";
+    </script>
+
+    <h1>@Html.ActionLink("Ir a iniciar sesión", "Index", "Usser");</h1>
+}
+else
+{
+    <script type="text/javascript">
+        window.alert("Error!, los datos no se pudieron guardar.\Vuelva a intentar otra vez");
+                window.location.href = "/Usser/Index";
+    </script>
+   
+}
+
+
+

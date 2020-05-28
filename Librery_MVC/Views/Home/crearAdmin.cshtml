@@ -1,0 +1,171 @@
+﻿@model Librery_MVC.Models.Admin
+@using Librery_MVC.Services;
+
+@{
+    Layout = null;
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Formulario Admin</title>
+    @*---------------enlazo adminEstilos.css---------------------------*@
+    @Styles.Render("~/Content/misEstilosAdmin.css")
+    @*---------------------------------------------------------------*@
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        .bordeRojoValidacion {
+            border-color: red;
+        }
+    </style>
+
+</head>
+<body>
+
+    @if (ViewBag.Msg != null)
+    {
+        <h4 style="color:red">@ViewBag.Msg</h4>
+    }
+
+    <h2 class="text-center">Registrar administrador</h2>
+
+    @using (Html.BeginForm("RegistrarAdmin", "Home", FormMethod.Post, new { name = "formAdmin" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div id="cont-formulario-admin">
+
+            <div class="form-group">
+                <label for="lblEmail">Email:</label>
+                <input type="email" class="form-control" id="txtEmail" name="txtEmail" onkeyup="return removeClass(this);" maxlength="45" placeholder="Email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lblName">Nombre:</label>
+                <input type="text" class="form-control" id="txtName" name="txtName" onkeyup="return removeClass(this);" maxlength="45" placeholder="Nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lblApe">Apellido:</label>
+                <input type="text" class="form-control" id="txtSurname" name="txtSurname" onkeyup="return removeClass(this);" maxlength="45" placeholder="Apellido" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lblPwd">Contraseña:</label>
+                <input type="password" class="form-control" name="txtClave1" onkeyup="return removeClass(this);" id="clave1" maxlength="45" placeholder="Contraseña" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lblPwd">Repita la contraseña:</label>
+                <input type="password" class="form-control" name="txtClave2" onkeyup="return removeClass(this);" id="clave2" maxlength="45" placeholder="Repetir contraseña" required>
+            </div>
+
+            <div id="button-group">
+                <button type="button" class="btn btn-primary" id="btn-guardar" onClick="checkAdminData()">Guardar</button>
+                <button type="reset" class="btn btn-warning" id="btn-reset">Resetear</button>
+                <a class="btn btn-danger" href="@Url.Action("index", "Home")">Cancelar</a>
+            </div>
+
+        </div>
+    }
+
+    <div class="footerAdmin text-center">
+        <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+    </div>
+
+
+    <script type="text/javascript">
+
+        function checkAdminData() {
+
+       
+            if (validarCamposInput()) {
+                             
+                if (!validateEmail()) {
+                    alert("El Email es invalido!")
+                    return
+                }
+                else if (!EqualPasswords()) {
+                    alert("Las contraseñas deben ser iguales!")
+                    return;
+                }
+                else {
+                    document.formAdmin.submit();//pulsa el submit y manda los datos del form
+                }   
+
+            }
+            else {
+                alert("Hay campos vacios!");
+                return;
+            }
+                
+           
+        }
+
+        function validateEmail() {
+
+            if (!/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formAdmin.txtEmail.value)) {
+                
+                $("#txtEmail").addClass('bordeRojoValidacion');
+                return false;
+            }
+            else
+                return true;
+
+        }   
+
+        function EqualPasswords() {
+
+            var clave1 = document.formAdmin.txtClave1.value
+            var clave2 = document.formAdmin.txtClave2.value
+
+            if (clave1 != clave2) { 
+
+                addClassToClaves()
+                return false;
+            }
+            else
+                return true;
+
+        }  
+
+        function validarCamposInput() {
+
+            var inputVacio = false;
+            $(".form-group > input").each(function () {
+                if (this.value == "") {
+
+                    $("#" + this.id).addClass('bordeRojoValidacion');
+                    inputVacio = true;
+                    //importante! la clase bordeRojoValidacion esta declarada en el <head>
+                }
+            });
+
+            if (inputVacio == true)
+                return false;
+            else
+                return true;
+        }
+
+        //funcion que quita el marcado rojo sobre el input cuando no esta vacio
+        function removeClass(caracter) {
+            if (caracter != "") {
+                $("#" + caracter.id).removeClass('bordeRojoValidacion');
+            }
+        }
+
+        function addClassToClaves() {
+           
+            $('#clave1').addClass('bordeRojoValidacion');
+            $('#clave2').addClass('bordeRojoValidacion');           
+        }
+
+    </script>
+
+</body>
+</html>

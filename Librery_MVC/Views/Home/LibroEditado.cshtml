@@ -1,0 +1,28 @@
+﻿@model Librery_MVC.Models.Libro
+@using Librery_MVC.Models;
+@using Librery_MVC.Services;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    LibroService ls = new LibroService();
+    int filasAfectadas;
+    filasAfectadas = ls.UpdateBook(Model);
+
+}
+
+
+@if(filasAfectadas > 0)
+{
+   
+    <script type="text/javascript">
+        window.alert("Los cambios se modificaron exitosamente!");
+        window.location.href = "/Home/Libros";
+    </script>
+}
+else{ 
+    <script type="text/javascript">
+        window.alert("Error Los cambios no se pudieron modificar!");
+        window.location.href = "/Home/Libros";
+    </script>
+}
+

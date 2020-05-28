@@ -1,0 +1,53 @@
+﻿@model Librery_MVC.Models.Admin
+@using Librery_MVC.Services;
+
+@{
+    Layout = null;
+    AdminService sa = new AdminService();
+    int filasAfectadas = sa.InsertAdmin(Model);
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>registrar Admin</title>
+    @*/*alertifyjs es un framework de js para ventanas alert elegantes**********/*@
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/alertify.min.css" />
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/themes/semantic.min.css" />
+    <script src="~/js-frameworks/alertifyjs/alertify.min.js"></script>
+    @*/*************************************************************************/*@
+
+    @*---------------enlazo adminEstilos.css---------------------------*@
+    @Styles.Render("~/Content/misEstilosAdmin.css")
+    @*---------------------------------------------------------------*@
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+   
+    @if (filasAfectadas > 0)
+    {
+        <script type="text/javascript">
+
+           window.alert("Los datos fueron guardados exitosamente!")
+           window.location.href='@Url.Action("Index", "Home")';
+        </script>
+
+        <h5 class="text-center">Los datos de administrador se guardaron exitosamente</h5>
+        <h4 class="text-center">@Html.ActionLink("Ir a iniciar sesión", "Index", "Home")</h4>
+    }
+    else
+    {
+        <script type="text/javascript">
+            window.alert("Error!, los datos no se pudieron guardar.\Vuelva a intentar otra vez")
+            window.location.href = "/Home/crearAdmin"
+        </script>
+    }
+
+</body>
+</html>

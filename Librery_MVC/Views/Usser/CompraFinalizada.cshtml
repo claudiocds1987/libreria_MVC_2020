@@ -1,0 +1,48 @@
+﻿@model List<string>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CompraFinalizada</title>
+    @*/*alertifyjs es un framework de js para ventanas alert elegantes**********/*@
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/alertify.min.css" />
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/themes/semantic.min.css" />
+    <script src="~/js-frameworks/alertifyjs/alertify.min.js"></script>
+    @*/*************************************************************************/*@
+</head>
+<body>
+
+    @if(ViewBag.Msg != null)
+    {
+        <h4>@ViewBag.Msg</h4>
+    }
+
+    @if (ViewBag.Sold == true)
+    {
+        <h1>libros comprados</h1>
+
+        foreach (String item in Model)
+        {
+            <h4>@item</h4>
+        }
+
+        <script>
+            alertify.alert("¡MUCHAS GRACIAS POR SU COMPRA!", "Usted puede ver su historial de compras en la sección 'Mis compras'.").set('label', 'Aceptar');
+        </script>
+    }
+    else
+    {
+        <script>
+            alertify.alert("ERROR DE COMPRA", "No se pudo realizar la compra.").set('label', 'Aceptar');
+        </script>
+    }
+
+
+</body>
+</html>
