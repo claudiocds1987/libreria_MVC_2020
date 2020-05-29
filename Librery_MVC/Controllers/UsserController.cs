@@ -9,15 +9,31 @@ using Librery_MVC.Models;
 namespace Librery_MVC.Controllers
 {
     public class UsserController : Controller
-    {       
-        // GET: Usser
+    {
+
+        public ActionResult index()
+        {
+            //Guardo en la ViewBag.User el nombre del usuario guardado en TempData
+            ViewBag.User = "";
+
+            if (TempData["User"] != null)
+            {
+                ViewBag.User = TempData["User"];
+            }
+         
+            //pasando lista de 10 libros ordenados por precio de forma descendente
+            LibroService ls = new LibroService();
+            List<Libro> list = ls.getPartListByDescPrice();
+
+            return View(list);
+        }
+
         public ActionResult userLogin()
         {
             //Cuando el usuario cierre sesion, se borra el Tempdata["Email"]
-            if (TempData["userName"] != null)
-                TempData.Remove("userName");
-
-            //!String email = Request.Form["email"];
+            //if (TempData["User"] != null)
+            //    TempData.Remove("User");
+           
             String user = Request.Form["user"];
             String password = Request.Form["password"];
             UsserService us = new UsserService();
@@ -46,7 +62,7 @@ namespace Librery_MVC.Controllers
                     //al recargarse la pagina desaparece, para evitar esto, 
                     //en _UsserLayout poner  @{TempData.Keep("Email");}
                     
-                    TempData["user"] = user;//guardo el nombre de usuario ingreasdo en TempData
+                    TempData["User"] = user;//guardo el nombre de usuario ingreasdo en TempData
                     return RedirectToAction("index");//redirige al actionResult index()
                 }
                 else
@@ -246,18 +262,6 @@ namespace Librery_MVC.Controllers
 
         }
 
-        public ActionResult index()
-        {
-            //Guardo en el ViewBag.Email el email guardado en TempData
-            ViewBag.User = TempData["User"];
-           
-            //pasando lista de 10 libros ordenados por precio de forma descendente
-            LibroService ls = new LibroService();
-            List<Libro> list = ls.getPartListByDescPrice();
-            
-            return View(list); //va a la view principal.cshtml        
-        }
-
         public ActionResult userListarLibros()
         {
             //Guardo en el ViewBag.User el userName guardado en TempData
@@ -271,7 +275,7 @@ namespace Librery_MVC.Controllers
             LibroService ls = new LibroService();
             Libro book = new Libro();
             book = ls.GetBook(idLibro);
-            //Obtengo el userName guardado en TempData["User] TempData es similar a session/LocalStorage
+            //Obtengo el userName guardado en TempData["User"] TempData es similar a session/LocalStorage
             ViewBag.User = TempData["User"];
             return View(book);
         }
@@ -534,6 +538,12 @@ namespace Librery_MVC.Controllers
             }
             
             return View(list);
+        }
+
+        public ActionResult Contacto()
+        {
+            ViewBag.User = TempData["User"];
+            return View();
         }
     }
 }

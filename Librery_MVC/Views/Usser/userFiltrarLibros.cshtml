@@ -14,6 +14,8 @@
     List<Categoria> categoryList = new List<Categoria>();
     autorList = sa.ListAutores();
     categoryList = cs.getAllCategories();
+
+    TempData.Keep("User");
 }
 
 <!DOCTYPE html>
@@ -80,7 +82,7 @@
                                 <input type="hidden" name="inputText" id="inputText" value="@item.IdLibro" />
                                 @Html.ActionLink("Mostrar", "MostrarLibro", "Usser", new { idLibro = item.IdLibro }, new { @class = "btn btn-primary", @id = "btnMostrar_lb" })
 
-                                @if (TempData["user"] != null)
+                                @if (TempData["User"] != null)
                                 {
                                     <button onclick="createTable('@item.IdLibro', '@item.Nombre');" class="btn btn-warning" id="btnAgregar">Seleccionar</button>
                                 }

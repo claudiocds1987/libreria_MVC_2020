@@ -16,6 +16,7 @@
     autorList = sa.ListAutores();
     categoryList = cs.getAllCategories();
 
+    TempData.Keep("User");
 }
 
 <div class="row" id="filter-row">
@@ -171,7 +172,7 @@
         filtros.push(nombre);
         filtros.push(autor);
         filtros.push(categoria);
-      
+
         $.ajax({
             url: uri,
             data: { data: filtros },

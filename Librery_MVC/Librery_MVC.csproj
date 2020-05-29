@@ -340,6 +340,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\InsertarLibro.cshtml" />
     <Content Include="Views\Usser\userLogin.cshtml" />
+    <Content Include="Views\Usser\Contacto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

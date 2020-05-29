@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_UsserLayout.cshtml";
 }
 
+@if (TempData["User"] != null)
+ {
+     TempData.Remove("User");
+ }
+
+
 <h2>Login de usuario</h2>
 
 <h2 style="color: red">@ViewBag.Msg</h2>
@@ -32,8 +38,8 @@
 
             <div id="cont-btns">
                 <button type="submit" id="btn-entrar">ENTRAR</button>
-                @*<button type="button" id="btn-registrar">REGISTRARSE</button>*@
                 <button type="button" onclick="" id="btn-registrar">@Html.ActionLink("REGISTRARSE", "CrearUsuario", "Usser")</button>
+                @*<a id="btn-registrar" href="@Url.Action("CrearUsuario", "Usser")">Registrarse</a>*@
             </div>
 
         </div>

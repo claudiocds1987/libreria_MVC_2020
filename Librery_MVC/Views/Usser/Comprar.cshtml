@@ -6,8 +6,11 @@
     Layout = "~/Views/Shared/_UsserLayout.cshtml";
 
     int idRow = 0;
-    
+
+    TempData.Keep("User");
 }
+
+
 <h1>View de compras</h1>
 
 <div class="row">
@@ -46,7 +49,7 @@
                         {
                             String precio = Convert.ToString(item.Precio);
                             precio = precio.Replace(",", ".");
-                            
+
                             <tr>
                                 <th class="text-center"><img src="/@item.UrlImagen.Replace("\\", "/")" width="80" height="100" /></th>
                                 <th class="text-center">@item.Nombre</th>
@@ -68,7 +71,7 @@
         </div>
 
         <input type="hidden" id="idTotales" value="@idRow" />
-       
+
         @using (Html.BeginForm("CompraFinalizada", "Usser", FormMethod.Post, new { name = "formComprar" }))
         {
 
@@ -91,7 +94,7 @@
             <div class="text-center" id="finalizarBuy">
 
                 <div>
-                    <button type="button" class="btn btn-success" id="btn-finalizarCompra" onclick="showBuyAlert();"><span class="glyphicon glyphicon-ok" id="glyphicon-ok" aria-hidden="true"></span>Finalizar compra</button>              
+                    <button type="button" class="btn btn-success" id="btn-finalizarCompra" onclick="showBuyAlert();"><span class="glyphicon glyphicon-ok" id="glyphicon-ok" aria-hidden="true"></span>Finalizar compra</button>
                     <a class="btn btn-danger" href="@Url.Action("userListarLibros", "Usser")"><span class="glyphicon glyphicon-remove" id="glyphicon-remove" aria-hidden="true"></span>Cancelar</a>
                 </div>
                 <div>
@@ -103,13 +106,13 @@
 
         }
 
-       
+
     </div>
 
 </div>
 
 <script type="text/javascript">
-  
+
     function addValuesToInputQuantity() {
 
         let tam = $("#idTotales").val();
@@ -117,17 +120,17 @@
         for (var i = 0; i < tam; i++) {
 
             var quantity = $('#input-number-' + i).val();
-                       
-            $("input[type=hidden][name=quantityHidden-"+i+"]").val(quantity); 
+
+            $("input[type=hidden][name=quantityHidden-"+i+"]").val(quantity);
         }
-        
+
     }
 
 
     function showBuyAlert() {
 
        alertify.confirm('Confirmar compra', '¿Confirma la compra?', function () {
-         
+
            let idArray = [];
            let quantityArray = [];
 
@@ -135,29 +138,29 @@
 
            for (var x = 0; x < tam; x++) {
                 //cargando los array para enviar al controlador
-               idArray.push($("#idHidden-" + x).val()); 
+               idArray.push($("#idHidden-" + x).val());
                quantityArray.push($("#quantityHidden-" + x).val());
            }
 
-           
+
            let user = $('#userName').val();
            let finalPrice = $('#finalPrice').val();
-                        
+
            var uri = '@Url.Action("CompraFinalizada", "Usser")';
            $.ajax({
                url: uri,
-               data: { dataId: idArray, dataQuantity: quantityArray, usuario:user, precioTotal:finalPrice },             
+               data: { dataId: idArray, dataQuantity: quantityArray, usuario:user, precioTotal:finalPrice },
                type: 'POST',
                success: function (respuestaDelServidor) {
                    $("#contenido").html(respuestaDelServidor);
                }
            });
-          
+
             //enviando los datos del formulario al controlador
-            //document.formComprar.submit();         
+            //document.formComprar.submit();
        }
        , function () { alertify.error('Cancel') });
-        
+
         //alertify es un framework de javascript para alerts elegantes
         //los archivos estan en la carpeta Content/alertifyjs de mi proyecto
     }
@@ -192,7 +195,7 @@
         });
 
         $("#finalPrice").val(sum.toFixed(2));
-        
+
     }
 
 
