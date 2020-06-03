@@ -165,15 +165,38 @@ namespace Librery_MVC.Controllers
 
         }
 
-        public ActionResult Libros(string searching)
+        public ActionResult Libros(string option, string search)
         {
-            ViewBag.Message = "Your contact page.";
+            LibroService ls = new LibroService();  
+            //ViewBag.Message = "Your contact page.";     
+            String consulta = "Select * from libros";
+   
+            return View(ls.filtrarLibro(consulta));
+            //return View(ls.buscarLibrosByName(searching).ToList());
+        }
 
-            LibroService ls = new LibroService();//es lo mismo
-            /*Es lo mismo*/
-            //var model = ls.buscarLibros(searching);
-            //return View(model);
-            return View(ls.buscarLibros(searching).ToList());
+        public ActionResult adminFiltrarLibro(String option, String search)
+        {
+            //no hacer back-end de option o search, si el usuario escribe cualqueir cosa
+            //porque en la view va a aparecer 0 registros encontrados!
+
+            LibroService ls = new LibroService();
+            String consulta = "";
+           
+            if (option != null && search != null)
+            {
+                if (option == "bookName")                 
+                    consulta = "select * from libros where libros.nombre like'%" + search + "%'";                
+                else
+                    consulta = "select * from libros where libros.IdLibro = " + search;
+                
+
+            }
+            else
+                consulta = "Select * from libros";//esto sacarlo, que devuelva error
+
+            return View(ls.filtrarLibro(consulta));
+
         }
 
         public ActionResult BajaLibro(int idLibro)

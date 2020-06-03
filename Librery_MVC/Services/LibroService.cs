@@ -16,6 +16,10 @@ namespace Librery_MVC.Services
 
         DataAccess da = new DataAccess();
 
+        //public List<Libro> FilterAdminBook()
+        //{
+
+        //}
 
         public Decimal getBookPrice(int idBook)
         {
@@ -193,7 +197,7 @@ namespace Librery_MVC.Services
             return book;
         }
 
-        public List<Libro> buscarLibros(String texto)
+        public List<Libro> buscarLibrosByName(String texto)
         {
             List<Libro> Lista = new List<Libro>();
             MySqlConnection cn = da.ConnectToDB();
