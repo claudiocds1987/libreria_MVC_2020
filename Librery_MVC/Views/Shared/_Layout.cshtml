@@ -19,36 +19,65 @@
 
 </head>
 <body class="fondo-Admin">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Inicio", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("Inicio", "Index", "Home")</li>*@
-                    @*<li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>*@
-                    <li>@Html.ActionLink("Sitio Cliente", "Index", "Usser")</li>
 
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Libros <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>@Html.ActionLink("Listar Libros", "Libros", "Home")</li>
-                            <li>@Html.ActionLink("Agregar Libro", "InsertarLibro", "Home")</li>
-                            <li>@Html.ActionLink("Libros", "Libros", "Home")</li>
+    @{
+        TempData.Keep("adminEmail");
+    }
+
+    <div class="navbar navbar-inverse navbar-fixed-top" id="admin-nav-fixedTop">
+
+        <div class="cont-principal">
+
+            <nav id="navigation" class="navbar navbar-inverse">
+
+                <div class="container-fluid">
+
+                    <div class="navbar-header">
+
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" id="brand" href="#">LibraryMVC</a>
+
+                    </div>
+
+                    <div class="collapse navbar-collapse fade-in" id="">
+                        
+                        <ul class="nav navbar-nav">
+
+                            <li><a href="@Url.Action("index", "Home")"><span class="glyphicon glyphicon-log-in" id="glyphicon-log-in" aria-hidden="true"></span>Login</a></li>
+                            <li><a href="@Url.Action("About", "Home")">Acerca de</a></li>
+                            <li><a href="@Url.Action("index", "Usser")"><span class="glyphicon glyphicon-globe" id="glyphicon-globe" aria-hidden="true"></span>Sitio cliente</a></li>
+                            <li><a href="@Url.Action("crearAdmin", "Home")">Registrarse</a></li>
+                            <li>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-book"></span>Libros<span class="caret"></span></a>                                
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Listar Libros", "Libros", "Home")</li>
+                                    <li>@Html.ActionLink("Agregar Libro", "InsertarLibro", "Home")</li>                      
+                                </ul>
+                            </li>
                         </ul>
-                    </li>
-                </ul>
-                @*@Html.Partial("_LoginPartial")*@
-            </div>
+                    
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <li class="dropdown">
+
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user" id="glyphicon-user"></span>@ViewBag.adminEmail<span class="caret"></span></a>
+                                <ul class="dropdown-menu" id="dropdown-menu">
+                                    <li><a href="@Url.Action("index", "Home")"><span class="glyphicon glyphicon-off" id="glyphicon-wrench" aria-hidden="true"></span>Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </div>
     </div>
+
+
     <div class="container body-content">
         @RenderBody()
         <hr />

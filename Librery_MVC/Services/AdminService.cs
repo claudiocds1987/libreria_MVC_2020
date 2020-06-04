@@ -55,21 +55,41 @@ namespace Librery_MVC.Services
 
         public bool SearchEmailAdmin(String email)
         {
-            String consulta = "select * from admin";
+            String consulta = "select * from admin where admin.Email = '" + email + "'";
             MySqlConnection cn = da.ConnectToDB();
             MySqlCommand cmd = new MySqlCommand(consulta, cn);
             MySqlDataReader dr = cmd.ExecuteReader();
 
-            while (dr.Read())
+            if (dr.Read())
             {
-                if (dr["Email"].Equals(email))
-                    return true;
+                dr.Close();
+                cn.Close();
+                return true;
             }
 
             dr.Close();
             cn.Close();
             return false;
 
+        }
+
+        public bool SearchEmailAndPasswordAdmin(String email, String password)
+        {
+            String consulta = "select * from admin where admin.Email = '" + email + "'" + " and admin.Pass = '" + password + "'";
+            MySqlConnection cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            if (dr.Read())
+            {
+                dr.Close();
+                cn.Close();
+                return true;
+            }
+
+            dr.Close();
+            cn.Close();
+            return false;
         }
 
     }

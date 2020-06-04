@@ -38,7 +38,8 @@
         <div class="container">
             <h2 style="color: red">@ViewBag.Msg</h2>
 
-            @using (Html.BeginForm("adminPrincipal", "Home", FormMethod.Post))
+           
+            @using (Html.BeginForm("index", "Home", FormMethod.Post))
             {
 
                 <div id="caja">
@@ -62,7 +63,7 @@
                         <div id="cont-btns">
                             <button type="submit" id="btn-entrar">ENTRAR</button>
                             @*<button type="button" id="btn-registrar">REGISTRARSE</button>*@
-                            <button type="button" onclick="callcrearAdminView()" id="btn-registrar">Registrarse</button>
+                            <button type="button" onclick="callCrearAdminView()" id="btn-registrar">Registrarse</button>
                         </div>
 
                     </div>
@@ -84,7 +85,7 @@
 
     <script type="text/javascript">
 
-    function callcrearAdminView() {
+    function callCrearAdminView() {
 
         var uri = '@Url.Action("crearAdmin", "Home")';
 

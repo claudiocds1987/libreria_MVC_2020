@@ -15,6 +15,19 @@ namespace Librery_MVC.Services
 
         DataAccess da = new DataAccess();
 
+        public bool checkEmailFormat(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public Decimal DividirNumber(String number)
         {
             /*nota: si el string tiene mas de 7 caracteres ej 152988.25
@@ -187,6 +200,7 @@ namespace Librery_MVC.Services
             return Regex.IsMatch(word, @"^[a-zA-Z]+$");         
         }
 
+        //checkea si la cadena tiene espacios vacios
         public bool CheckStringWithWhiteSpace(String word)
         {
             return Regex.IsMatch(word, @"^[a-zA-Z ]+$");

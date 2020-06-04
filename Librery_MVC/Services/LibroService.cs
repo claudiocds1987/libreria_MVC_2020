@@ -16,11 +16,6 @@ namespace Librery_MVC.Services
 
         DataAccess da = new DataAccess();
 
-        //public List<Libro> FilterAdminBook()
-        //{
-
-        //}
-
         public Decimal getBookPrice(int idBook)
         {
             String consulta = "SELECT precio from libros where IdLibro = " + idBook + " AND estado = 1";

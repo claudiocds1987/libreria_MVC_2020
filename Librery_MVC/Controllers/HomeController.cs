@@ -12,14 +12,46 @@ namespace Librery_MVC.Controllers
     public class HomeController : Controller
     {
         AdminService adminService = new AdminService();
+        CheckData check = new CheckData();
 
-        public ActionResult Index()
+        public ActionResult index()
         {
+            String email = Request.Form["adminEmail"];
+            String password = Request.Form["password"];
+
+            if (email != null && password != null)
+            {
+
+                if(!check.checkEmailFormat(email))
+                {
+                    ViewBag.Msg = "El email no es valido!";
+                    return View();
+                }
+
+                //check que el password dno tenga caracteres raros o espacios vacios si el password 
+
+                if(adminService.SearchEmailAndPasswordAdmin(email, password))
+                {
+                    //guardo el email de admin en la tempdata
+                    TempData["adminEmail"] = email;                  
+                    return RedirectToAction("adminPrincipal");
+                }
+                else
+                {
+                    ViewBag.Msg = "No existe el usuario, compruebe que los datos ingresados sean correctos.";
+                    return View();
+                }
+
+
+            }
+                           
             return View();
         }
 
         public ActionResult adminPrincipal()
         {
+            //TempData["adminEmail"] fue creada en ActionResult index
+            ViewBag.adminEmail = TempData["adminEmail"];
             return View();
         }
 
@@ -181,20 +213,26 @@ namespace Librery_MVC.Controllers
             //porque en la view va a aparecer 0 registros encontrados!
 
             LibroService ls = new LibroService();
-            String consulta = "";
-           
-            if (option != null && search != null)
+            String consulta = "Select * from libros";
+
+            if(search == "")
+                return View(ls.filtrarLibro(consulta));
+
+            
+            if (option == "bookName" || option == "idBook")
             {
-                if (option == "bookName")                 
-                    consulta = "select * from libros where libros.nombre like'%" + search + "%'";                
+                if (option == "bookName")
+                    consulta = consulta + " where libros.nombre like'%" + search + "%'";
                 else
-                    consulta = "select * from libros where libros.IdLibro = " + search;
-                
-
+                    consulta = consulta + " where libros.IdLibro = " + search;              
             }
-            else
-                consulta = "Select * from libros";//esto sacarlo, que devuelva error
-
+           else
+            { //por si pinchan los values de los radio button
+               ViewBag.Msg = "Error al recibir los value de los radio button";
+               return View();
+           }
+           
+           
             return View(ls.filtrarLibro(consulta));
 
         }
