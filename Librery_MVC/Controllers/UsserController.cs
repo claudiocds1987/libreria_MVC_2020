@@ -304,77 +304,86 @@ namespace Librery_MVC.Controllers
 
         [HttpPost]
         public ActionResult userFiltrarLibros(string[] data)
-        {         
+        {
+            CheckData check = new CheckData();
             AutorService sa = new AutorService();
             CategoriaService cs = new CategoriaService();
-            LibroService ls = new LibroService();
-            int idAutor = 0;
-            int idCategory = 0;
-            String consulta = "";
-           
-            //Obteniendo los datos enviados desde ajax
-            String bookName = data[0];//check que book name no ingrese con espacios ej "la  vida"
-            String autor = data[1];
-            String cat = data[2];
-
-            if (autor != "todos")
-            {
-                idAutor = Convert.ToInt32(data[1]);
-            }
-
-            if(cat!= "todos")
-            {
-                idCategory = Convert.ToInt32(data[2]);
-            }
-             
+            LibroService ls = new LibroService();           
             List<Libro> list = new List<Libro>();
-           
-            //Armando la consulta
+            //Obteniendo los datos enviados desde ajax
+            String bookName = data[0];
+            String idAutor = data[1];
+            String idCategory = data[2];
 
-            // hay nombre de libro autor y categoria especifico
-            if (bookName!="" && autor != "todos" && cat != "todos")
-                consulta = "select * from libros where nombre Like '%" + bookName + "%'" + " and idAutor = " + idAutor + " and idCategoria = " + idCategory + " and Estado=1";
-
-            //hay nombre de libro y autor pero no hay categoria especifica
-            else if (bookName != "" && autor != "todos" && cat == "todos")
-                consulta = "select * from libros where nombre Like '%" + bookName + "%'" + " and idAutor = " + idAutor + " and Estado=1";
-
-            //hay nombre de libro y categoria pero no hay autor especifico
-            else if (bookName != "" && cat != "todos" && autor == "todos")
-                consulta = "select * from libros where nombre Like '%" + bookName + "%'" + " and idCategoria = " + idCategory + " and Estado=1";
-
-            //hay autor y categoria pero no hay nombre de libro
-            else if (autor != "todos" && cat != "todos" && bookName == "")
-                consulta = "select * from libros where idAutor = " + idAutor + " and idCategoria = " + idCategory + " and Estado=1";
-
-            //si solo hay nombre de libro sin autor y categoria especifico
-            else if (bookName != "" && autor == "todos" && cat == "todos")
-                consulta = "select * from libros where nombre Like '%" + bookName + "%' and Estado=1";
-
-            //si solo hay autor sin nombre de libro y categoria especifico
-            else if (autor != "todos" && bookName == "" && cat == "todos")
-                consulta = "select * from libros where idAutor = " + idAutor + " and Estado=1";
-
-            //si solo hay categoria sin autor ni nombre de libro especifico
-            else if (cat != "todos" && autor == "todos" && bookName == "")
-                consulta = "select * from libros where idCategoria = " + idCategory + " and Estado=1";
-            else
-                consulta = "TODOS";
-
-            //si la consulta esta vacia trae todos los libros sin hacer filtro
-            if (consulta == "TODOS")
+            //si no filtra y hace click en "buscar" lista todos los libros
+            if (bookName == "" && idAutor == "todos" && idCategory == "todos")
             {
                 list = ls.ListBooks();
                 return View(list);
             }
-            else
+
+            String consulta = "SELECT * FROM libros WHERE";
+            int cont = 0; // referencia si hay que agregar  el "AND" a la consulta
+            
+            //****************** Check back-end *************************//
+            
+            if (check.CheckIntNumber(idAutor)) //idAutor es int?
             {
-                list = ls.filtrarLibro(consulta);
-                return View(list);
+                if (check.CheckIdAutor(idAutor)) //idAutor existe en la base datos?
+                {
+                    consulta += " libros.idAutor= " + idAutor;
+                    cont++;
+                }
+                else
+                {
+                    ViewBag.Msg = "Error al recibir el value del autor";
+                    return View();
+                }
+                    
+            }
+            else if (idAutor != "todos")
+            {
+                ViewBag.Msg = "Error al recibir el value del autor";
+                return View();
             }
 
-            //!return PartialView(lista);
+            if(check.CheckIntNumber(idCategory)) //idCategory es int?
+            {
+                if(check.CheckIdCategory(idCategory)) //idCategory existe en la db?
+                {
+                    if (cont == 1) //si es == 1 agrego el "AND" a la consulta
+                    {
+                        consulta += " AND libros.idCategoria= " + idCategory;
+                        cont++;
+                    }
+                    else
+                        consulta += " libros.idCategoria= " + idCategory;
+                }
+                else
+                {
+                    ViewBag.Msg = "Error al recibir el value de la categoria";
+                    return View();
+                }
+                    
+            }
+            else if(idCategory != "todos")
+            {
+                ViewBag.Msg = "Error al recibir el value de la categoria";
+                return View();
+            }
 
+            //****************** Fin Check back-end *************************//
+
+            if (!String.IsNullOrEmpty(bookName))
+            {
+                if (cont > 0) // si cont > 0 agrego "AND" a la consulta
+                    consulta += " AND libros.nombre LIKE '%" + bookName + "%'";
+                else
+                    consulta += " libros.nombre LIKE '%" + bookName + "%'";
+            }
+        
+            list = ls.filtrarLibro(consulta);
+            return View(list);
         }
 
         [HttpPost]
