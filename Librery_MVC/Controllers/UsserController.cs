@@ -20,7 +20,7 @@ namespace Librery_MVC.Controllers
             {
                 ViewBag.User = TempData["User"];
             }
-         
+
             //pasando lista de 10 libros ordenados por precio de forma descendente
             LibroService ls = new LibroService();
             List<Libro> list = ls.getPartListByDescPrice();
@@ -33,27 +33,27 @@ namespace Librery_MVC.Controllers
             //Cuando el usuario cierre sesion, se borra el Tempdata["Email"]
             //if (TempData["User"] != null)
             //    TempData.Remove("User");
-           
+
             String user = Request.Form["user"];
             String password = Request.Form["password"];
             UsserService us = new UsserService();
             bool exist = false;
 
-            if(user!= null && password != null)
+            if (user != null && password != null)
             {
                 //funcion que verifica si existe el nombre de usuario.
                 //bool R = us.SearchEmailUsser(email);
                 bool R = us.SearchUsserName(user);
 
                 if (R == false)
-                {          
+                {
                     ViewBag.Msg = "No existe el usuario";
                     return View();
                 }
                 else
                 {
                     //compruebo que la contraseña pertenezca al mismo usuario
-                    exist = us.SearchUserPassword(user,password);
+                    exist = us.SearchUserPassword(user, password);
                 }
                 //si el nombreDeUsuario y password son correctos redirige a actionResult index()
                 if (exist == true)
@@ -61,16 +61,16 @@ namespace Librery_MVC.Controllers
                     //TempData es similar a session/local storage, tiene corta duracion, 
                     //al recargarse la pagina desaparece, para evitar esto, 
                     //en _UsserLayout poner  @{TempData.Keep("Email");}
-                    
+
                     TempData["User"] = user;//guardo el nombre de usuario ingreasdo en TempData
                     return RedirectToAction("index");//redirige al actionResult index()
                 }
                 else
-                {                    
+                {
                     ViewBag.Msg = "La contraseña no es válida.";
                     return View();
                 }
-          
+
             }
 
             return View();
@@ -88,9 +88,9 @@ namespace Librery_MVC.Controllers
                 ViewBag.Msg = "Hay campos vacios!";
                 return View();
             }
-         
+
             //Aviso si el nombre no es de tipo String
-            if(TempData["errorName"] != null)
+            if (TempData["errorName"] != null)
             {
                 ViewBag.Msg = "El nombre debe tener solo letras.";
                 return View();
@@ -111,33 +111,33 @@ namespace Librery_MVC.Controllers
             }
 
             //Aviso que se supero el maxLength de el/los input
-            if(TempData["lengthError"] != null)
+            if (TempData["lengthError"] != null)
             {
                 ViewBag.Msg = "Error!, no se permite mas de 45 caracteres en los campos: Nombre, Apellido, Email, Nombre de usuario, Contraseñas, Domicilio.";
                 return View();
             }
 
             //Aviso que el formato de email es incorrecto
-            if(TempData["invalidEmail"] != null)
+            if (TempData["invalidEmail"] != null)
             {
                 ViewBag.Msg = "El formato de email es invalido!";
                 return View();
             }
 
             //Aviso si el nombre de usuario ya esta registrado
-            if(TempData["duplicatedUser"] != null)
+            if (TempData["duplicatedUser"] != null)
             {
                 ViewBag.Msg = "Error. El nombre de usuario ya esta registrado!, elija otro nombre.";
                 return View();
             }
-         
+
             //Aviso si las dos contraseñas son distintas
             if (TempData["invalidPasswordsUser"] != null)
             {
                 ViewBag.Msg = "Error. Ambas contraseñas deben ser iguales con un minimo de 5 y un maximo de 45 caracteres.";
                 return View();
             }
-           
+
 
             //****************** FIN VALIDACIONES LADO BACK-END ***************************//
 
@@ -150,9 +150,9 @@ namespace Librery_MVC.Controllers
             //****************** VALIDANDO LADO BACK-END **********************//
 
             CheckData check = new CheckData();
-            
+
             //Checkeando inputs vacios
-            
+
             foreach (var item in _data)
             {
                 string valor = _data[item.ToString()];
@@ -165,28 +165,28 @@ namespace Librery_MVC.Controllers
                     return RedirectToAction("CrearUsuario");
                 }
             }
-                        
+
             //check si el nombre solo contiene letras
             if (!check.CheckStringWithWhiteSpace(Request.Form["txtName"]))
             {
                 TempData["errorName"] = true;
                 return RedirectToAction("CrearUsuario");
             }
-            
+
             //check si el apellido solo contiene letras
-            if(!check.CheckStringWithWhiteSpace(Request.Form["txtSurname"]))
+            if (!check.CheckStringWithWhiteSpace(Request.Form["txtSurname"]))
             {
                 TempData["errorSurname"] = true;
                 return RedirectToAction("CrearUsuario");
             }
 
             //Checkeando formato valido de email
-            
+
             string email = Request.Form["txtEmail"];
             UsserService us = new UsserService();
             bool validEmail = us.IsValidEmail(email);
 
-            if(!validEmail)
+            if (!validEmail)
             {
                 TempData["invalidEmail"] = true;
                 return RedirectToAction("CrearUsuario");
@@ -197,7 +197,7 @@ namespace Librery_MVC.Controllers
             string userName = Request.Form["txtUsserName"];
             bool existNameUser = us.SearchUsserName(userName);
 
-            if(existNameUser)
+            if (existNameUser)
             {
                 TempData["duplicatedUser"] = true;
                 return RedirectToAction("CrearUsuario");
@@ -216,7 +216,7 @@ namespace Librery_MVC.Controllers
                 TempData["fechaInvalida"] = true;
                 return RedirectToAction("CrearUsuario");
             }
-        
+
             int nameSize = Convert.ToInt32(Request.Form["txtName"].Length);
             int surnameSize = Convert.ToInt32(Request.Form["txtSurname"].Length);
             int emailSize = Convert.ToInt32(Request.Form["txtEmail"].Length);
@@ -230,18 +230,18 @@ namespace Librery_MVC.Controllers
                 TempData["lengthError"] = true;
                 return RedirectToAction("CrearUsuario");
             }
-           
+
             //checking que las 2 contraseñas sean iguales con un min de 5 y max de 45 caracteres
-            
+
             String pass1 = Request.Form["txtClave1"];
             String pass2 = Request.Form["txtClave2"];
-            
-            if(!check.CheckPasswords(pass1, pass2))
+
+            if (!check.CheckPasswords(pass1, pass2))
             {
                 TempData["invalidPasswordsUser"] = true;
                 return RedirectToAction("CrearUsuario");
             }
-            
+
             //****************** FIN VALIDACIONES LADO BACK-END *****************//
 
             //Declaro el objeto usser, implemento el metodo set para guardar los datos de los input
@@ -269,7 +269,7 @@ namespace Librery_MVC.Controllers
             return View();
         }
 
-        
+
         public ActionResult MostrarLibro(int idLibro)
         {
             LibroService ls = new LibroService();
@@ -291,7 +291,7 @@ namespace Librery_MVC.Controllers
             LibroService ls = new LibroService();
             Libro book = new Libro();
             List<Libro> lista = new List<Libro>();
-            
+
             for (int i = 0; i < tam; i++)
             {
                 //pasando los value de los input hidden de userListarLibros
@@ -308,38 +308,55 @@ namespace Librery_MVC.Controllers
             CheckData check = new CheckData();
             AutorService sa = new AutorService();
             CategoriaService cs = new CategoriaService();
-            LibroService ls = new LibroService();           
+            LibroService ls = new LibroService();
             List<Libro> list = new List<Libro>();
             //Obteniendo los datos enviados desde ajax
             String bookName = data[0];
             String idAutor = data[1];
             String idCategory = data[2];
+            String price1 = data[3];
+            String price2 = data[4];
 
             //si no filtra y hace click en "buscar" lista todos los libros
-            if (bookName == "" && idAutor == "todos" && idCategory == "todos")
+            if (bookName == "" && idAutor == "todos" && idCategory == "todos" && price1 == "" && price2 == "")
             {
                 list = ls.ListBooks();
                 return View(list);
             }
 
             String consulta = "SELECT * FROM libros WHERE";
+            String estado = " AND libros.estado = 1";
             int cont = 0; // referencia si hay que agregar  el "AND" a la consulta
-            
+
             //****************** Check back-end *************************//
-            
-            if (check.CheckIntNumber(idAutor)) //idAutor es int?
+
+            //?
+            if (!String.IsNullOrEmpty(bookName))
+            {
+                consulta += " libros.nombre LIKE '%" + bookName + "%'";
+                cont++;
+            }
+            //?
+
+            if (check.CheckIntNumber(idAutor)) //idAutor es un numero int?
             {
                 if (check.CheckIdAutor(idAutor)) //idAutor existe en la base datos?
                 {
-                    consulta += " libros.idAutor= " + idAutor;
-                    cont++;
+                    if (cont > 0)
+                        consulta += " AND libros.idAutor= " + idAutor;
+                    else
+                    {
+                        consulta += " libros.idAutor= " + idAutor;
+                        cont++;
+                    }
+                        
                 }
                 else
                 {
                     ViewBag.Msg = "Error al recibir el value del autor";
                     return View();
                 }
-                    
+
             }
             else if (idAutor != "todos")
             {
@@ -347,42 +364,76 @@ namespace Librery_MVC.Controllers
                 return View();
             }
 
-            if(check.CheckIntNumber(idCategory)) //idCategory es int?
+            if (check.CheckIntNumber(idCategory)) //idCategory es un numero int?
             {
-                if(check.CheckIdCategory(idCategory)) //idCategory existe en la db?
+                if (check.CheckIdCategory(idCategory)) //idCategory existe en la db?
                 {
-                    if (cont == 1) //si es == 1 agrego el "AND" a la consulta
-                    {
+                    if (cont > 0) //si es > a 0 agrego el "AND" a la consulta                  
                         consulta += " AND libros.idCategoria= " + idCategory;
+                    else
+                    {
+                        consulta += " libros.idCategoria= " + idCategory;
                         cont++;
                     }
-                    else
-                        consulta += " libros.idCategoria= " + idCategory;
+                        
                 }
                 else
                 {
                     ViewBag.Msg = "Error al recibir el value de la categoria";
                     return View();
                 }
-                    
+
             }
-            else if(idCategory != "todos")
+            else if (idCategory != "todos")
             {
                 ViewBag.Msg = "Error al recibir el value de la categoria";
                 return View();
             }
 
+            //check precio 1
+            if (check.CheckIntNumber(price1))
+            {
+                if (cont > 0)
+                    consulta += " AND libros.precio >= " + price1;
+                else
+                {
+                    consulta += " libros.precio >= " + price1;
+                    cont++;
+                }
+                    
+            }
+            else if (!String.IsNullOrEmpty(price1))
+            {
+                ViewBag.Msg = "Error al recibir el value del precio 1";
+                return View();
+            }
+
+            //check precio 2
+            if (check.CheckIntNumber(price2))
+            {
+                if (cont > 0)
+                    consulta += " AND libros.precio <= " + price2;
+                else
+                    consulta += " libros.precio <= " + price2;
+            }
+            else if (!String.IsNullOrEmpty(price2))
+            {
+                ViewBag.Msg = "Error al recibir el value del precio 2";
+                return View();
+            }
+
+
             //****************** Fin Check back-end *************************//
 
-            if (!String.IsNullOrEmpty(bookName))
-            {
-                if (cont > 0) // si cont > 0 agrego "AND" a la consulta
-                    consulta += " AND libros.nombre LIKE '%" + bookName + "%'";
-                else
-                    consulta += " libros.nombre LIKE '%" + bookName + "%'";
-            }
-        
-            list = ls.filtrarLibro(consulta);
+            //if (!String.IsNullOrEmpty(bookName))
+            //{
+            //    if (cont > 0) // si cont > 0 agrego "AND" a la consulta
+            //        consulta += " AND libros.nombre LIKE '%" + bookName + "%'";
+            //    else
+            //        consulta += " libros.nombre LIKE '%" + bookName + "%'";
+            //}
+
+            list = ls.filtrarLibro(consulta += estado);
             return View(list);
         }
 
@@ -391,18 +442,18 @@ namespace Librery_MVC.Controllers
         {
 
             //**** Validacion back-end ****
-            
+
             CheckData check = new CheckData();
 
             //checking que el array dataId recibido solo tenga numeros int
-            for(int i = 0; i <= dataId.Length - 1; i ++)
+            for (int i = 0; i <= dataId.Length - 1; i++)
             {
                 if (!check.CheckId(dataId[i]))
                 {
                     ViewBag.Msg = "Error, los id de libros recibidos, debe ser de tipo int";
                     return View();
                 }
-                    
+
             }
             //checking que el array dataQuantity recibido solo tenga numeros int
             for (int i = 0; i <= dataQuantity.Length - 1; i++)
@@ -416,7 +467,7 @@ namespace Librery_MVC.Controllers
             }
 
             //checking que el String que contiene el nombre de usuario no este vacio
-            if(usuario == null || usuario == "")
+            if (usuario == null || usuario == "")
             {
                 ViewBag.Msg = "Error, se necesita el nombre de usuario para realizar la compra!";
                 return View();
@@ -453,13 +504,13 @@ namespace Librery_MVC.Controllers
             sale.Fecha = actualDate;
             //insert en la tabla Ventas de la db
             int afectedRows = vs.InsertSale(sale);
-            
-            if(afectedRows > 0)//si se pudo insertar en la tabla ventas, se inserta en detalleVentas
+
+            if (afectedRows > 0)//si se pudo insertar en la tabla ventas, se inserta en detalleVentas
             {
 
                 DetalleVenta saleDetail = new DetalleVenta();
                 DetalleVentaService dvs = new DetalleVentaService();
-                               
+
                 List<string> list = new List<string>();
                 LibroService ls = new LibroService();
 
@@ -472,49 +523,49 @@ namespace Librery_MVC.Controllers
                     //set
                     saleDetail.IdVenta = idVenta;
                     saleDetail.IdLibro = dataId[i];
-                    saleDetail.Cantidad = dataQuantity[i];                    
+                    saleDetail.Cantidad = dataQuantity[i];
                     saleDetail.Precio = price;
 
                     //insert en tabla DetalleVentas de la db
                     int insertRows = dvs.InsertSaleDetail(saleDetail);
 
-                    if(insertRows > 0)//si pudo insertar
-                    {   
-                       list.Add(ls.getBookName(saleDetail.IdLibro));                                                
-                       ViewBag.Sold = true;//aviso de compra exitosa                     
+                    if (insertRows > 0)//si pudo insertar
+                    {
+                        list.Add(ls.getBookName(saleDetail.IdLibro));
+                        ViewBag.Sold = true;//aviso de compra exitosa                     
                     }
                     else
                         ViewBag.Sold = false;
                 }
 
                 if (ViewBag.Sold == true)
-                      return View(list);//Enviando a la view lista de la compra reciente
+                    return View(list);//Enviando a la view lista de la compra reciente
                 else
                     return View();
 
             }
 
             ViewBag.Sold = false;
-            return View();                                        
+            return View();
         }
 
         public ActionResult MisCompras()
         {
             ViewBag.User = TempData["User"];
             String userName = ViewBag.User;
-       
+
             if (userName == null)
             {
                 ViewBag.Usuario = false;
                 return View();
             }
-           
+
             return View();
         }
 
         public ActionResult FiltrarCompras(String listAll, String month1, String month2, String year)
         {
-            
+
             ViewBag.User = TempData["User"];
             CompraService cs = new CompraService();
             String userName = ViewBag.User;
@@ -529,11 +580,11 @@ namespace Librery_MVC.Controllers
 
             //Si no selecciono las tres opciones desde el filtro de MisCompras.cshtml
             if (month1 == "" || month2 == "" || year == "")
-            {              
+            {
                 ViewBag.Msg = "Debe elegir un rango de meses y el año";
                 return View();
             }
-            
+
             if (userName == null)
             {
                 ViewBag.Usuario = false;
@@ -545,7 +596,7 @@ namespace Librery_MVC.Controllers
                 //lista de compra filtrada 
                 list = cs.filterPursache(month1, month2, year, userName);
             }
-            
+
             return View(list);
         }
 

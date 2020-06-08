@@ -538,6 +538,18 @@ body {
    
 }
 
+#cont-prices{
+    display: flex !important;
+    flex-wrap: wrap !important;
+}
+
+#price1, #price2 {
+    max-width: 80px !important;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
 #table-sscroll {     
     max-height: 241px !important;
     overflow: auto;
