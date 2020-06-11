@@ -2,11 +2,12 @@
 body {
     /*background-color: #E5E7E9 !important;*/
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
+    color: white !important;
 }
 
 
 .fondo-User{
-    background-image: url(/principal/imagenes/fondo-cemento.jpg) !important;
+    background-image: url(/principal/imagenes/fondo-negro.png) !important;
     
 }
 /*************************************************************************
@@ -504,13 +505,56 @@ body {
     }
 }
 
+/*************************************************************************
+                  pruebalistar2.cshtml 8si no hay view borrarlo
+*************************************************************************/
+#cont-libros{
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content:flex-start !important;
+    
+}
 
+.container-image {
+    box-sizing: border-box !important;
+    /*width: 25% !important;no usar si uso col-md*/
+    /*margin: 15px, 8px, 25px, 25px !important;*/
+    /*margin: 8px !important;*/
+    
+    padding: 8px !important;
+    max-width: 173px !important;
+}
+
+.container-image img{
+    width: 100% !important;
+    /*max-width: 172px;*/
+    max-height: 292px;
+}
+
+/*************************************************************************
+                  pruebalistar.cshtml 8si no hay view borrarlo
+*************************************************************************/
+#row1 {
+    margin-top: 25px !important;    
+}
+
+#row1 div {
+   margin-bottom: 15px !important;
+}
+
+
+#row3{
+    margin-top: 50px !important;
+}
+
+#filtro-panel-body {
+    background: #F4F4F4 !important;
+}
 /*************************************************************************
                   userListarLibros.cshtml
 *************************************************************************/
-
 #tableBooks {
-    color: black;   
+    color: black;
     width: 100%;
 }
 

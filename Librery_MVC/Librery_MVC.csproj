@@ -236,18 +236,23 @@
     <Content Include="js-frameworks\bxSlider\jquery.bxslider.js" />
     <Content Include="js-frameworks\bxSlider\vendor\jquery.easing.1.3.js" />
     <Content Include="js-frameworks\bxSlider\vendor\jquery.fitvids.js" />
+    <Content Include="principal\imagenes\Antidoto para personas toxicas.jpg" />
     <Content Include="principal\imagenes\Apocalipsis.jpg" />
     <Content Include="principal\imagenes\bookLogo.png" />
     <Content Include="principal\imagenes\buy1.png" />
     <Content Include="principal\imagenes\buyingBooks.png" />
+    <Content Include="principal\imagenes\Capitan America odisea de un heroe.jpg" />
     <Content Include="principal\imagenes\carrito.jpg" />
     <Content Include="principal\imagenes\CincuentaSombrasDeGrey.jpg" />
     <Content Include="principal\imagenes\configurar.png" />
     <Content Include="principal\imagenes\ContraLosZombis.jpg" />
     <Content Include="principal\imagenes\DonQuijote.jpg" />
     <Content Include="principal\imagenes\el_hombre_del_bicentenario_grande.jpg" />
+    <Content Include="principal\imagenes\Emociones Toxicas.jpg" />
     <Content Include="principal\imagenes\Equilibrio.jpg" />
+    <Content Include="principal\imagenes\Evita jirones de su vida.png" />
     <Content Include="principal\imagenes\fondo-cemento.jpg" />
+    <Content Include="principal\imagenes\fondo-negro.png" />
     <Content Include="principal\imagenes\Harry Potter and the sorcerer%27s stone.jpg" />
     <Content Include="principal\imagenes\juego de tronos choque de reyes.jpg" />
     <Content Include="principal\imagenes\juego-de-tronos-choque-de-reyes-n-0203.jpg" />
@@ -257,14 +262,18 @@
     <Content Include="principal\imagenes\juego-de-tronos-nueva-edicion-0404.jpg" />
     <Content Include="principal\imagenes\JuegoDeTronosCancionDeHieloYFuego.jpg" />
     <Content Include="principal\imagenes\La caja de botones de Gwendy.jpg" />
+    <Content Include="principal\imagenes\La historieta Argentina de San Martin.jpg" />
     <Content Include="principal\imagenes\LaVozDelGran Jefe.jpg" />
     <Content Include="principal\imagenes\la_vida_por_la_patria_grande.jpg" />
+    <Content Include="principal\imagenes\Libertadores de America.jpg" />
     <Content Include="principal\imagenes\libroos.jpg" />
     <Content Include="principal\imagenes\libros1.jpg" />
     <Content Include="principal\imagenes\libros2.jpg" />
     <Content Include="principal\imagenes\libros3.jpg" />
     <Content Include="principal\imagenes\libros4.jpg" />
+    <Content Include="principal\imagenes\Los mitos de la historia Argentina tres.jpg" />
     <Content Include="principal\imagenes\LosMitosDeLaHistoriaArgentina2.jpg" />
+    <Content Include="principal\imagenes\Mujeres insolentes.jpg" />
     <Content Include="principal\imagenes\mujeres-tenian-que-ser.jpg" />
     <Content Include="principal\imagenes\seguimiento.png" />
     <Content Include="principal\imagenes\slider-img1.jpg" />
@@ -342,6 +351,8 @@
     <Content Include="Views\Usser\userLogin.cshtml" />
     <Content Include="Views\Usser\Contacto.cshtml" />
     <Content Include="Views\Home\adminFiltrarLibro.cshtml" />
+    <Content Include="Views\Usser\pruebalistar.cshtml" />
+    <Content Include="Views\Usser\pruebalistar2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

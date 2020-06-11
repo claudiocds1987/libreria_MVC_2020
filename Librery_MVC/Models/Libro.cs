@@ -38,5 +38,15 @@ namespace Librery_MVC.Models
             UrlImagen = urlImagen;
             Estado = estado;
         }
+
+        //constructor para list light books
+        public Libro(int idLibro, string urlImagen, string nombre, int anioDeLanzamiento, Decimal precio)
+        {
+            IdLibro = idLibro;
+            UrlImagen = urlImagen;
+            Nombre = nombre;
+            AnioDeLanzamiento = anioDeLanzamiento;
+            Precio = precio;
+        }
     }
 }

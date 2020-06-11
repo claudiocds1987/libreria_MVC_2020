@@ -1,0 +1,138 @@
+﻿@model List<Librery_MVC.Models.Libro>
+@using Librery_MVC.Models;
+@using Librery_MVC.Services;
+
+@{
+    ViewBag.Title = "pruebalistar2";
+    Layout = "~/Views/Shared/_UsserLayout.cshtml";
+    Autor autor = new Autor();
+    Categoria category = new Categoria();
+    Editorial editorial = new Editorial();
+    AutorService sa = new AutorService();
+    CategoriaService cs = new CategoriaService();
+    EditorialService es = new EditorialService();
+    List<Autor> autorList = new List<Autor>();
+    List<Categoria> categoryList = new List<Categoria>();
+    autorList = sa.ListAutores();
+    categoryList = cs.getAllCategories();
+
+    TempData.Keep("User");
+}
+
+<div class="row" id="row1">
+
+    <div class="panel-body" id="filtro-panel-body">
+
+        <div class="col-md-4 text-center">
+            <label>Nombre de libro</label>
+            <input class="form-control" id="nombreLibro" maxlength="80" placeholder="Ingrese nombre del libro" />
+        </div>
+
+        <div class="col-md-3 text-center">
+            <label>Autor</label>
+            <select name="ddlAutor" class="form-control inputFiltros" id="ddlAutor" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+
+                @if (!String.IsNullOrEmpty(ViewBag.Autor))
+                {
+                    //para que no me quede el nombre del autor duplicado en el dropDownList de autores
+                    for (int i = 0; i < autorList.Count; i++)
+                    {
+                        if (autorList[i].IdAutor.Equals(ViewBag.IdAut))
+                        {
+                            autorList.RemoveAt(i);
+                            i--;
+                        }
+                    }
+
+                    <option value=@ViewBag.IdAut>@ViewBag.Autor</option>
+                    <option value="todos">Todos</option>
+                    foreach (Autor item in autorList)
+                    {
+                        <option value=@item.IdAutor>@item.Nombre</option>
+                    }
+
+                }
+                else
+                {
+                    <option value="todos">Todos</option>
+                    foreach (Autor item in autorList)
+                    {
+                        <option value=@item.IdAutor>@item.Nombre</option>
+                    }
+                }
+
+
+            </select>
+        </div>
+
+        <div class="col-md-3 text-center">
+            <label>Categoria</label>
+            <select name="ddlCategory" class="form-control inputFiltros" id="ddlCategory" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+
+                @if (!String.IsNullOrEmpty(ViewBag.Categoria))
+                {
+                    //para que no me quede el nombre de la categoria duplicado en el dropDownList de categoria
+                    for (int x = 0; x < categoryList.Count; x++)
+                    {
+                        if (categoryList[x].IdCategoria.Equals(ViewBag.IdCat))
+                        {
+                            categoryList.RemoveAt(x);
+                            x--;
+                        }
+                    }
+
+                    <option value=@ViewBag.IdCat>@ViewBag.Categoria</option>
+                    <option value="todos">Todos</option>
+                    foreach (Categoria item in categoryList)
+                    {
+                        <option value=@item.IdCategoria>@item.Nombre</option>
+                    }
+
+                }
+                else
+                {
+                    <option value="todos">Todos</option>
+                    foreach (Categoria item in categoryList)
+                    {
+                        <option value=@item.IdCategoria>@item.Nombre</option>
+                    }
+                }
+
+
+            </select>
+        </div>
+
+        <div class="col-md-1 col-xs-4">
+            <label>Desde: $</label>
+            <input type="number" class="form-control" id="price1" />
+        </div>
+
+        <div class="col-md-1 col-xs-4">
+            <label>Hasta: $</label>
+            <input type="number" class="form-control" id="price2" />
+        </div>
+
+
+    </div>
+
+</div>
+
+<div class="row" id="cont-libros">
+
+    @foreach (Libro item in Model)
+    {
+
+        <div class="col-md-3 container-image text-center">
+
+            <img src="~/@item.UrlImagen" alt="@item.Nombre">
+            <div class="title-book text-center">@item.Nombre (@item.AnioDeLanzamiento)</div>
+            <div class="price-book text-center">$@item.Precio</div>
+
+        </div>
+
+    }
+
+</div>
+
+
+

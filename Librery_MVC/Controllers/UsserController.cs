@@ -605,5 +605,19 @@ namespace Librery_MVC.Controllers
             ViewBag.User = TempData["User"];
             return View();
         }
+
+        public ActionResult pruebalistar()
+        {           
+            return View();
+        }
+
+        public ActionResult pruebalistar2()
+        {
+            List<Libro> list = new List<Libro>();
+            LibroService ls = new LibroService();
+            list = ls.getListLightBooks();
+            return View(list);
+        }
+
     }
 }
