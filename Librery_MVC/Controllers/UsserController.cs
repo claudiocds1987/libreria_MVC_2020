@@ -330,13 +330,12 @@ namespace Librery_MVC.Controllers
 
             //****************** Check back-end *************************//
 
-            //?
             if (!String.IsNullOrEmpty(bookName))
             {
                 consulta += " libros.nombre LIKE '%" + bookName + "%'";
                 cont++;
             }
-            //?
+            
 
             if (check.CheckIntNumber(idAutor)) //idAutor es un numero int?
             {
@@ -607,8 +606,11 @@ namespace Librery_MVC.Controllers
         }
 
         public ActionResult pruebalistar()
-        {           
-            return View();
+        {
+            List<Libro> list = new List<Libro>();
+            LibroService ls = new LibroService();
+            list = ls.getListLightBooks();
+            return View(list);
         }
 
         public ActionResult pruebalistar2()

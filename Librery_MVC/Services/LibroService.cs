@@ -39,6 +39,28 @@ namespace Librery_MVC.Services
             
         }
 
+        public List<Libro> filterLightBook(String consulta)
+        {
+            List<Libro> list = new List<Libro>();
+            MySqlConnection cn = new MySqlConnection();
+            cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                list.Add(new Libro(dr.GetInt32("IdLibro"), dr.GetString("urlImagen"),
+                                  dr.GetString("nombre"), dr.GetInt32("anioDeLanzamiento"),
+                                  dr.GetDecimal("precio")));
+            }
+
+            dr.Close();
+            cn.Close();
+            return list;
+        }
+
+
+
         public Decimal getBookPrice(int idBook)
         {
             String consulta = "SELECT precio from libros where IdLibro = " + idBook + " AND estado = 1";

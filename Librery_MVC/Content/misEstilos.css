@@ -647,6 +647,10 @@ body {
                   userFiltrarLibros.cshtml
 ******************************************************************************************/
 
+#model-result{
+    width: 100% !important;
+}
+
 #btnAgregar{
     height: 38px !important;
 }

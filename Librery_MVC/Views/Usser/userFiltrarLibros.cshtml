@@ -1,20 +1,8 @@
 ﻿@model List<Librery_MVC.Models.Libro>
 @using Librery_MVC.Models;
-@using Librery_MVC.Services;
 
 @{
     Layout = null;
-    Autor autor = new Autor();
-    Categoria category = new Categoria();
-    Editorial editorial = new Editorial();
-    AutorService sa = new AutorService();
-    CategoriaService cs = new CategoriaService();
-    EditorialService es = new EditorialService();
-    List<Autor> autorList = new List<Autor>();
-    List<Categoria> categoryList = new List<Categoria>();
-    autorList = sa.ListAutores();
-    categoryList = cs.getAllCategories();
-
     TempData.Keep("User");
 }
 
@@ -27,98 +15,43 @@
 </head>
 <body>
 
-
-    @if (ViewBag.Msg == null)
+    
+    @if (ViewBag.Msg != null)
     {
-        <h4>Resultados: @Model.Count</h4>
+        <h5 style="color:red">@ViewBag.Msg</h5>
     }
 
+    else if (Model.Count() == 0)
+    {
+        <h5 style="color:red">No se encontraron resultados</h5>
+    }
+    else
+    {
+        <div id="model-result"><h4>Resultados: @Model.Count()</h4></div>
 
-    <div class="table-responsive" id="tableResponsive">
-        <table class="table table-striped table-primary mt-5 table-bordered" id="myTable">
-            <thead>
-                <tr>
-                    <th class="text-center">Imagen</th>
-                    <th class="text-center">Id</th>
-                    <th class="text-center">Nombre</th>
-                    <th class="text-center">Autor</th>
-                    <th class="text-center">Categoria</th>
-                    <th class="text-center">Precio</th>
-                    <th class="text-center">Accion</th>
-                </tr>
-            </thead>
-            <tbody>
+        foreach (Libro item in Model)
+        {
 
-                @if (ViewBag.Msg != null)
-                {
-                    <tr>
-                        <td colspan="6" style="color:red">
-                            <h5 style="color:red">@ViewBag.Msg</h5>
-                        </td>
-                    </tr>
-                }
+            <div class="col-md-3 container-image text-center">
 
-                else if (Model.Count() == 0)
-                {
-                    <tr>
-                        <td colspan="6" style="color:red">
-                            No se encontraron resultados
-                        </td>
-                    </tr>
-                }
-                else
-                {
-                    foreach (Libro item in Model)
-                    {
+                <img src="~/@item.UrlImagen" alt="@item.Nombre">
 
-                        autor = sa.getAutor(item.IdAutor);
-                        editorial = es.GetEditorial(item.IdEditorial);
-                        category = cs.getCategoria(item.IdCategoria);
+                <div class="title-book text-center">
 
-                        <tr>
-                            <td class="text-center"><img src="/@item.UrlImagen.Replace("\\", "/")" width="80" height="100" /></td>
+                    <a href="@Url.Action("MostrarLibro", "Usser", new { idLibro = item.IdLibro})">
+                        @item.Nombre (@item.AnioDeLanzamiento)
+                    </a>
 
-                            <td class="text-center">@item.IdLibro</td>
-                            <td class="col-md-2 text-center">@item.Nombre</td>
-                            <td class="text-center">@autor.Nombre</td>
-                            <td class="text-center">@category.Nombre</td>
-                            <td class="text-center">@item.Precio</td>
+                </div>
 
-                            @if (item.Cantidad == 0)
-                            {
-                                <td class="text-center">
-                                    <span style="color:red">No hay stock</span>
-                                </td>
-                            }
-                            else
-                            {
-                                <td class="text-center">
-                                    <input type="hidden" name="inputText" id="inputText" value="@item.IdLibro" />
-                                    @Html.ActionLink("Mostrar", "MostrarLibro", "Usser", new { idLibro = item.IdLibro }, new { @class = "btn btn-primary", @id = "btnMostrar_lb" })
+                <div class="price-book text-center">$@item.Precio</div>
 
-                                    @if (TempData["User"] != null)
-                                    {
-                                        <button onclick="createTable('@item.IdLibro', '@item.Nombre');" class="btn btn-warning" id="btnAgregar">Seleccionar</button>
-                                    }
-                                    else
-                                    {
-                                        <button onclick="alert('Debe estar logeado para realizar esta acción')" class="btn btn-warning" id="btnAgregar">Seleccionar</button>
-                                    }
+            </div>
 
-                                </td>
-                            }
+        }
+    }
 
-
-                        </tr>
-                    }
-                }
-
-
-            </tbody>
-        </table>
-    </div>
-
-
+    
     <script>
         // PAGINATION
         //get the table element
@@ -181,13 +114,11 @@
                 */
                 $buttons = "<input class='btnPage' type='button' value='&lt;&lt; Prev' onclick='sort(" + ($cur - 1) + ")' " + $prevDis + ">";
             for ($i = 1; $i <= $pCount; $i++)
-                $buttons += "<input class='btnPage' type='button' id='id" + $i + "'value='" + $i + "' onclick='sort(" + $i + ")'>";
+                $buttons += "<input class='btnPage' type='button' id='id" + $i + "' value='" + $i + "' onclick='sort(" + $i + ")'>";
             $buttons += "<input class='btnPage' type='button' value='Next &gt;&gt;' onclick='sort(" + ($cur + 1) + ")' " + $nextDis + ">";
             return $buttons;
         }
     </script>
-
-
 
 
 </body>
