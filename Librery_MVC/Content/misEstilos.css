@@ -534,6 +534,7 @@ body {
 /*************************************************************************
                   pruebalistar.cshtml 8si no hay view borrarlo
 *************************************************************************/
+
 #row1 {
     margin-top: 25px !important;    
 }
@@ -550,6 +551,14 @@ body {
 #filtro-panel-body {
     background: #F4F4F4 !important;
 }
+/*************pagination************/
+.pagination-btns{
+    background-color: blue;
+}
+/********fin pagination************/
+
+
+
 /*************************************************************************
                   userListarLibros.cshtml
 *************************************************************************/

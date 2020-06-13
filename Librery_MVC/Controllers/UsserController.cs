@@ -607,10 +607,46 @@ namespace Librery_MVC.Controllers
 
         public ActionResult pruebalistar()
         {
-            List<Libro> list = new List<Libro>();
-            LibroService ls = new LibroService();
-            list = ls.getListLightBooks();
-            return View(list);
+            List<LightBook> list = new List<LightBook>();
+            LightBookService lbs = new LightBookService();
+
+            list = lbs.getListLightBooks();
+
+            //        CREACION DE PAGINATION        //
+
+            //obtengo el total de libros de la db
+            int totalBooks = list.Count<LightBook>();
+            //fijo la cantidad de libros a mostrar por pagina
+            int itemsxPage = 20; //ojo muestra un boyton desde la view con 20 da 1,3 redondear a 2
+
+            //definiendo cant de paginas que se necesita para mostra los itemsXpage
+
+            int totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
+            
+            if (totalPages != 0) // si de resto no da cero, es un numero decimal
+            {
+                //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+                totalPages = (totalBooks / itemsxPage) + 1; 
+            }
+            else
+                totalPages = totalBooks / itemsxPage;
+
+            //creo una nueva lista a la cual le voy a guardar los elementos de 
+            //la lista que tiene todos los libros desde su indice 0 hasta la cantidad
+            //fijada en itemsXpage
+
+            List<LightBook> listaPaginada = new List<LightBook>();
+          
+            for (int i = 0; i < itemsxPage; i++)
+            {
+                listaPaginada.Add(list[i]);
+            }
+
+            ViewBag.TotalPages = totalPages;
+            
+            //**********fin pagination*******************************
+
+            return View(listaPaginada);
         }
 
         public ActionResult pruebalistar2()
@@ -620,6 +656,6 @@ namespace Librery_MVC.Controllers
             list = ls.getListLightBooks();
             return View(list);
         }
-
+      
     }
 }

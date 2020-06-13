@@ -1,4 +1,4 @@
-﻿@model List<Librery_MVC.Models.Libro>
+﻿@model List<Librery_MVC.Models.LightBook>
 @using Librery_MVC.Models;
 @using Librery_MVC.Services;
 
@@ -19,6 +19,8 @@
 
     TempData.Keep("User");
 }
+
+
 
 
 <div class="row" id="row1">
@@ -124,9 +126,8 @@
 
 <div class="row" id="cont-libros">
 
-    @foreach (Libro item in Model)
-    {
-
+    @foreach (LightBook item in Model)
+    {       
         <div class="col-md-3 container-image text-center">
 
             <img src="~/@item.UrlImagen" alt="@item.Nombre">
@@ -146,8 +147,50 @@
 
 </div>
 
+@{
+    //calculando valores para hacer pagination
+
+    //obtengo el total de libros de la db
+    decimal dbBooks = Convert.ToDecimal(Model.Count());
+    //fijo la cantidad de libros a mostrar por pagina
+    decimal itemsPage = 16;
+    //cantidad de paginas que necesito para paginar segun el valor de itemsxPag
+    //int result = Convert.ToInt32(Decimal.Round(dbBooks / itemsPage));
+
+    int result = Convert.ToInt32(Math.Floor(dbBooks / itemsPage));
+
+    int totalBooks = Convert.ToInt32(dbBooks);
+    int itemsxPag = Convert.ToInt32(itemsPage);
+
+}
+
+@if (ViewBag.TotalPages > 1)
+{
+    <div class="text-center" id="cont-pagination-btns">
+
+        @for (int i = 1; i <= @ViewBag.TotalPages; i++)
+        {
+            <button type="button" class="pagination-btns">@i</button>
+        }
+
+    </div>
+
+}
+
 
 <script type="text/javascript">
+
+    //Obtengo los valores del model(la lista con los libros)
+    var modal = @Html.Raw(Json.Encode(Model));
+    
+        function recorrerModal() {
+
+            for (var i in modal) {
+                console.log(i, modal[i]);
+                
+            }
+        }
+
 
     function filtrar() {
 
@@ -177,4 +220,36 @@
 
     }
 
+
+    //function createbuttonsPagination(totalBooks, itemsxpag) {
+
+    //    var result = totalBooks - itemsxpag; //10
+    //    var totalButtons = 0;
+
+    //    if (result == 1 || result == 0)
+    //        totalButtons = 1;
+
+    //    else if (result < itemsxpag) {
+
+    //        result = (totalBooks / itemsxpag);
+
+    //        if (result % 1 == 0)//si es true es numeo entero
+    //            totalButtons = result;
+    //        else {
+    //            totalButtons = Math.round(result);//redondea al entero mas cercano
+    //        }
+
+    //    }
+    //    else
+    //        totalButtons = result;
+
+    //    alert("Total de botones a crear: " + totalButtons);
+    //}
+
 </script>
+
+<script type="text/javascript">
+
+        window.addEventListener("load", recorrerModal, false);
+
+    </script>

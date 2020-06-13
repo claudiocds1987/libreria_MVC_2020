@@ -184,6 +184,7 @@
     <Compile Include="Models\Editorial.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Libro.cs" />
+    <Compile Include="Models\LightBook.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Compra.cs" />
     <Compile Include="Models\Venta.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Services\EditorialService.cs" />
     <Compile Include="Services\LibroService.cs" />
     <Compile Include="Services\CompraService.cs" />
+    <Compile Include="Services\LightBookService.cs" />
     <Compile Include="Services\VentaService.cs" />
     <Compile Include="Services\UsserService.cs" />
     <Compile Include="Startup.cs" />
@@ -275,10 +277,14 @@
     <Content Include="principal\imagenes\LosMitosDeLaHistoriaArgentina2.jpg" />
     <Content Include="principal\imagenes\Mujeres insolentes.jpg" />
     <Content Include="principal\imagenes\mujeres-tenian-que-ser.jpg" />
+    <Content Include="principal\imagenes\next.png" />
+    <Content Include="principal\imagenes\previous.png" />
     <Content Include="principal\imagenes\seguimiento.png" />
     <Content Include="principal\imagenes\slider-img1.jpg" />
     <Content Include="principal\imagenes\slider-img2.jpg" />
     <Content Include="principal\imagenes\slider-img3.jpg" />
+    <Content Include="principal\imagenes\snext.png" />
+    <Content Include="principal\imagenes\sprevious.png" />
     <Content Include="principal\imagenes\TheCrazyHaacksYLaCamaraImposible.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
