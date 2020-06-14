@@ -12,7 +12,7 @@ namespace Librery_MVC.Services
         DataAccess da = new DataAccess();
 
 
-        public List<LightBook> getListPagination( List<LightBook> list, int booksxPage, int numberPage)
+        public List<LightBook> getListPagination(List<LightBook> list, int booksxPage, int numberPage)
         {
             List<LightBook> listPaginada = new List<LightBook>();
             int totalBooks = list.Count<LightBook>();
@@ -31,56 +31,48 @@ namespace Librery_MVC.Services
             int hasta = 0;
             int librosAmostrar = 0;
             int desde = 0;
-            int coca = 0;
+            int co = 0;
 
-            //indice desde
-            for(int i = 0; i < pages; i ++)
+            //guardo en el vector las diferentes formas de iniciar el recorrido de la lista
+            for (int i = 0; i < pages; i++)
             {
-                if(i == 0)
+                if (i == 0)
                 {
                     pos[i] = 0;
-                    cont = booksxPage;                   
-                    //librosAmostrar = totalBooks - booksxPage;
+                    cont = booksxPage;                    
                 }
                 else
                 {
-                    pos[i] = cont;
-                    //cont += cont;
+                    pos[i] = cont;                    
                     cont += booksxPage;
-                    coca++;
-                    //librosAmostrar = librosAmostrar - booksxPage;
+                    co++;                    
                     totalBooks = totalBooks - booksxPage;
                 }
             }
 
             librosAmostrar = totalBooks;
-            //indice hasta
-            for(int x = 1; x <= pages; x++ )
+            
+            //determinando los indices para recorrer la lista
+            if (numberPage == 1)
             {
-                if (numberPage == 1)
-                {
-                    desde = pos[0];
-                    hasta = pos[0] + booksxPage;
-                    break;
-                }
-                    
-                else if (numberPage == pages)
-                {
-                    desde = pos[coca];
-                    hasta = pos[coca] + librosAmostrar;
-                    break;
-                }
-                    
-                else
-                {
-                    desde = pos[x];
-                    hasta = pos[x] + booksxPage;
-                    break;
-                }
-                    
+                desde = pos[0];
+                hasta = pos[0] + booksxPage;
             }
 
-            for(int z = desde; z < hasta; z++)
+            else if (numberPage == pages)
+            {
+                desde = pos[co];
+                hasta = pos[co] + librosAmostrar;
+            }
+
+            else
+            {
+                desde = pos[numberPage - 1];
+                hasta = pos[numberPage - 1] + booksxPage;
+            }
+
+            //Recorro la lista con los indices armados
+            for (int z = desde; z < hasta; z++)
             {
                 listPaginada.Add(list[z]);
             }
