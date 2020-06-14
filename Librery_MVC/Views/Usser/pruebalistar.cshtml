@@ -157,7 +157,7 @@
         @for (int i = 1; i <= @ViewBag.TotalPages; i++)
         {
             //cont++;
-            <button type="button" value="@i" class="pagination-btns" onclick="sendToController();">@i</button>
+            <button type="button" value="@i" class="pagination-btns" onclick="sendToController(this);">@i</button>
         }
 
     </div>
@@ -182,7 +182,23 @@
     sessionStorage.setItem('indice', indice);
     sessionStorage.setItem('totalBooks', totalBooks);
 
-    function sendToController() {
+    function sendToController(page) {
+
+        var numberPage = page.value;
+
+        var uri = '@Url.Action("paginar", "Usser")';
+
+        $.ajax({
+            url: uri,
+            data: { numberPage: numberPage },
+            type: 'POST',
+            success: function (respuestaDelServidor) {
+                $("#cont-libros").html(respuestaDelServidor);
+            }
+        });
+    }
+
+    @*function sendToController() {
        
         var uri = '@Url.Action("paginar", "Usser")';
 
@@ -194,7 +210,7 @@
                 $("#cont-libros").html(respuestaDelServidor);
             }
         });
-    }
+    }*@
 
 
     function filtrar() {

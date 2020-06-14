@@ -612,6 +612,15 @@ namespace Librery_MVC.Controllers
 
             list = lbs.getListLightBooks();
 
+            /*********************PRUEBA******************************************/
+            //List<LightBook> caca = new List<LightBook>();
+            //caca = lbs.getListPagination(list, 10, 1);
+            /***************************************************************/
+
+
+
+
+
             //        CREACION DE PAGINATION        //
 
             //creo listaPaginada a la cual le voy a guardar los elementos de 
@@ -622,7 +631,7 @@ namespace Librery_MVC.Controllers
             //obtengo el total de libros de la db
             int totalBooks = list.Count<LightBook>();
             //fijo la cantidad de libros a mostrar por pagina
-            int itemsxPage = 10;
+            int itemsxPage = 20;
             
             //definiendo cant de paginas que se necesita para mostra los itemsXpage
             int totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
@@ -647,62 +656,19 @@ namespace Librery_MVC.Controllers
             return View(listaPaginada);
         }
 
-        public ActionResult Paginar(/*string desde, string hasta*/string indice, string librosAmostrar, string itemsxPage)
+        public ActionResult Paginar(string numberPage)
         {
             List<LightBook> list = new List<LightBook>();
             LightBookService lbs = new LightBookService();
             //Obtengo todos los libros
             list = lbs.getListLightBooks();
-
-            //        CREACION DE PAGINATION        //
-
-            //creo listaPaginada a la cual le voy a guardar los elementos de 
-            //la lista que tiene todos los libros desde su indice 0 hasta la cantidad
-            //fijada en itemsXpage
+            int booksxPage = 20; //con 20 si! pero si pongo 5 no fnciona bien
+            int page = Convert.ToInt32(numberPage);
+                  
             List<LightBook> listaPaginada = new List<LightBook>();
-            int itemsPage = Convert.ToInt32(itemsxPage);
 
-            int desde = Convert.ToInt32(indice);
-            int booksToShow = Convert.ToInt32(librosAmostrar);
-            int hasta = itemsPage;
-
-            if (booksToShow < itemsPage)
-            {
-                hasta = desde + booksToShow;
-
-                for (int i = desde; i < hasta; i++)
-                {
-                    listaPaginada.Add(list[i]);
-                }
-            }
-            else
-            {
-                hasta = hasta + hasta;
-
-                for (int i = desde; i < hasta; i++)
-                {
-                    listaPaginada.Add(list[i]);
-                }
-            }
-            //**********fin pagination*******************************
-
-
-            //********************************************************************
-            //List<LightBook> list = new List<LightBook>();
-            //LightBookService lbs = new LightBookService();
-            ////Obtengo todos los libros
-            //list = lbs.getListLightBooks();
-            //List<LightBook> listaPaginada = new List<LightBook>();
-
-            //int inicio = Convert.ToInt32(desde);
-            //int final = Convert.ToInt32(hasta);
-
-            //for(int i = inicio; i < final; i++)
-            //{
-            //    listaPaginada.Add(list[i]);
-            //}
-            //********************************************************************
-
+            listaPaginada = lbs.getListPagination(list, booksxPage, page);
+         
             return View(listaPaginada);
 
         }
