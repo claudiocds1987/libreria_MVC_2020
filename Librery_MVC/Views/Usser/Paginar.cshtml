@@ -1,0 +1,73 @@
+﻿@model List<Librery_MVC.Models.LightBook>
+@using Librery_MVC.Models;
+@using Librery_MVC.Services;
+
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Paginar</title>
+</head>
+<body>
+
+    @foreach (LightBook item in Model)
+    {
+
+        <div class="col-md-3 container-image text-center">
+
+            <img src="~/@item.UrlImagen" alt="@item.Nombre">
+
+            <div class="title-book text-center">
+
+                <a href="@Url.Action("MostrarLibro", "Usser", new { idLibro = item.IdLibro})">
+                    @item.Nombre (@item.AnioDeLanzamiento)
+                </a>
+
+            </div>
+
+            <div class="price-book text-center">$@item.Precio</div>
+
+        </div>
+    }
+
+    @*<script type="text/javascript">
+
+        /* 
+            nota: las sessionStorage 'librosAmostrar', 'indice' y 'totalBooks'
+            fueron creadas en pruebaListar.cshtml 
+        */
+
+        if (sessionStorage.getItem('librosAmostrar') != null){
+
+            var a = sessionStorage.getItem('librosAmostrar');
+            alert("LA sesion LibrosAmateur tiene: " + a)
+
+            var valor = 150;
+            sessionStorage.setItem('librosAmostrar', valor);
+            var b = sessionStorage.getItem('librosAmostrar');
+            alert("Ahora tiene: " + b)
+
+        }
+
+        //if (sessionStorage.getItem('indice') != null) {
+
+        //    alert("LA sesion indice fue creada")
+
+        //}
+
+        //if (sessionStorage.getItem('totalBooks') != null) {
+
+        //    alert("LA sesion totalBooks fue creada")
+
+        //}
+
+    </script>*@
+
+</body>
+</html>

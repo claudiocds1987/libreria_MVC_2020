@@ -359,6 +359,7 @@
     <Content Include="Views\Home\adminFiltrarLibro.cshtml" />
     <Content Include="Views\Usser\pruebalistar.cshtml" />
     <Content Include="Views\Usser\pruebalistar2.cshtml" />
+    <Content Include="Views\Usser\Paginar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
