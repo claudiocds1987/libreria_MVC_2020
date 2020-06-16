@@ -17,7 +17,7 @@
     autorList = sa.ListAutores();
     categoryList = cs.getAllCategories();
     TempData.Keep("User");
-    int cont = 0;
+  
 }
 
 
@@ -155,8 +155,7 @@
     <div class="text-center" id="cont-pagination-btns">
 
         @for (int i = 1; i <= @ViewBag.TotalPages; i++)
-        {
-            //cont++;
+        {        
             <button type="button" value="@i" class="pagination-btns" onclick="sendToController(this);">@i</button>
         }
 
@@ -164,25 +163,106 @@
 
 }
 
-@*<input type="hidden" id="last-button" value="@cont"/>*@
-
 <script type="text/javascript">
 
-    @*//Obtengo el contenido del model(la lista con los libros)
-    var modal = @Html.Raw(Json.Encode(Model));*@
+    //Obtengo el contenido del model(la lista con los libros)
+    @*var modal = @Html.Raw(Json.Encode(Model));*@
 
     //Obtengo el contenido de las ViewBag
     var totalBooks =  @Html.Raw(Json.Encode(ViewBag.TotalBooks));
-    var items = @Html.Raw(Json.Encode(ViewBag.ItemsxPage));
+    var booksxPage = @Html.Raw(Json.Encode(ViewBag.ItemsxPage));
 
-    var indice = items;
-    var librosAmostrar = totalBooks - items;
+    //var indice = items;
+    //var librosAmostrar = totalBooks - items;
 
-    sessionStorage.setItem('librosAmostrar', librosAmostrar);
-    sessionStorage.setItem('indice', indice);
-    sessionStorage.setItem('totalBooks', totalBooks);
+    //sessionStorage.setItem('librosAmostrar', librosAmostrar);
+    //sessionStorage.setItem('indice', indice);
+    //sessionStorage.setItem('totalBooks', totalBooks);
+
+    //Paginar(modal, totalBooks, booksxPage, 3);
+
+    //function Paginar(list, totalBooks, booksxPage, numberPage) {
+
+    //    var listPaginada = [];
+
+    //    var pages = totalBooks % booksxPage; //obtengo el resto de la division
+
+    //    if (pages != 0) // si de resto no da cero, es un numero decimal
+    //    {
+    //        //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+    //        pages = (totalBooks / booksxPage) + 1;
+    //    }
+    //    else
+    //        pages = totalBooks / booksxPage;
+
+    //    var pos = [pages];
+     
+    //    var cont = 0;
+    //    var hasta = 0;
+    //    var librosAmostrar = 0;
+    //    var desde = 0;
+    //    var co = 0;
+
+    //    //guardo en el vector las diferentes formas de iniciar el recorrido de la lista
+    //    //segun la cantidad de booksxPage
+
+    //    for (var i = 0; i < pages; i++)
+    //    {
+    //        if (i == 0) {
+    //            pos.splice(i, 0, 0);//i: numero de indice, 0: elementos a borrar, 0: agrego un cero al array
+    //            cont = booksxPage;
+    //        }
+    //        else {
+    //            pos.splice(i, 0, cont);
+    //            cont += booksxPage;
+    //            co++;
+    //            totalBooks = totalBooks - booksxPage;
+    //        }
+    //    }
+
+    //    librosAmostrar = totalBooks;
+
+    //    //determinando los indices para recorrer la lista
+    //    if (numberPage == 1) {
+    //        desde = pos[0];
+    //        hasta = pos[0] + booksxPage;
+    //    }
+
+    //    else if (numberPage == pages) {
+    //        desde = pos[co];
+    //        hasta = pos[co] + librosAmostrar;
+    //    }
+
+    //    else {
+    //        desde = pos[numberPage - 1];
+    //        hasta = pos[numberPage - 1] + booksxPage;
+    //    }
+
+    //    //for (var x = 0; x < pos.length; x++) {
+    //    //    alert(pos[x]);
+    //    //}
+
+    //    //Recorro la lista con los indices armados
+    //    for (var z = desde; z < hasta; z++)
+    //    {
+    //        listPaginada.push(list[z]);
+    //    }
+
+    //    listPaginada.forEach(function (i) {
+    //        console.log(i);
+    //    });
+
+        
+
+    //}
+
+    
+
 
     function sendToController(page) {
+
+        var model = @Html.Raw(Json.Encode(Model));
+        var originalList = @Html.Raw(Json.Encode(ViewBag.OriginalList));
 
         var numberPage = page.value;
 
@@ -190,28 +270,13 @@
 
         $.ajax({
             url: uri,
-            data: { numberPage: numberPage },
+            data: { numberPage: numberPage, originalList: originalList },
             type: 'POST',
             success: function (respuestaDelServidor) {
                 $("#cont-libros").html(respuestaDelServidor);
             }
         });
     }
-
-    @*function sendToController() {
-       
-        var uri = '@Url.Action("paginar", "Usser")';
-
-        $.ajax({
-            url: uri,
-            data: { indice: indice, librosAmostrar: librosAmostrar, itemsxPage: items },
-            type: 'POST',
-            success: function (respuestaDelServidor) {
-                $("#cont-libros").html(respuestaDelServidor);
-            }
-        });
-    }*@
-
 
     function filtrar() {
 
@@ -241,48 +306,11 @@
 
     }
 
-    @* function sendToActionPaginar(buttonNumber) {
-
-        //Obtengo el contenido de las ViewBag
-        var totalBooks =  @Html.Raw(Json.Encode(ViewBag.TotalBooks));
-        var items = @Html.Raw(Json.Encode(ViewBag.ItemsxPage));
-        var desde = 0;
-        var num = buttonNumber.value;
-        var lastButton = $('#last-button').val();
-
-        if (num == 1)
-            hasta = items;
-
-        else if (num == lastButton) {
-            //funciona mal
-            desde = (totalBooks - items) - 1;
-            hasta = totalBooks - 1;
-        }
-
-        else {
-            //funciona mal
-            desde = (num * items) - 1;
-            hasta = desde + items;
-        }
-
-
-        var uri = '@Url.Action("paginar", "Usser")';
-
-        $.ajax({
-            url: uri,
-            data: { desde: desde, hasta: hasta },
-            type: 'POST',
-            success: function (respuestaDelServidor) {
-                $("#cont-libros").html(respuestaDelServidor);
-            }
-        });
-
-    } *@
-
+   
 </script>
 
 @*<script type="text/javascript">
 
-        window.addEventListener("load", recorrerModal, false);
+   window.addEventListener("load", Paginar, false);
 
-    </script>*@
+</script>*@

@@ -605,34 +605,18 @@ namespace Librery_MVC.Controllers
             return View();
         }
 
-        public ActionResult pruebalistar(string indice, string librosAmostrar)
+        public ActionResult pruebalistar()
         {
             List<LightBook> list = new List<LightBook>();
             LightBookService lbs = new LightBookService();
-
             list = lbs.getListLightBooks();
-
-            /*********************PRUEBA******************************************/
-            //List<LightBook> caca = new List<LightBook>();
-            //caca = lbs.getListPagination(list, 10, 1);
-            /***************************************************************/
-
-
-
-
-
-            //        CREACION DE PAGINATION        //
-
-            //creo listaPaginada a la cual le voy a guardar los elementos de 
-            //la lista que tiene todos los libros desde su indice 0 hasta la cantidad
-            //fijada en itemsXpage
             List<LightBook> listaPaginada = new List<LightBook>();
 
             //obtengo el total de libros de la db
             int totalBooks = list.Count<LightBook>();
-            //fijo la cantidad de libros a mostrar por pagina
+            ////fijo la cantidad de libros a mostrar por pagina
             int itemsxPage = 20;
-            
+
             //definiendo cant de paginas que se necesita para mostra los itemsXpage
             int totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
 
@@ -644,30 +628,27 @@ namespace Librery_MVC.Controllers
             else
                 totalPages = totalBooks / itemsxPage;
 
-            for (int i = 0; i < itemsxPage; i++)
-            {
-                listaPaginada.Add(list[i]);
-            }
+          
+            listaPaginada = lbs.getListPagination(list, itemsxPage, 1);
 
-            //envio a la view el total de libros, los items por pagina y el total de paginas que se necesitan.
-            ViewBag.TotalBooks = totalBooks;
-            ViewBag.ItemsxPage = itemsxPage;
+            //envio a la view...
+            ViewBag.OriginalList = list; //envio la lista completa de todos los libros que hay en la db
+            ViewBag.TotalBooks = totalBooks; //numero total de libros que hay en la db
+            ViewBag.ItemsxPage = itemsxPage; //cantidad de libros a mostrar por pagina
+            //El total de paginas que se necesitan en base al numero total de libros y la cantidad de libros a mostrar por pagina
             ViewBag.TotalPages = totalPages;
+
             return View(listaPaginada);
         }
 
-        public ActionResult Paginar(string numberPage)
+        public ActionResult Paginar(string numberPage, List<LightBook> originalList)
         {
-            List<LightBook> list = new List<LightBook>();
             LightBookService lbs = new LightBookService();
-            //Obtengo todos los libros
-            list = lbs.getListLightBooks();
-            int booksxPage = 20; //con 20 si! pero si pongo 5 no fnciona bien
+            List<LightBook> listaPaginada = new List<LightBook>();
+  
             int page = Convert.ToInt32(numberPage);
                   
-            List<LightBook> listaPaginada = new List<LightBook>();
-
-            listaPaginada = lbs.getListPagination(list, booksxPage, page);
+            listaPaginada = lbs.getListPagination(originalList, 20, page);
          
             return View(listaPaginada);
 
