@@ -126,7 +126,7 @@
 
 <div class="row" id="cont-libros">
 
-    @foreach (LightBook item in Model)
+    @*@foreach (LightBook item in Model)
     {       
        
         <div class="col-md-3 container-image text-center">
@@ -144,12 +144,12 @@
             <div class="price-book text-center">$@item.Precio</div>
 
         </div>
-    }
+    }*@
 
 </div>
 
 
-@if (ViewBag.TotalPages > 1)
+@*@if (ViewBag.TotalPages > 1)
 {
     
     <div class="text-center" id="cont-pagination-btns">
@@ -161,107 +161,133 @@
 
     </div>
 
-}
+}*@
+
+
+<div id="caca">
+    @*muestro los botones*@
+</div>
 
 <script type="text/javascript">
 
-    //Obtengo el contenido del model(la lista con los libros)
-    @*var modal = @Html.Raw(Json.Encode(Model));*@
+    //Obtengo la lista original de todos los libros de la db)
+    var originalList = @Html.Raw(Json.Encode(ViewBag.OriginalList));
 
     //Obtengo el contenido de las ViewBag
     var totalBooks =  @Html.Raw(Json.Encode(ViewBag.TotalBooks));
-    var booksxPage = @Html.Raw(Json.Encode(ViewBag.ItemsxPage));
+    
+    Paginar(originalList, 20, 1);
 
-    //var indice = items;
-    //var librosAmostrar = totalBooks - items;
+    function Paginar(originalList, booksxPage, numberPage) {
 
-    //sessionStorage.setItem('librosAmostrar', librosAmostrar);
-    //sessionStorage.setItem('indice', indice);
-    //sessionStorage.setItem('totalBooks', totalBooks);
-
-    //Paginar(modal, totalBooks, booksxPage, 3);
-
-    //function Paginar(list, totalBooks, booksxPage, numberPage) {
-
-    //    var listPaginada = [];
-
-    //    var pages = totalBooks % booksxPage; //obtengo el resto de la division
-
-    //    if (pages != 0) // si de resto no da cero, es un numero decimal
-    //    {
-    //        //redondeo hacia arriba ej 1,7 => lo redondeo a 2
-    //        pages = (totalBooks / booksxPage) + 1;
-    //    }
-    //    else
-    //        pages = totalBooks / booksxPage;
-
-    //    var pos = [pages];
-     
-    //    var cont = 0;
-    //    var hasta = 0;
-    //    var librosAmostrar = 0;
-    //    var desde = 0;
-    //    var co = 0;
-
-    //    //guardo en el vector las diferentes formas de iniciar el recorrido de la lista
-    //    //segun la cantidad de booksxPage
-
-    //    for (var i = 0; i < pages; i++)
-    //    {
-    //        if (i == 0) {
-    //            pos.splice(i, 0, 0);//i: numero de indice, 0: elementos a borrar, 0: agrego un cero al array
-    //            cont = booksxPage;
-    //        }
-    //        else {
-    //            pos.splice(i, 0, cont);
-    //            cont += booksxPage;
-    //            co++;
-    //            totalBooks = totalBooks - booksxPage;
-    //        }
-    //    }
-
-    //    librosAmostrar = totalBooks;
-
-    //    //determinando los indices para recorrer la lista
-    //    if (numberPage == 1) {
-    //        desde = pos[0];
-    //        hasta = pos[0] + booksxPage;
-    //    }
-
-    //    else if (numberPage == pages) {
-    //        desde = pos[co];
-    //        hasta = pos[co] + librosAmostrar;
-    //    }
-
-    //    else {
-    //        desde = pos[numberPage - 1];
-    //        hasta = pos[numberPage - 1] + booksxPage;
-    //    }
-
-    //    //for (var x = 0; x < pos.length; x++) {
-    //    //    alert(pos[x]);
-    //    //}
-
-    //    //Recorro la lista con los indices armados
-    //    for (var z = desde; z < hasta; z++)
-    //    {
-    //        listPaginada.push(list[z]);
-    //    }
-
-    //    listPaginada.forEach(function (i) {
-    //        console.log(i);
-    //    });
-
+        //Cuento el total de libros que hay en la db
+        var totalBooks = originalList.length;
         
+        var pages = totalBooks % booksxPage; //obtengo el resto de la division
 
-    //}
+        if (pages != 0) // si de resto no da cero, es un numero decimal
+        {
+            //Math.ceil redondea hacia arriba ej 1,7 => lo redondeo a 2
+            pages = Math.ceil(totalBooks / booksxPage);
+        }
+        else
+            pages = totalBooks / booksxPage;
+
+       
+        var pos = [pages];
+     
+        var cont = 0;
+        var hasta = 0;
+        var librosAmostrar = 0;
+        var desde = 0;
+     
+
+        //guardo en el vector las diferentes formas de iniciar el recorrido de la lista
+        //segun la cantidad de booksxPage
+
+        for (var i = 0; i < pages; i++)
+        {
+            if (i == 0) {
+                
+                pos.splice(0, 0, 0);//0: numero de indice, 0: elementos a borrar, 0: agrego un cero al array
+                cont = booksxPage;
+            }
+            else {
+
+                pos.splice(i, 0, cont);             
+                cont += booksxPage;
+                
+                librosAmostrar = totalBooks - booksxPage;
+            }
+        }
+
+        //determinando los indices para recorrer la lista
+        if (numberPage == 1) {
+
+            desde = pos[0];
+            hasta = (desde + booksxPage) - 1;
+        }
+
+        else if (numberPage == pages) {
+
+            desde = totalBooks - librosAmostrar;
+            hasta = totalBooks - 1;
+                              
+        }
+
+        else {
+
+            desde = pos[numberPage - 1];
+            hasta = (desde + booksxPage) - 1;
+        }
+
+        //funciona bien
+        //for (var z = desde; z <= hasta; z++) {
+        //    console.log(z, originalList[z].UrlImage);
+        //}
+
+        for (var z = desde; z <= hasta; z++) {
+
+            var a = "<div class='col-md-3 container-image text-center'>";
+
+            var b = "<img src='/" + originalList[z].UrlImagen + "' alt='" + originalList[z].Nombre + "'>";
+            //var c = "<div class='title-book text-center'>";
+
+            var f = "<div class='price-book text-center'>" + "$"+ originalList[z].Precio + "</div>";
+
+            var g = "</div>";
+
+            var data = a + b + f + g;
+            
+            $('#cont-libros').append(data);
+
+        }
+
+
+
+        //funcion que crea los botones
+        buttonsPagination(pages);
+    }
+  
+       
 
     
 
+    function buttonsPagination(pages) {
+
+        //Creando los botones del pagination
+        if (pages > 1) {
+            for (var d = 1; d <= pages; d++) {
+                var button = "<button type=button value='" + d + "' class='pagination-btns' onclick='sendToController(this);'>" + d + "</button>"
+                $('#caca').append(button);
+            }
+
+        }
+    }
+
 
     function sendToController(page) {
-
-        var model = @Html.Raw(Json.Encode(Model));
+       
         var originalList = @Html.Raw(Json.Encode(ViewBag.OriginalList));
 
         var numberPage = page.value;
@@ -309,8 +335,8 @@
    
 </script>
 
-@*<script type="text/javascript">
+<script type="text/javascript">
 
    window.addEventListener("load", Paginar, false);
 
-</script>*@
+</script>
