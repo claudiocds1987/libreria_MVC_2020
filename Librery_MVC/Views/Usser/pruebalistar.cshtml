@@ -171,18 +171,39 @@
 <script type="text/javascript">
 
     //Obtengo la lista original de todos los libros de la db)
-    var originalList = @Html.Raw(Json.Encode(ViewBag.OriginalList));
-
-    //Obtengo el contenido de las ViewBag
-    var totalBooks =  @Html.Raw(Json.Encode(ViewBag.TotalBooks));
+    var originalList = @Html.Raw(Json.Encode(Model));
+    //Cuento el total de libros que hay en la db
+    var totalBooks = originalList.length;
+    //cantidad de items que se van a mostrar por pagina
+    var booksxPage = 20;
     
-    Paginar(originalList, 20, 1);
+    //Obtengo el contenido de las ViewBag
+    @*var totalBooks =  @Html.Raw(Json.Encode(ViewBag.TotalBooks));*@
 
-    function Paginar(originalList, booksxPage, numberPage) {
+    function Paginar(numberPage) {
+        
+        if (numberPage == 1) {
+            Data(originalList, booksxPage, 1);
+        }
+        else {
+
+            var page = numberPage.value;//recibe el value del boton clickeado en la funcion  buttonsPagination()
+            Data(originalList, booksxPage, page);
+        }
+              
+    }
+
+    function Data(originalList, booksxPage, numberPage) {
 
         //Cuento el total de libros que hay en la db
         var totalBooks = originalList.length;
-        
+
+        if (booksxPage > totalBooks) {
+
+            alert("Error de paginación. La cantidad de items por pagina debe ser menor al total de items de la lista")
+            return;
+        }
+
         var pages = totalBooks % booksxPage; //obtengo el resto de la division
 
         if (pages != 0) // si de resto no da cero, es un numero decimal
@@ -193,14 +214,12 @@
         else
             pages = totalBooks / booksxPage;
 
-       
-        var pos = [pages];
-     
+        var pos = [pages];    
         var cont = 0;
         var hasta = 0;
         var librosAmostrar = 0;
         var desde = 0;
-     
+        var librosListados = 0;
 
         //guardo en el vector las diferentes formas de iniciar el recorrido de la lista
         //segun la cantidad de booksxPage
@@ -216,8 +235,8 @@
 
                 pos.splice(i, 0, cont);             
                 cont += booksxPage;
-                
-                librosAmostrar = totalBooks - booksxPage;
+                librosListados += booksxPage;
+                librosAmostrar = totalBooks - librosListados;
             }
         }
 
@@ -231,8 +250,7 @@
         else if (numberPage == pages) {
 
             desde = totalBooks - librosAmostrar;
-            hasta = totalBooks - 1;
-                              
+            hasta = totalBooks - 1;                                      
         }
 
         else {
@@ -240,45 +258,50 @@
             desde = pos[numberPage - 1];
             hasta = (desde + booksxPage) - 1;
         }
-
-        //funciona bien
-        //for (var z = desde; z <= hasta; z++) {
-        //    console.log(z, originalList[z].UrlImage);
-        //}
-
+       
+        var data = "";
+              
         for (var z = desde; z <= hasta; z++) {
 
-            var a = "<div class='col-md-3 container-image text-center'>";
+            data += "<div class='col-md-3 container-image text-center'>";
 
-            var b = "<img src='/" + originalList[z].UrlImagen + "' alt='" + originalList[z].Nombre + "'>";
-            //var c = "<div class='title-book text-center'>";
+            data += "<img src='/" + originalList[z].UrlImagen + "' alt='" + originalList[z].Nombre + "'>";
 
-            var f = "<div class='price-book text-center'>" + "$"+ originalList[z].Precio + "</div>";
+            @*data += "<div class='title-book text-center'>";
 
-            var g = "</div>";
+            data += "<a href=@Url.Action"+"('MostrarLibro', 'Usser', new { idLibro = originalList[z].IdLibro})>" + originalList[z].Nombre + "(" + originalList[z].AnioDeLanzamiento + ")"+"</a>";
 
-            var data = a + b + f + g;
-            
-            $('#cont-libros').append(data);
+            data += "</div>"*@
+
+            data += "<div class='price-book text-center'>" + "$"+ originalList[z].Precio + "</div>";
+
+            data += "</div>";
 
         }
-
-
-
-        //funcion que crea los botones
-        buttonsPagination(pages);
+        //si previamente existen elementos en el div, ".html(data)" los borra y pone los nuevos elementos.
+        $('#cont-libros').html(data);
+               
     }
+
+    //funcion que crea los botones
+    buttonsPagination(totalBooks, booksxPage);
   
-       
+    function buttonsPagination(totalBooks, booksxPage) {
 
-    
+        var pages = totalBooks % booksxPage; //obtengo el resto de la division
 
-    function buttonsPagination(pages) {
+        if (pages != 0) // si de resto no da cero, es un numero decimal
+        {
+            //Math.ceil redondea hacia arriba ej 1,7 => lo redondeo a 2
+            pages = Math.ceil(totalBooks / booksxPage);
+        }
+        else
+            pages = totalBooks / booksxPage;
 
         //Creando los botones del pagination
         if (pages > 1) {
             for (var d = 1; d <= pages; d++) {
-                var button = "<button type=button value='" + d + "' class='pagination-btns' onclick='sendToController(this);'>" + d + "</button>"
+                var button = "<button type=button value='" + d + "' class='pagination-btns' onclick='Paginar(this);'>" + d + "</button>"
                 $('#caca').append(button);
             }
 
@@ -286,7 +309,7 @@
     }
 
 
-    function sendToController(page) {
+    @*function sendToController(page) {
        
         var originalList = @Html.Raw(Json.Encode(ViewBag.OriginalList));
 
@@ -302,7 +325,7 @@
                 $("#cont-libros").html(respuestaDelServidor);
             }
         });
-    }
+    }*@
 
     function filtrar() {
 
@@ -331,12 +354,11 @@
         });
 
     }
-
    
 </script>
 
 <script type="text/javascript">
 
-   window.addEventListener("load", Paginar, false);
+   window.addEventListener("load", Paginar(1), false);
 
 </script>

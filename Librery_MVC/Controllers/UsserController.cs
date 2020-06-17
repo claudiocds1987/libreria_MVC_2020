@@ -609,36 +609,38 @@ namespace Librery_MVC.Controllers
         {
             List<LightBook> list = new List<LightBook>();
             LightBookService lbs = new LightBookService();
+            //Obteniendo todos los libros de la db
             list = lbs.getListLightBooks();
-            List<LightBook> listaPaginada = new List<LightBook>();
+            //List<LightBook> listaPaginada = new List<LightBook>();
 
-            //obtengo el total de libros de la db
-            int totalBooks = list.Count<LightBook>();
-            ////fijo la cantidad de libros a mostrar por pagina
-            int itemsxPage = 20;
+            ////obtengo el total de libros de la db
+            //int totalBooks = list.Count<LightBook>();
+            //////fijo la cantidad de libros a mostrar por pagina
+            //int itemsxPage = 20;
 
-            //definiendo cant de paginas que se necesita para mostra los itemsXpage
-            int totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
+            ////definiendo cant de paginas que se necesita para mostra los itemsXpage
+            //int totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
 
-            if (totalPages != 0) // si de resto no da cero, es un numero decimal
-            {
-                //redondeo hacia arriba ej 1,7 => lo redondeo a 2
-                totalPages = (totalBooks / itemsxPage) + 1;
-            }
-            else
-                totalPages = totalBooks / itemsxPage;
+            //if (totalPages != 0) // si de resto no da cero, es un numero decimal
+            //{
+            //    //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+            //    totalPages = (totalBooks / itemsxPage) + 1;
+            //}
+            //else
+            //    totalPages = totalBooks / itemsxPage;
 
           
-            listaPaginada = lbs.getListPagination(list, itemsxPage, 1);
+            //listaPaginada = lbs.getListPagination(list, itemsxPage, 1);
 
-            //envio a la view...
-            ViewBag.OriginalList = list; //envio la lista completa de todos los libros que hay en la db
-            ViewBag.TotalBooks = totalBooks; //numero total de libros que hay en la db
-            ViewBag.ItemsxPage = itemsxPage; //cantidad de libros a mostrar por pagina
-            //El total de paginas que se necesitan en base al numero total de libros y la cantidad de libros a mostrar por pagina
-            ViewBag.TotalPages = totalPages;
+            ////envio a la view...
+            //ViewBag.OriginalList = list; //envio la lista completa de todos los libros que hay en la db
+            //ViewBag.TotalBooks = totalBooks; //numero total de libros que hay en la db
+            //ViewBag.ItemsxPage = itemsxPage; //cantidad de libros a mostrar por pagina
+            ////El total de paginas que se necesitan en base al numero total de libros y la cantidad de libros a mostrar por pagina
+            //ViewBag.TotalPages = totalPages;
 
-            return View(listaPaginada);
+            ////return View(listaPaginada);
+            return View(list);
         }
 
         public ActionResult Paginar(string numberPage, List<LightBook> originalList)
