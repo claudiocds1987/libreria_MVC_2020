@@ -149,6 +149,7 @@
 </div>
 
 
+
 @*@if (ViewBag.TotalPages > 1)
 {
     
@@ -260,18 +261,21 @@
         }
        
         var data = "";
-              
+      
         for (var z = desde; z <= hasta; z++) {
 
+            //data +="<a href=Url.Action('MostrarLibro', 'Usser', new { idLibro =" + originalList[z].IdLibro +"})>" + originalList[z].Nombre + "(" + originalList[z].AnioDeLanzamiento + ")</a>";
+
+            
             data += "<div class='col-md-3 container-image text-center'>";
 
             data += "<img src='/" + originalList[z].UrlImagen + "' alt='" + originalList[z].Nombre + "'>";
 
-            @*data += "<div class='title-book text-center'>";
-
-            data += "<a href=@Url.Action"+"('MostrarLibro', 'Usser', new { idLibro = originalList[z].IdLibro})>" + originalList[z].Nombre + "(" + originalList[z].AnioDeLanzamiento + ")"+"</a>";
-
-            data += "</div>"*@
+            data += "<div class='title-book text-center'>";
+                      
+            data += '<a href="#" ' + 'value="' + originalList[z].IdLibro + '"' + ' onclick="sendToActionMostrarLibro(' + originalList[z].IdLibro+');">' + originalList[z].Nombre + '(' + originalList[z].AnioDeLanzamiento + ')</a>';
+                    
+            data += "</div>"
 
             data += "<div class='price-book text-center'>" + "$"+ originalList[z].Precio + "</div>";
 
@@ -308,6 +312,14 @@
         }
     }
 
+
+    function sendToActionMostrarLibro(id) {
+             
+        var url = "@Url.Action("MostrarLibro", "Usser", new { idLibro="param-id"})";
+        url = url.replace("param-id", id)
+        window.location.assign(url);       
+     
+    }
 
     @*function sendToController(page) {
        
