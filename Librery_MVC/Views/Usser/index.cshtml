@@ -1,8 +1,23 @@
-﻿@using Librery_MVC.Models
-
+﻿@*@using Librery_MVC.Models*@
+@model List<Librery_MVC.Models.LightBook>
+@using Librery_MVC.Models;
+@using Librery_MVC.Services;
 @{
     ViewBag.Title = "Inicio";
     Layout = "~/Views/Shared/_UsserLayout.cshtml";
+
+    Autor autor = new Autor();
+    Categoria category = new Categoria();
+    Editorial editorial = new Editorial();
+    AutorService sa = new AutorService();
+    CategoriaService cs = new CategoriaService();
+    EditorialService es = new EditorialService();
+    List<Autor> autorList = new List<Autor>();
+    List<Categoria> categoryList = new List<Categoria>();
+    autorList = sa.ListAutores();
+    categoryList = cs.getAllCategories();
+    TempData.Keep("User");
+
 }
 
 <div class="container">
@@ -10,115 +25,185 @@
     Bienvenido @ViewBag.User
 </div>
 
-<div class="cont-slider">
 
-    <ul class="mySlider">
+<div class="row" id="row1">
 
-        <li><img src="~/principal/imagenes/slider-img3.jpg" title="Img1"></li>
-        <li><img src="~/principal/imagenes/slider-img3.jpg" title="Img2"></li>
-        <li><img src="~/principal/imagenes/slider-img3.jpg" title="Img3"></li>
+    <div class="panel-body" id="filtro-panel-body">
 
-    </ul>
+        <div class="col-md-4 text-center">
+            <label>Nombre de libro</label>
+            <input class="form-control" id="nombreLibro" maxlength="80" placeholder="Ingrese nombre del libro" />
+        </div>
 
-</div>
+        <div class="col-md-3 text-center">
+            <label>Autor</label>
+            <select name="ddlAutor" class="form-control inputFiltros" id="ddlAutor" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
 
-<hr />
+                @if (!String.IsNullOrEmpty(ViewBag.Autor))
+                {
+                    //para que no me quede el nombre del autor duplicado en el dropDownList de autores
+                    for (int i = 0; i < autorList.Count; i++)
+                    {
+                        if (autorList[i].IdAutor.Equals(ViewBag.IdAut))
+                        {
+                            autorList.RemoveAt(i);
+                            i--;
+                        }
+                    }
 
-<div class="galeria">
+                    <option value=@ViewBag.IdAut>@ViewBag.Autor</option>
+                    <option value="todos">Todos</option>
+                    foreach (Autor item in autorList)
+                    {
+                        <option value=@item.IdAutor>@item.Nombre</option>
+                    }
 
-    <h1>Libros recomendados</h1>
+                }
+                else
+                {
+                    <option value="todos">Todos</option>
+                    foreach (Autor item in autorList)
+                    {
+                        <option value=@item.IdAutor>@item.Nombre</option>
+                    }
+                }
 
-    <div class="linea"></div>
 
-    <div class="contenedor-imagenes">
+            </select>
+        </div>
 
-        @foreach (Libro item in Model)
-        {
-            <div class="imagen">
+        <div class="col-md-3 text-center">
+            <label>Categoria</label>
+            <select name="ddlCategory" class="form-control inputFiltros" id="ddlCategory" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
 
-                <img src="~/@item.UrlImagen" alt="">
+                @if (!String.IsNullOrEmpty(ViewBag.Categoria))
+                {
+                    //para que no me quede el nombre de la categoria duplicado en el dropDownList de categoria
+                    for (int x = 0; x < categoryList.Count; x++)
+                    {
+                        if (categoryList[x].IdCategoria.Equals(ViewBag.IdCat))
+                        {
+                            categoryList.RemoveAt(x);
+                            x--;
+                        }
+                    }
 
-                <div class="overlay">
-                    @Html.ActionLink("Mostrar", "MostrarLibro", "Usser", new { idLibro = item.IdLibro }, new { @class = "titulo-imagen" })
-                </div>
+                    <option value=@ViewBag.IdCat>@ViewBag.Categoria</option>
+                    <option value="todos">Todos</option>
+                    foreach (Categoria item in categoryList)
+                    {
+                        <option value=@item.IdCategoria>@item.Nombre</option>
+                    }
 
-                <div class="pie-imagen"><span class="glyphicon glyphicon-usd"></span>@item.Precio peso Arg.</div>
+                }
+                else
+                {
+                    <option value="todos">Todos</option>
+                    foreach (Categoria item in categoryList)
+                    {
+                        <option value=@item.IdCategoria>@item.Nombre</option>
+                    }
+                }
 
-            </div>
-        }
 
+            </select>
+        </div>
+
+        <div class="col-md-1 col-xs-4">
+            <label>Desde: $</label>
+            <input type="number" class="form-control" id="price1" />
+        </div>
+
+        <div class="col-md-1 col-xs-4">
+            <label>Hasta: $</label>
+            <input type="number" class="form-control" id="price2" />
+        </div>
+
+    </div>
+
+    <div id="cont-btn_buscar">
+        <button class="btn btn-default" id="btn_buscar" type="button" onclick="filtrar();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
     </div>
 
 </div>
 
-<div class="linea"></div>
+<div class="row" id="cont-libros">
 
-<div class="row" id="fila">
+    @*div que muestra la lista de libros*@
 
-    <div class="col-sm-12 col-md-4" id="cont-boxx">
+</div>
 
-        <div id="cont-img">
-            <img class="img-circle" src="~/principal/imagenes/carrito.jpg" alt="..." />
-        </div>
-
-        <div class="caption">
-            <h3>Comprar</h3>
-            <p>Vea la lista completa de libros y haga su compra!</p>
-        </div>
-
-        <a class="btn btn-primary" href="@Url.Action("userListarLibros","Usser")"><span class="glyphicon glyphicon-shopping-cart" id="icono-cart-shopping" aria-hidden="true"></span>Comprar</a>
-
-    </div>
-
-    <div class="col-sm-12 col-md-4" id="cont-boxx">
-
-        <div id="cont-img">
-            <img class="img-circle" src="~/principal/imagenes/configurar.png" alt="..." />
-        </div>
-
-        <div class="caption">
-            <h3>Configurar</h3>
-            <p>Actualice sus datos personales</p>
-        </div>
-
-        @Html.ActionLink("Configuración", "userListarLibros", "Usser", new { @class = "btn btn-info" })
-
-    </div>
-
-    <div class="col-sm-12 col-md-4" id="cont-boxx">
-
-        <div id="cont-img">
-            <img class="img-circle" src="~/principal/imagenes/seguimiento.png" alt="..." />
-        </div>
-
-        <div class="caption">
-            <h3>Seguimiento</h3>
-            <p>Ver mis productos comprados</p>
-        </div>
-
-        @Html.ActionLink("Seguimiento", "userListarLibros", "Usser", new { @class = "btn btn-info" })
-
-    </div>
-
+<div id="pagination-buttons">
+    @*div que muestra los botones del pagination*@
 </div>
 
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    //Obtengo la lista original de todos los libros de la db)
+    var originalList = @Html.Raw(Json.Encode(Model));
+    //Cuento el total de libros que hay en la db
+    var totalBooks = originalList.length;
+    
+    //cantidad de items que se van a mostrar por pagina
+    var booksxPage = 20;
+    //id del div donde quiero mostrar el pagination
+    var idDiv = '#cont-libros';
+    pagination(originalList, booksxPage, 1, idDiv);
+    //Paginar(1);
 
-        $('.mySlider').bxSlider({
+    if (booksxPage < totalBooks) {
 
-            //mode: 'fade',
-            auto: true,
-            captions: true,
-            //autoControls: true
+        buttonsPagination(totalBooks, booksxPage);
+    }
+    
+    function sendToActionMostrarLibro(id) {
 
-        });
+        var url = "@Url.Action("MostrarLibro", "Usser", new { idLibro="param-id"})";
+        url = url.replace("param-id", id)
+        window.location.assign(url);
 
+    }
+
+    function filtrar() {
+
+    var uri = '@Url.Action("userFiltrarLibros", "Usser")';
+    var nombre = $('#nombreLibro').val();
+    var autor = $('#ddlAutor').val();
+    var categoria = $('#ddlCategory').val();
+
+    var price1 = $('#price1').val();
+    var price2 = $('#price2').val();
+
+    var filtros = new Array();
+    filtros.push(nombre);
+    filtros.push(autor);
+    filtros.push(categoria);
+    filtros.push(price1);
+    filtros.push(price2);
+
+    $.ajax({
+        url: uri,
+        data: { data: filtros },
+        type: 'POST',
+        success: function (respuestaDelServidor) {
+            $("#cont-libros").html(respuestaDelServidor);
+        }
     });
 
+}
+
+
 </script>
+
+
+<script type="text/javascript">
+
+    window.addEventListener("load", Paginar(), false);
+    //window.addEventListener("load", Paginar(1), false);
+
+</script>
+
 
 
 

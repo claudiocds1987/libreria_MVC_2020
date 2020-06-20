@@ -11,7 +11,6 @@ namespace Librery_MVC.Services
     {
         DataAccess da = new DataAccess();
 
-
         public List<LightBook> getListPagination(List<LightBook> list, int booksxPage, int numberPage)
         {
             List<LightBook> listPaginada = new List<LightBook>();

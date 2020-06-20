@@ -282,194 +282,62 @@ body {
 ******************************************************************************************/
 
 
-/* GALERIA DE IMAGENES */
-
-.galeria h1 {
-    text-align: left;
-    margin: 20px 0 15px 0;
-    font-weight: 400;
+#row1 {
+    margin-top: 25px !important;
 }
 
-.linea {
-    border-top: 3px solid #5858FA;
-    margin-bottom: 40px;
+#row1 div {
+        margin-bottom: 15px !important;
 }
 
-.contenedor-imagenes {
-    display: flex;
-    width: 85%;
-    margin: auto;
-    justify-content: space-around;
-    flex-wrap: wrap; /*para que cuando los elementos que estan adentro de un div no entran mas, los pone abajo*/
-    border-radius: 3px;
+#row3 {
+    margin-top: 50px !important;
 }
 
-.contenedor-imagenes .imagen {
-    width: 22%;
-    position: relative;
-    height: 350px;
-    margin-bottom: 75px;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
+#filtro-panel-body {
+    background: #F4F4F4 !important;
 }
 
-.imagen .pie-imagen {
-    background-color: #222222;
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
-    color: white;
-    font-family: 'Open Sans';
-    font-weight: 300;
-    padding: 15px;
-    text-align: center;
-}
-
-.imagen img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 118, 192, 0.781);
-    width: 100%;
-    height: 0;
-    overflow: hidden;
-    transition: 1s ease;
-}
-
-
-.titulo-imagen {
-    color: #fff !important;
-    font-weight: 300 !important;
-    font-size: 30px !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    text-align: center !important;
-    text-decoration: none;
-    transform: translate(-50%, -50%) !important;
-}
-
-.imagen:hover .overlay {
-    height: 100%;
-    cursor: pointer;
-}
-
-/************    END GALERIA   *****/
-
-#cont-boxx {
-    text-align: center;
-    background-color: #E1E1E1;
-    border-radius: 3px;
-    padding: 10px;
-    width: 19%;
-    text-align: center;
-    transform: translate(98%);
-    margin-right: 15px;
-    margin-bottom: 15px;
-}
-
-#cont-img {
-    width: 98%;
-    height: 60%;
-    margin: auto;
-}
-
-#cont-img img {
-    width: 100%;
-    height: 100%;
-}
-
-#icono-cart-shopping{
-    margin-right: 4px !important;
-}
-
-.caption h3 {
-    color: #ffffff;
-    font-weight: 300;
-}
-
-.caption p {
-    color: #ffffff;
-    font-family: 'Open Sans';
-    font-weight: 700;
-}
-
-
-@media screen and (max-width:450px) {
-
-     h1 {
-        font-size: 22px;
-     }
-
-    .contenedor-imagenes {
-        width: 98%;
-    }
-
-    .contenedor-imagenes .imagen {
-        width: 80%;
-    }
+#cont-libros{
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content:flex-start !important;
     
-    #cont-boxx {
-        width: 78%;
-        transform: translate(13%);
-    }
-
-    #cont-img {
-        width: 80%;
-    }
 }
 
-@media screen and (max-width: 700px) {
-
-    .contenedor-imagenes {
-        width: 90%;
-    }
-
-    .contenedor-imagenes .imagen {
-        width: 48%;
-    }
-
-    #cont-boxx {
-        width: 90%;
-        transform: translate(5%);
-    }
-
-    #cont-img {
-        width: 48%;
-    }
+.container-image {
+    box-sizing: border-box !important;
+      
+    padding: 8px !important;
+    max-width: 173px !important;
 }
 
-@media screen and (max-width: 1000px) {
-
-    .contenedor-imagenes {
-        width: 95%;
-    }
+.container-image img{
+    width: 100% !important;
+    
+    max-height: 292px;
 }
 
-@media screen and (min-width: 1001px) {
-
-    .contenedor-imagenes {
-        width: 85%;
-    }
-
-    .contenedor-imagenes .imagen {
-            width: 22%;
-    }
+/*************pagination************/
+.pagination-btns {
+    background-color: blue;
 }
-
-/*****************FIN Principal.cshtml *********************************/
-
+/********fin pagination************/
 
 /*************************************************************************
                   MostrarLibro.cshtml(lado Usser)
 *************************************************************************/
 
+
+
 #div-row{
     margin-top: 15px !important;
+}
+
+#cont-libros {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
 }
 
 .contImgBook {
@@ -504,59 +372,6 @@ body {
         width: 48%;
     }
 }
-
-/*************************************************************************
-                  pruebalistar2.cshtml 8si no hay view borrarlo
-*************************************************************************/
-#cont-libros{
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content:flex-start !important;
-    
-}
-
-.container-image {
-    box-sizing: border-box !important;
-    /*width: 25% !important;no usar si uso col-md*/
-    /*margin: 15px, 8px, 25px, 25px !important;*/
-    /*margin: 8px !important;*/
-    
-    padding: 8px !important;
-    max-width: 173px !important;
-}
-
-.container-image img{
-    width: 100% !important;
-    /*max-width: 172px;*/
-    max-height: 292px;
-}
-
-/*************************************************************************
-                  pruebalistar.cshtml 8si no hay view borrarlo
-*************************************************************************/
-
-#row1 {
-    margin-top: 25px !important;    
-}
-
-#row1 div {
-   margin-bottom: 15px !important;
-}
-
-
-#row3{
-    margin-top: 50px !important;
-}
-
-#filtro-panel-body {
-    background: #F4F4F4 !important;
-}
-/*************pagination************/
-.pagination-btns{
-    background-color: blue;
-}
-/********fin pagination************/
-
 
 
 /*************************************************************************

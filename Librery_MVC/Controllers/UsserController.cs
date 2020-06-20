@@ -13,6 +13,8 @@ namespace Librery_MVC.Controllers
 
         public ActionResult index()
         {
+            List<LightBook> list = new List<LightBook>();
+            LightBookService lbs = new LightBookService();
             //Guardo en la ViewBag.User el nombre del usuario guardado en TempData
             ViewBag.User = "";
 
@@ -21,11 +23,144 @@ namespace Librery_MVC.Controllers
                 ViewBag.User = TempData["User"];
             }
 
-            //pasando lista de 10 libros ordenados por precio de forma descendente
-            LibroService ls = new LibroService();
-            List<Libro> list = ls.getPartListByDescPrice();
+            //if(data == null)
+            //{
+
+            //    //LightBookService lbs = new LightBookService();
+            //    //Obteniendo todos los libros de la db
+            //    list = lbs.getListLightBooks();
+
+            //}
+            //else
+            //{
+            //    CheckData check = new CheckData();
+            //    AutorService sa = new AutorService();
+            //    CategoriaService cs = new CategoriaService();
+            //    LibroService ls = new LibroService();              
+            //    //Obteniendo los datos enviados desde ajax
+            //    String bookName = data[0];
+            //    String idAutor = data[1];
+            //    String idCategory = data[2];
+            //    String price1 = data[3];
+            //    String price2 = data[4];
+
+            //    //si no filtra y hace click en "buscar" lista todos los libros
+            //    if (bookName == "" && idAutor == "todos" && idCategory == "todos" && price1 == "" && price2 == "")
+            //    {
+            //        list = lbs.getListLightBooks();
+            //        return View(list);
+            //    }
+
+            //    String consulta = "SELECT * FROM libros WHERE";
+            //    String estado = " AND libros.estado = 1";
+            //    int cont = 0; // referencia si hay que agregar  el "AND" a la consulta
+
+            //    //****************** Check back-end *************************//
+
+            //    if (!String.IsNullOrEmpty(bookName))
+            //    {
+            //        consulta += " libros.nombre LIKE '%" + bookName + "%'";
+            //        cont++;
+            //    }
+
+
+            //    if (check.CheckIntNumber(idAutor)) //idAutor es un numero int?
+            //    {
+            //        if (check.CheckIdAutor(idAutor)) //idAutor existe en la base datos?
+            //        {
+            //            if (cont > 0)
+            //                consulta += " AND libros.idAutor= " + idAutor;
+            //            else
+            //            {
+            //                consulta += " libros.idAutor= " + idAutor;
+            //                cont++;
+            //            }
+
+            //        }
+            //        else
+            //        {
+            //            ViewBag.Msg = "Error al recibir el value del autor";
+            //            return View();
+            //        }
+
+            //    }
+            //    else if (idAutor != "todos")
+            //    {
+            //        ViewBag.Msg = "Error al recibir el value del autor";
+            //        return View();
+            //    }
+
+            //    if (check.CheckIntNumber(idCategory)) //idCategory es un numero int?
+            //    {
+            //        if (check.CheckIdCategory(idCategory)) //idCategory existe en la db?
+            //        {
+            //            if (cont > 0) //si es > a 0 agrego el "AND" a la consulta                  
+            //                consulta += " AND libros.idCategoria= " + idCategory;
+            //            else
+            //            {
+            //                consulta += " libros.idCategoria= " + idCategory;
+            //                cont++;
+            //            }
+
+            //        }
+            //        else
+            //        {
+            //            ViewBag.Msg = "Error al recibir el value de la categoria";
+            //            return View();
+            //        }
+
+            //    }
+            //    else if (idCategory != "todos")
+            //    {
+            //        ViewBag.Msg = "Error al recibir el value de la categoria";
+            //        return View();
+            //    }
+
+            //    //check precio 1
+            //    if (check.CheckIntNumber(price1))
+            //    {
+            //        if (cont > 0)
+            //            consulta += " AND libros.precio >= " + price1;
+            //        else
+            //        {
+            //            consulta += " libros.precio >= " + price1;
+            //            cont++;
+            //        }
+
+            //    }
+            //    else if (!String.IsNullOrEmpty(price1))
+            //    {
+            //        ViewBag.Msg = "Error al recibir el value del precio 1";
+            //        return View();
+            //    }
+
+            //    //check precio 2
+            //    if (check.CheckIntNumber(price2))
+            //    {
+            //        if (cont > 0)
+            //            consulta += " AND libros.precio <= " + price2;
+            //        else
+            //            consulta += " libros.precio <= " + price2;
+            //    }
+            //    else if (!String.IsNullOrEmpty(price2))
+            //    {
+            //        ViewBag.Msg = "Error al recibir el value del precio 2";
+            //        return View();
+            //    }
+
+
+            //    //****************** Fin Check back-end *************************//
+
+            //    list = lbs.filterLightBook(consulta += estado);
+            //}
+
+            //List<LightBook> list = new List<LightBook>();
+            //LightBookService lbs = new LightBookService();
+            //Obteniendo todos los libros de la db
+            list = lbs.getListLightBooks();
 
             return View(list);
+
         }
 
         public ActionResult userLogin()
@@ -424,14 +559,6 @@ namespace Librery_MVC.Controllers
 
             //****************** Fin Check back-end *************************//
 
-            //if (!String.IsNullOrEmpty(bookName))
-            //{
-            //    if (cont > 0) // si cont > 0 agrego "AND" a la consulta
-            //        consulta += " AND libros.nombre LIKE '%" + bookName + "%'";
-            //    else
-            //        consulta += " libros.nombre LIKE '%" + bookName + "%'";
-            //}
-
             list = ls.filtrarLibro(consulta += estado);
             return View(list);
         }
@@ -605,64 +732,6 @@ namespace Librery_MVC.Controllers
             return View();
         }
 
-        public ActionResult pruebalistar()
-        {
-            List<LightBook> list = new List<LightBook>();
-            LightBookService lbs = new LightBookService();
-            //Obteniendo todos los libros de la db
-            list = lbs.getListLightBooks();
-            //List<LightBook> listaPaginada = new List<LightBook>();
-
-            ////obtengo el total de libros de la db
-            //int totalBooks = list.Count<LightBook>();
-            //////fijo la cantidad de libros a mostrar por pagina
-            //int itemsxPage = 20;
-
-            ////definiendo cant de paginas que se necesita para mostra los itemsXpage
-            //int totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
-
-            //if (totalPages != 0) // si de resto no da cero, es un numero decimal
-            //{
-            //    //redondeo hacia arriba ej 1,7 => lo redondeo a 2
-            //    totalPages = (totalBooks / itemsxPage) + 1;
-            //}
-            //else
-            //    totalPages = totalBooks / itemsxPage;
-
           
-            //listaPaginada = lbs.getListPagination(list, itemsxPage, 1);
-
-            ////envio a la view...
-            //ViewBag.OriginalList = list; //envio la lista completa de todos los libros que hay en la db
-            //ViewBag.TotalBooks = totalBooks; //numero total de libros que hay en la db
-            //ViewBag.ItemsxPage = itemsxPage; //cantidad de libros a mostrar por pagina
-            ////El total de paginas que se necesitan en base al numero total de libros y la cantidad de libros a mostrar por pagina
-            //ViewBag.TotalPages = totalPages;
-
-            ////return View(listaPaginada);
-            return View(list);
-        }
-
-        public ActionResult Paginar(string numberPage, List<LightBook> originalList)
-        {
-            LightBookService lbs = new LightBookService();
-            List<LightBook> listaPaginada = new List<LightBook>();
-  
-            int page = Convert.ToInt32(numberPage);
-                  
-            listaPaginada = lbs.getListPagination(originalList, 20, page);
-         
-            return View(listaPaginada);
-
-        }
-
-        public ActionResult pruebalistar2()
-        {
-            List<Libro> list = new List<Libro>();
-            LibroService ls = new LibroService();
-            list = ls.getListLightBooks();
-            return View(list);
-        }
-
     }
 }

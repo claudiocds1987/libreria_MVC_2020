@@ -238,6 +238,7 @@
     <Content Include="js-frameworks\bxSlider\jquery.bxslider.js" />
     <Content Include="js-frameworks\bxSlider\vendor\jquery.easing.1.3.js" />
     <Content Include="js-frameworks\bxSlider\vendor\jquery.fitvids.js" />
+    <Content Include="js\funciones.js" />
     <Content Include="principal\imagenes\Antidoto para personas toxicas.jpg" />
     <Content Include="principal\imagenes\Apocalipsis.jpg" />
     <Content Include="principal\imagenes\bookLogo.png" />
@@ -357,9 +358,6 @@
     <Content Include="Views\Usser\userLogin.cshtml" />
     <Content Include="Views\Usser\Contacto.cshtml" />
     <Content Include="Views\Home\adminFiltrarLibro.cshtml" />
-    <Content Include="Views\Usser\pruebalistar.cshtml" />
-    <Content Include="Views\Usser\pruebalistar2.cshtml" />
-    <Content Include="Views\Usser\Paginar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
