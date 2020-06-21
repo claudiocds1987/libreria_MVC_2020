@@ -54,18 +54,22 @@
 
     <script type="text/javascript">
 
-        @*//Obtengo la lista original de todos los libros de la db)
-        var originalList = @Html.Raw(Json.Encode(Model));
+        @*sessionStorage.setItem('filtered','true')
+
+       //Obtengo la lista original de todos los libros de la db)
+        var filterList = @Html.Raw(Json.Encode(Model));
         //Cuento el total de libros que hay en la db
-        var totalBooks = originalList.length;
+        var totalBooks = filterList.length;
+    
         //cantidad de items que se van a mostrar por pagina
         var booksxPage = 20;
-
-        Paginar(1);*@
-
+        //id del div donde quiero mostrar el pagination
+        var idDiv = '#cont-libros';
+        Pagination(filterList, booksxPage, 1, idDiv);
         
-       
-
+        var idDivButtons = '#pagination-buttons';
+        buttonsPagination(totalBooks, booksxPage, idDivButtons)*@
+      
     </script>
     
     @*<script>

@@ -131,31 +131,34 @@
 
     @*div que muestra la lista de libros*@
 
+
 </div>
 
 <div id="pagination-buttons">
-    @*div que muestra los botones del pagination*@
+    @*div que muestra los botones del pagination sin hacer filtros*@
 </div>
 
 
 <script type="text/javascript">
 
+    alert('ahhh')
+
     //Obtengo la lista original de todos los libros de la db)
     var originalList = @Html.Raw(Json.Encode(Model));
     //Cuento el total de libros que hay en la db
     var totalBooks = originalList.length;
-    
     //cantidad de items que se van a mostrar por pagina
     var booksxPage = 20;
     //id del div donde quiero mostrar el pagination
-    var idDiv = '#cont-libros';
-    pagination(originalList, booksxPage, 1, idDiv);
-    //Paginar(1);
+    var idDiv = '#cont-libros';  
+    Pagination(originalList, booksxPage, 1, idDiv);
+    buttonsPagination(totalBooks, booksxPage, '#pagination-buttons')
+    
 
-    if (booksxPage < totalBooks) {
+    //if (booksxPage < totalBooks) {
 
-        buttonsPagination(totalBooks, booksxPage);
-    }
+        //buttonsPagination(totalBooks, booksxPage);
+    //}
     
     function sendToActionMostrarLibro(id) {
 
@@ -187,7 +190,10 @@
         data: { data: filtros },
         type: 'POST',
         success: function (respuestaDelServidor) {
+            //document.getElementById('pagination-buttons').style.display = 'none';
+         
             $("#cont-libros").html(respuestaDelServidor);
+
         }
     });
 
@@ -199,7 +205,7 @@
 
 <script type="text/javascript">
 
-    window.addEventListener("load", Paginar(), false);
+    //window.addEventListener("load", Paginar(), false);
     //window.addEventListener("load", Paginar(1), false);
 
 </script>
