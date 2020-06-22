@@ -239,6 +239,7 @@
     <Content Include="js-frameworks\bxSlider\vendor\jquery.easing.1.3.js" />
     <Content Include="js-frameworks\bxSlider\vendor\jquery.fitvids.js" />
     <Content Include="js\funciones.js" />
+    <Content Include="principal\imagenes\al-gran-pueblo-Argentino-salud.jpg" />
     <Content Include="principal\imagenes\Antidoto para personas toxicas.jpg" />
     <Content Include="principal\imagenes\Apocalipsis.jpg" />
     <Content Include="principal\imagenes\bookLogo.png" />
@@ -250,6 +251,7 @@
     <Content Include="principal\imagenes\configurar.png" />
     <Content Include="principal\imagenes\ContraLosZombis.jpg" />
     <Content Include="principal\imagenes\DonQuijote.jpg" />
+    <Content Include="principal\imagenes\el-cruce-de-los-Andes.jpg" />
     <Content Include="principal\imagenes\el_hombre_del_bicentenario_grande.jpg" />
     <Content Include="principal\imagenes\Emociones Toxicas.jpg" />
     <Content Include="principal\imagenes\Equilibrio.jpg" />
@@ -257,6 +259,9 @@
     <Content Include="principal\imagenes\fondo-cemento.jpg" />
     <Content Include="principal\imagenes\fondo-negro.png" />
     <Content Include="principal\imagenes\Harry Potter and the sorcerer%27s stone.jpg" />
+    <Content Include="principal\imagenes\historieta-Argentina-invasiones-inglesas.jpg" />
+    <Content Include="principal\imagenes\historieta-Argentina-revolucion-de-mayo.jpg" />
+    <Content Include="principal\imagenes\historieta-Argentina-Sarmiento.jpg" />
     <Content Include="principal\imagenes\juego de tronos choque de reyes.jpg" />
     <Content Include="principal\imagenes\juego-de-tronos-choque-de-reyes-n-0203.jpg" />
     <Content Include="principal\imagenes\juego-de-tronos-nueva-edicion-0104.jpg" />
@@ -274,9 +279,13 @@
     <Content Include="principal\imagenes\libros2.jpg" />
     <Content Include="principal\imagenes\libros3.jpg" />
     <Content Include="principal\imagenes\libros4.jpg" />
+    <Content Include="principal\imagenes\lo-pasado-pensado.jpg" />
     <Content Include="principal\imagenes\Los mitos de la historia Argentina tres.jpg" />
+    <Content Include="principal\imagenes\los-cuentos-del-abuelo-jose.jpg" />
     <Content Include="principal\imagenes\LosMitosDeLaHistoriaArgentina2.jpg" />
+    <Content Include="principal\imagenes\Manuel-Belgrano-vida-y-pensamiento-de-un-revolucionario.jpg" />
     <Content Include="principal\imagenes\Mujeres insolentes.jpg" />
+    <Content Include="principal\imagenes\Mujeres-insolentes-de-la-historia-2.jpg" />
     <Content Include="principal\imagenes\mujeres-tenian-que-ser.jpg" />
     <Content Include="principal\imagenes\next.png" />
     <Content Include="principal\imagenes\previous.png" />

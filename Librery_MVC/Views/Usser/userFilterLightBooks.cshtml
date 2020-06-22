@@ -4,6 +4,8 @@
 @{
     Layout = null;
     TempData.Keep("User");
+    TempData.Keep("totalPages");
+    TempData.Keep("filterBooks");
 }
 
 <!DOCTYPE html>
@@ -26,29 +28,54 @@
     }
     else
     {
-        <div id="model-result"><h4>Resultados: @Model.Count()</h4></div>
+        <div id="model-result"><h4>Resultados: @ViewBag.Resultados</h4></div>
 
         <div id="divFilterLightBooks">
 
-            @foreach (LightBook item in Model)
+            @if (Model.Count() == 1)
             {
+                foreach (LightBook item in Model)
+                {
+                    //si muestra un solo item en la view, hago col-md-12 en la imagen 
+                    <div class="col-md-12 container-image text-center">
 
-                <div class="col-md-3 container-image text-center">
+                        <img src="~/@item.UrlImagen" alt="@item.Nombre">
 
-                    <img src="~/@item.UrlImagen" alt="@item.Nombre">
+                        <div class="title-book text-center">
 
-                    <div class="title-book text-center">
+                            <a href="@Url.Action("MostrarLibro", "Usser", new { idLibro = item.IdLibro})">
+                                @item.Nombre (@item.AnioDeLanzamiento)
+                            </a>
 
-                        <a href="@Url.Action("MostrarLibro", "Usser", new { idLibro = item.IdLibro})">
-                            @item.Nombre (@item.AnioDeLanzamiento)
-                        </a>
+                        </div>
+
+                        <div class="price-book text-center">$@item.Precio</div>
 
                     </div>
 
-                    <div class="price-book text-center">$@item.Precio</div>
+                }
+            }
+            else
+            {
+                foreach (LightBook item in Model)
+                {
+                    <div class="col-md-3 container-image text-center">
 
-                </div>
+                        <img src="~/@item.UrlImagen" alt="@item.Nombre">
 
+                        <div class="title-book text-center">
+
+                            <a href="@Url.Action("MostrarLibro", "Usser", new { idLibro = item.IdLibro})">
+                                @item.Nombre (@item.AnioDeLanzamiento)
+                            </a>
+
+                        </div>
+
+                        <div class="price-book text-center">$@item.Precio</div>
+
+                    </div>
+
+                }
             }
 
         </div>
@@ -93,9 +120,14 @@
 
         function hideButtonsPagination() {
 
-            var totalPages = @Html.Raw(Json.Encode(ViewBag.TotalPages));
 
-            if (totalPages == 1)
+            var filterResult = @Html.Raw(Json.Encode(ViewBag.Resultados));
+            var itemsxPage = @Html.Raw(Json.Encode(ViewBag.ItemsxPage));
+
+
+           //si la cantidad de items listados en la view es igual o menor a la cantidad
+           //establecida en la ViewBag.ItemsxPage, los botones de el pagination desaparecen
+            if (filterResult <= itemsxPage)
                 //desaparece el div pagination-buttons
                 document.getElementById('cont-filter-pagination-btns').style.display = 'none';
             else
@@ -108,7 +140,7 @@
     <script type="text/javascript">
 
         window.addEventListener("load", hideButtonsPagination(), false);
-            //window.addEventListener("load", Paginar(1), false);
+                    //window.addEventListener("load", Paginar(1), false);
 
     </script>
 

@@ -741,6 +741,7 @@ namespace Librery_MVC.Controllers
             LightBookService lbs = new LightBookService();
             //LibroService ls = new LibroService();
             List<LightBook> list = new List<LightBook>();
+            list = lbs.getListLightBooks();
             List<LightBook> listaPaginada = new List<LightBook>();
             //Obteniendo los datos enviados desde ajax
             String bookName = data[0];
@@ -749,15 +750,27 @@ namespace Librery_MVC.Controllers
             String price1 = data[3];
             String price2 = data[4];
 
-            int totalBooks = 0;
+            //int totalBooks = 0;
+            int totalBooks = list.Count();
             int itemsxPage = 20;//cant de items por pagina que quiero mostrar
             int totalPages = 0;
 
+            totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
+
+            if (totalPages != 0) // si de resto no da cero, es un numero decimal
+            {
+                //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+                totalPages = (totalBooks / itemsxPage) + 1;
+            }
+            else
+                totalPages = totalBooks / itemsxPage;
+
+           
             //si no filtra y hace click en "buscar" lista todos los libros
             if (bookName == "" && idAutor == "todos" && idCategory == "todos" && price1 == "" && price2 == "")
             {
-                list = lbs.getListLightBooks();
-                totalBooks = list.Count();
+                
+                //totalBooks = list.Count();
 
                 //a listaPaginada le voy a guardar los elementos de la lista que 
                 //tiene todos los libros desde su indice 0 hasta la cantidad
@@ -768,18 +781,24 @@ namespace Librery_MVC.Controllers
                 }
 
                 //definiendo cant de paginas que se necesita para mostra los itemsXpage
-                totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
+                //totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
 
-                if (totalPages != 0) // si de resto no da cero, es un numero decimal
-                {
-                    //redondeo hacia arriba ej 1,7 => lo redondeo a 2
-                    totalPages = (totalBooks / itemsxPage) + 1;
-                }
-                else
-                    totalPages = totalBooks / itemsxPage;
+                //if (totalPages != 0) // si de resto no da cero, es un numero decimal
+                //{
+                //    //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+                //    totalPages = (totalBooks / itemsxPage) + 1;
+                //}
+                //else
+                //    totalPages = totalBooks / itemsxPage;
 
+                //ViewBag.TotalPages = totalPages;
+
+                //creando las tempData y ViewBag
+                TempData["filterBooks"] = list;                          
+                TempData["totalPages"] = totalPages;
                 ViewBag.TotalPages = totalPages;
-
+                ViewBag.ItemsxPage = itemsxPage;
+                ViewBag.Resultados = totalBooks;
                 return View(listaPaginada);
             }
 
@@ -885,55 +904,107 @@ namespace Librery_MVC.Controllers
 
             list = lbs.filterLightBook(consulta += estado);
 
-            //obtengo el total de libros de la db
+            //?????????????????????????????????????????????????????????????
             totalBooks = list.Count<LightBook>();
-            
-            //definiendo cant de paginas que se necesita para mostra los itemsXpage
-            totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
 
-            if (totalPages != 0) // si de resto no da cero, es un numero decimal
+            if(totalBooks > itemsxPage)
             {
-                //redondeo hacia arriba ej 1,7 => lo redondeo a 2
-                totalPages = (totalBooks / itemsxPage) + 1;
+                for (int i = 0; i < itemsxPage; i++)
+                {
+                    listaPaginada.Add(list[i]);
+                }
+                //creando las tempDatay ViewBag
+                TempData["filterBooks"] = list;
+                TempData["totalPages"] = totalPages;
+                ViewBag.ItemsxPage = itemsxPage;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.Resultados = totalBooks;
+                return View(listaPaginada);
             }
             else
-                totalPages = totalBooks / itemsxPage;
+            {
+                //creando las tempData y ViewBag
+                TempData["filterBooks"] = list;
+                TempData["totalPages"] = totalPages;
+                ViewBag.ItemsxPage = itemsxPage;
+                ViewBag.TotalPages = totalPages;
+                ViewBag.Resultados = totalBooks;
+                return View(list);
+            }
+            
+            //?????????????????????????????????????????????????????????????
 
-            ViewBag.TotalPages = totalPages;
+            //obtengo el total de libros de la db
+            //totalBooks = list.Count<LightBook>();
 
-            ///////////////////////////////////////////////////////
+            ////definiendo cant de paginas que se necesita para mostra los itemsXpage
+            //totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
 
-            return View(list);
+            //if (totalPages != 0) // si de resto no da cero, es un numero decimal
+            //{
+            //    //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+            //    totalPages = (totalBooks / itemsxPage) + 1;
+            //}
+            //else
+            //    totalPages = totalBooks / itemsxPage;
+
+            //ViewBag.TotalPages = totalPages;
+
+            /////////////////////////////////////////////////////////
+
+            //return View(list);
         }
 
         public ActionResult Paginar(string numberPage)
         {
+            //?????????????????????????????????????????????????????????????
+
             List<LightBook> list = new List<LightBook>();
+            List<LightBook> listaPaginada = new List<LightBook>();
             LightBookService lbs = new LightBookService();
-            //Obtengo todos los libros
-            list = lbs.getListLightBooks();
+            int totalPages = 1;
+
+            //Las tempData fueron creadas en ActionResult userFilterLightBooks
+            if (TempData["filterBooks"] != null && TempData["totalPages"] != null)
+            {
+                list = TempData["filterBooks"] as List<LightBook>;
+                totalPages = Convert.ToInt32(TempData["totalPages"]);
+            }               
+                          
+            int totalBooks = list.Count<LightBook>();
             int booksxPage = 20; //tiene que tener el mismo valor que figura en userFilterLightBooks
             int page = Convert.ToInt32(numberPage);
 
-            List<LightBook> listaPaginada = new List<LightBook>();
+            listaPaginada = lbs.getFilteredPaginationList(list, booksxPage, page, totalPages);
+            //?????????????????????????????????????????????????????????????
 
-            listaPaginada = lbs.getListPagination(list, booksxPage, page);
 
-            //obtengo el total de libros 
-            int totalBooks = list.Count<LightBook>();
-            //definiendo cant de paginas que se necesita para mostra los itemsXpage
-            int totalPages = totalBooks % booksxPage; //obtengo el resto de la division
+            //List<LightBook> list = new List<LightBook>();
+            //LightBookService lbs = new LightBookService();
+            //Obtengo todos los libros
+            //list = lbs.getListLightBooks();
+            //int booksxPage = 20; //tiene que tener el mismo valor que figura en userFilterLightBooks
+            //int page = Convert.ToInt32(numberPage);
 
-            if (totalPages != 0) // si de resto no da cero, es un numero decimal
-            {
-                //redondeo hacia arriba ej 1,7 => lo redondeo a 2
-                totalPages = (totalBooks / booksxPage) + 1;
-            }
-            else
-                totalPages = totalBooks / booksxPage;
+            //List<LightBook> listaPaginada = new List<LightBook>();
 
+            //listaPaginada = lbs.getListPagination(list, booksxPage, page);
+
+            ////obtengo el total de libros 
+            //int totalBooks = list.Count<LightBook>();
+            ////definiendo cant de paginas que se necesita para mostra los itemsXpage
+            //int totalPages = totalBooks % booksxPage; //obtengo el resto de la division
+
+            //if (totalPages != 0) // si de resto no da cero, es un numero decimal
+            //{
+            //    //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+            //    totalPages = (totalBooks / booksxPage) + 1;
+            //}
+            //else
+            //    totalPages = totalBooks / booksxPage;
+
+            //ViewBag.TotalPages = totalPages;
             ViewBag.TotalPages = totalPages;
-
             return View(listaPaginada);
 
         }
