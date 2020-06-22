@@ -59,6 +59,7 @@ function doPagination(page) {
         //segun la cantidad de booksxPage
 
         for (var i = 0; i < pages; i++) {
+
             if (i == 0) {
 
                 pos.splice(0, 0, 0);//0: numero de indice, 0: elementos a borrar, 0: agrego un cero al array

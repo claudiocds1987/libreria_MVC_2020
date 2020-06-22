@@ -1,0 +1,116 @@
+﻿@model List<Librery_MVC.Models.LightBook>
+@using Librery_MVC.Models;
+
+@{
+    Layout = null;
+    TempData.Keep("User");
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+
+    @if (ViewBag.Msg != null)
+    {
+        <h5 style="color:red">@ViewBag.Msg</h5>
+    }
+
+    else if (Model.Count() == 0)
+    {
+        <h5 style="color:red">No se encontraron resultados</h5>
+    }
+    else
+    {
+        <div id="model-result"><h4>Resultados: @Model.Count()</h4></div>
+
+        <div id="divFilterLightBooks">
+
+            @foreach (LightBook item in Model)
+            {
+
+                <div class="col-md-3 container-image text-center">
+
+                    <img src="~/@item.UrlImagen" alt="@item.Nombre">
+
+                    <div class="title-book text-center">
+
+                        <a href="@Url.Action("MostrarLibro", "Usser", new { idLibro = item.IdLibro})">
+                            @item.Nombre (@item.AnioDeLanzamiento)
+                        </a>
+
+                    </div>
+
+                    <div class="price-book text-center">$@item.Precio</div>
+
+                </div>
+
+            }
+
+        </div>
+
+    }
+
+    @if (ViewBag.TotalPages >= 1)
+    {
+
+        <div class="text-center col-md-12" id="cont-filter-pagination-btns">
+
+            @for (int i = 1; i <= @ViewBag.TotalPages; i++)
+            {
+                <button type="button" value="@i" class="pagination-btns" onclick="sendToActionPaginar(this);">@i</button>
+            }
+
+        </div>
+
+    }
+
+
+    <script type="text/javascript">
+
+        function sendToActionPaginar(page) {
+
+        @*var model = @Html.Raw(Json.Encode(Model));
+        var originalList = @Html.Raw(Json.Encode(ViewBag.OriginalList));*@
+
+        var numberPage = page.value;
+
+        var uri = '@Url.Action("Paginar", "Usser")';
+
+            $.ajax({
+                url: uri,
+                data: { numberPage: numberPage },
+                type: 'POST',
+                success: function (respuestaDelServidor) {
+                    $("#divFilterLightBooks").html(respuestaDelServidor);
+                }
+            });
+        }
+
+        function hideButtonsPagination() {
+
+            var totalPages = @Html.Raw(Json.Encode(ViewBag.TotalPages));
+
+            if (totalPages == 1)
+                //desaparece el div pagination-buttons
+                document.getElementById('cont-filter-pagination-btns').style.display = 'none';
+            else
+                //aparece el div pagination-buttons
+                document.getElementById('cont-filter-pagination-btns').style.display = 'block';
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        window.addEventListener("load", hideButtonsPagination(), false);
+            //window.addEventListener("load", Paginar(1), false);
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+﻿@model List<Librery_MVC.Models.LightBook>
+@using Librery_MVC.Models;
+@using Librery_MVC.Services;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+
+    @foreach (LightBook item in Model)
+    {
+
+        <div class="col-md-3 container-image text-center">
+
+            <img src="~/@item.UrlImagen" alt="@item.Nombre">
+
+            <div class="title-book text-center">
+
+                <a href="@Url.Action("MostrarLibro", "Usser", new { idLibro = item.IdLibro})">
+                    @item.Nombre (@item.AnioDeLanzamiento)
+                </a>
+
+            </div>
+
+            <div class="price-book text-center">$@item.Precio</div>
+
+        </div>
+    }
+
+    @*@if (ViewBag.TotalPages >= 1)
+    {
+
+        <div class="text-center" id="cont-pagination-btns">
+
+            @for (int i = 1; i <= @ViewBag.TotalPages; i++)
+            {
+                <button type="button" value="@i" class="pagination-btns" onclick="sendToActionPaginar(this);">@i</button>
+            }
+
+        </div>
+
+    }*@
+
+    @*<script type="text/javascript">
+
+        function sendToActionPaginar(page) {
+
+       
+
+        var numberPage = page.value;
+
+        var uri = '@Url.Action("Paginar", "Usser")';
+
+        $.ajax({
+            url: uri,
+            data: { numberPage: numberPage},
+            type: 'POST',
+            success: function (respuestaDelServidor) {
+                $("#divfilterLightBooks").html(respuestaDelServidor);
+            }
+        });
+    }
+
+    </script>*@
+
+</body>
+</html>

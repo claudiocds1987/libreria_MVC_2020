@@ -732,6 +732,211 @@ namespace Librery_MVC.Controllers
             return View();
         }
 
-          
+        //[HttpPost]
+        public ActionResult userFilterLightBooks(string[] data)
+        {
+            CheckData check = new CheckData();
+            AutorService sa = new AutorService();
+            CategoriaService cs = new CategoriaService();
+            LightBookService lbs = new LightBookService();
+            //LibroService ls = new LibroService();
+            List<LightBook> list = new List<LightBook>();
+            List<LightBook> listaPaginada = new List<LightBook>();
+            //Obteniendo los datos enviados desde ajax
+            String bookName = data[0];
+            String idAutor = data[1];
+            String idCategory = data[2];
+            String price1 = data[3];
+            String price2 = data[4];
+
+            int totalBooks = 0;
+            int itemsxPage = 20;//cant de items por pagina que quiero mostrar
+            int totalPages = 0;
+
+            //si no filtra y hace click en "buscar" lista todos los libros
+            if (bookName == "" && idAutor == "todos" && idCategory == "todos" && price1 == "" && price2 == "")
+            {
+                list = lbs.getListLightBooks();
+                totalBooks = list.Count();
+
+                //a listaPaginada le voy a guardar los elementos de la lista que 
+                //tiene todos los libros desde su indice 0 hasta la cantidad
+                //fijada en itemsXpage
+                for (int i = 0; i < itemsxPage; i++)
+                {
+                    listaPaginada.Add(list[i]);
+                }
+
+                //definiendo cant de paginas que se necesita para mostra los itemsXpage
+                totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
+
+                if (totalPages != 0) // si de resto no da cero, es un numero decimal
+                {
+                    //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+                    totalPages = (totalBooks / itemsxPage) + 1;
+                }
+                else
+                    totalPages = totalBooks / itemsxPage;
+
+                ViewBag.TotalPages = totalPages;
+
+                return View(listaPaginada);
+            }
+
+            String consulta = "SELECT * FROM libros WHERE";
+            String estado = " AND libros.estado = 1";
+            int cont = 0; // referencia si hay que agregar  el "AND" a la consulta
+
+            //****************** Check back-end *************************//
+
+            if (!String.IsNullOrEmpty(bookName))
+            {
+                consulta += " libros.nombre LIKE '%" + bookName + "%'";
+                cont++;
+            }
+
+
+            if (check.CheckIntNumber(idAutor)) //idAutor es un numero int?
+            {
+                if (check.CheckIdAutor(idAutor)) //idAutor existe en la base datos?
+                {
+                    if (cont > 0)
+                        consulta += " AND libros.idAutor= " + idAutor;
+                    else
+                    {
+                        consulta += " libros.idAutor= " + idAutor;
+                        cont++;
+                    }
+
+                }
+                else
+                {
+                    ViewBag.Msg = "Error al recibir el value del autor";
+                    return View();
+                }
+
+            }
+            else if (idAutor != "todos")
+            {
+                ViewBag.Msg = "Error al recibir el value del autor";
+                return View();
+            }
+
+            if (check.CheckIntNumber(idCategory)) //idCategory es un numero int?
+            {
+                if (check.CheckIdCategory(idCategory)) //idCategory existe en la db?
+                {
+                    if (cont > 0) //si es > a 0 agrego el "AND" a la consulta                  
+                        consulta += " AND libros.idCategoria= " + idCategory;
+                    else
+                    {
+                        consulta += " libros.idCategoria= " + idCategory;
+                        cont++;
+                    }
+
+                }
+                else
+                {
+                    ViewBag.Msg = "Error al recibir el value de la categoria";
+                    return View();
+                }
+
+            }
+            else if (idCategory != "todos")
+            {
+                ViewBag.Msg = "Error al recibir el value de la categoria";
+                return View();
+            }
+
+            //check precio 1
+            if (check.CheckIntNumber(price1))
+            {
+                if (cont > 0)
+                    consulta += " AND libros.precio >= " + price1;
+                else
+                {
+                    consulta += " libros.precio >= " + price1;
+                    cont++;
+                }
+
+            }
+            else if (!String.IsNullOrEmpty(price1))
+            {
+                ViewBag.Msg = "Error al recibir el value del precio 1";
+                return View();
+            }
+
+            //check precio 2
+            if (check.CheckIntNumber(price2))
+            {
+                if (cont > 0)
+                    consulta += " AND libros.precio <= " + price2;
+                else
+                    consulta += " libros.precio <= " + price2;
+            }
+            else if (!String.IsNullOrEmpty(price2))
+            {
+                ViewBag.Msg = "Error al recibir el value del precio 2";
+                return View();
+            }
+
+
+            //****************** Fin Check back-end *************************//
+
+            list = lbs.filterLightBook(consulta += estado);
+
+            //obtengo el total de libros de la db
+            totalBooks = list.Count<LightBook>();
+            
+            //definiendo cant de paginas que se necesita para mostra los itemsXpage
+            totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
+
+            if (totalPages != 0) // si de resto no da cero, es un numero decimal
+            {
+                //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+                totalPages = (totalBooks / itemsxPage) + 1;
+            }
+            else
+                totalPages = totalBooks / itemsxPage;
+
+            ViewBag.TotalPages = totalPages;
+
+            ///////////////////////////////////////////////////////
+
+            return View(list);
+        }
+
+        public ActionResult Paginar(string numberPage)
+        {
+            List<LightBook> list = new List<LightBook>();
+            LightBookService lbs = new LightBookService();
+            //Obtengo todos los libros
+            list = lbs.getListLightBooks();
+            int booksxPage = 20; //tiene que tener el mismo valor que figura en userFilterLightBooks
+            int page = Convert.ToInt32(numberPage);
+
+            List<LightBook> listaPaginada = new List<LightBook>();
+
+            listaPaginada = lbs.getListPagination(list, booksxPage, page);
+
+            //obtengo el total de libros 
+            int totalBooks = list.Count<LightBook>();
+            //definiendo cant de paginas que se necesita para mostra los itemsXpage
+            int totalPages = totalBooks % booksxPage; //obtengo el resto de la division
+
+            if (totalPages != 0) // si de resto no da cero, es un numero decimal
+            {
+                //redondeo hacia arriba ej 1,7 => lo redondeo a 2
+                totalPages = (totalBooks / booksxPage) + 1;
+            }
+            else
+                totalPages = totalBooks / booksxPage;
+
+            ViewBag.TotalPages = totalPages;
+
+            return View(listaPaginada);
+
+        }
+
     }
 }

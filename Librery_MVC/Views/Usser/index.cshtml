@@ -32,7 +32,7 @@
 
         <div class="col-md-4 text-center">
             <label>Nombre de libro</label>
-            <input class="form-control" id="nombreLibro" maxlength="80" placeholder="Ingrese nombre del libro" />
+            <input type="text" class="form-control" id="nombreLibro" maxlength="80" placeholder="Ingrese nombre del libro" />
         </div>
 
         <div class="col-md-3 text-center">
@@ -128,16 +128,12 @@
 </div>
 
 <div class="row" id="cont-libros">
-
     @*div que muestra la lista de libros*@
-
-
 </div>
 
 <div id="pagination-buttons">
     @*div que muestra los botones del pagination sin hacer filtros*@
 </div>
-
 
 <script type="text/javascript">
 
@@ -153,13 +149,7 @@
     var idDiv = '#cont-libros';  
     Pagination(originalList, booksxPage, 1, idDiv);
     buttonsPagination(totalBooks, booksxPage, '#pagination-buttons')
-    
-
-    //if (booksxPage < totalBooks) {
-
-        //buttonsPagination(totalBooks, booksxPage);
-    //}
-    
+      
     function sendToActionMostrarLibro(id) {
 
         var url = "@Url.Action("MostrarLibro", "Usser", new { idLibro="param-id"})";
@@ -170,7 +160,7 @@
 
     function filtrar() {
 
-    var uri = '@Url.Action("userFiltrarLibros", "Usser")';
+    var uri = '@Url.Action("userFilterLightBooks", "Usser")';
     var nombre = $('#nombreLibro').val();
     var autor = $('#ddlAutor').val();
     var categoria = $('#ddlCategory').val();
@@ -190,7 +180,9 @@
         data: { data: filtros },
         type: 'POST',
         success: function (respuestaDelServidor) {
-            //document.getElementById('pagination-buttons').style.display = 'none';
+
+            //desaparece el div de pagination-buttons
+            document.getElementById('pagination-buttons').style.display = 'none';
          
             $("#cont-libros").html(respuestaDelServidor);
 

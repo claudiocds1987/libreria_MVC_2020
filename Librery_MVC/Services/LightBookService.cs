@@ -25,57 +25,59 @@ namespace Librery_MVC.Services
             else
                 pages = totalBooks / booksxPage;
 
+          
             int[] pos = new Int32[pages];
             int cont = 0;
-            int hasta = 0;
             int librosAmostrar = 0;
+            int librosListados = 0;
             int desde = 0;
-            int co = 0;
+            int hasta = 0;
 
             //guardo en el vector las diferentes formas de iniciar el recorrido de la lista
-            for (int i = 0; i < pages; i++)
+            //segun la cantidad de booksxPage
+
+            for (var i = 0; i < pages; i++)
             {
                 if (i == 0)
                 {
-                    pos[i] = 0;
-                    cont = booksxPage;                    
+
+                    pos[0] = 0;
+                    cont = booksxPage;
                 }
                 else
                 {
-                    pos[i] = cont;                    
+
+                    pos[i] = cont;
                     cont += booksxPage;
-                    co++;                    
-                    totalBooks = totalBooks - booksxPage;
+                    librosListados += booksxPage;
+                    librosAmostrar = totalBooks - librosListados;
                 }
             }
 
-            librosAmostrar = totalBooks;
-            
             //determinando los indices para recorrer la lista
             if (numberPage == 1)
             {
                 desde = pos[0];
-                hasta = pos[0] + booksxPage;
+                hasta = (desde + booksxPage) - 1;
             }
 
             else if (numberPage == pages)
             {
-                desde = pos[co];
-                hasta = pos[co] + librosAmostrar;
+                desde = totalBooks - librosAmostrar;
+                hasta = totalBooks - 1;
             }
 
             else
             {
                 desde = pos[numberPage - 1];
-                hasta = pos[numberPage - 1] + booksxPage;
+                hasta = (desde + booksxPage) - 1;
             }
 
             //Recorro la lista con los indices armados
-            for (int z = desde; z < hasta; z++)
+            for (int z = desde; z <= hasta; z++)
             {
                 listPaginada.Add(list[z]);
             }
-
 
             return listPaginada;
         }

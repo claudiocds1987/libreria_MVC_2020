@@ -466,12 +466,23 @@ body {
 
 /***********************    FIN userListarLibros.cshtml **********************************/
 
-
 /******************************************************************************************
-                  userFiltrarLibros.cshtml
+                  userFilterLightBooks.cshtml
 ******************************************************************************************/
 
-#model-result{
+#divFilterLightBooks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+}
+
+/*#cont-pagination-btns{
+    display: table !important;
+}*/
+/******************************************************************************************
+                  userFiltrarLibros.cshtml ?? borrar ??
+******************************************************************************************/
+#model-result {
     width: 100% !important;
 }
 

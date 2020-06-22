@@ -358,6 +358,8 @@
     <Content Include="Views\Usser\userLogin.cshtml" />
     <Content Include="Views\Usser\Contacto.cshtml" />
     <Content Include="Views\Home\adminFiltrarLibro.cshtml" />
+    <Content Include="Views\Usser\userFilterLightBooks.cshtml" />
+    <Content Include="Views\Usser\Paginar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
