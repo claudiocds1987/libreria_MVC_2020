@@ -15,6 +15,7 @@
     category = cs.getCategoria(Model.IdCategoria);
     editorial = es.GetEditorial(Model.IdEditorial);
 
+    TempData.Keep("ProductsAddedToShoppingCar");
 }
 
 <div class="row" id="div-row">
@@ -22,7 +23,7 @@
     <div class="col-md-4 contImgBook">
 
         <img src="/@Model.UrlImagen.Replace("\\", "/")" />       
-        <a class="btn btn-primary" id="btn-volver" href="@Url.Action("userListarLibros", "Usser")">Volver</a>
+        <a class="btn btn-primary" id="btn-volver" href="@Url.Action("index", "Usser")">Volver</a>
     </div>
 
     <div class="col-md-8 contInfo">
@@ -36,14 +37,71 @@
         <label for="editorial">Editorial:</label>
         <span>@editorial.Nombre</span><br />
         <label for="precio">Precio:</label>
-        <span>@Model.Precio</span><br />
+        <span>$ @Model.Precio</span><br />
         <label for="cantidad">Cantidad disponible:</label>
-        <span>@Model.Cantidad</span>
+        <span>@Model.Cantidad</span><br />
+        <hr />
+        <button class="btn btn-default" onclick="addToShoppingCar();"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>AGREGAR AL CARRITO</button>
 
     </div>
 
-
 </div>
 
+<script type="text/javascript">
+
+    function addToShoppingCar() {
+                  
+        var acu = 1;             
+        var idBook = @Html.Raw(Json.Encode(Model.IdLibro));
+        
+        if (sessionStorage.getItem('booksToBuy') != null) {
+                             
+            myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));                     
+            var exist = checkIdBook(idBook, myArray);
+
+            if (!exist) {
+               
+                myArray.push(idBook);
+                sessionStorage.setItem('booksToBuy', JSON.stringify(myArray));
+                acu += parseInt(sessionStorage.getItem('ProductsAddedToShoppingCar'));
+                sessionStorage.setItem('ProductsAddedToShoppingCar', acu);
+                //aca muestro la cantidad de libros adheridos en el icono del carrito del navbar
+                $('.shoppingCar').html(acu);
+            }
+            else {
+
+                alert('El libro ya exite en el carrito!')
+                return;
+            }
+          
+        }
+        else {
+            //1er carga al carrito
+            $('.shoppingCar').html(1);
+            var myArray = [];
+            myArray.push(idBook);
+            sessionStorage.setItem('booksToBuy', JSON.stringify(myArray));         
+            sessionStorage.setItem('ProductsAddedToShoppingCar', 1);
+            
+        }
+              
+    }
+
+    function checkIdBook(idBook, array) {
+
+        for (var i = 0; i < array.length; i++) {
+
+            var id = array[i];
+
+            if (idBook == id)
+                return true;
+        }
+
+        return false;
+
+    }
+
+
+</script>
 
 

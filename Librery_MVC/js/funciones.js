@@ -138,19 +138,18 @@ function buttonsPagination(totalBooks, booksxPage, idDiv) {
     if (pages >= 1) {
 
         for (var d = 1; d <= pages; d++) {
-            //var button = "<button type=button value='" + d + "' class='pagination-btns' onclick='cds(this);'>" + d + "</button>"
+            
             buttons += "<button type=button value='" + d + "' class='pagination-btns' onclick='doPagination(this);'>" + d + "</button>"
-            //$('#pagination-buttons').append(button);
+        
         }
-        //$('#pagination-buttons').html(buttons);
+      
         $(idDiv).html(buttons);
     }
     else {
         var button = '<button type=button value="1" class="pagination-btns" onclick="doPagination(this);">1</button>)';
         $(idDiv).html(button);
     }
-    //$('#pagination-buttons').html(button);
-   
+    
 
     
     

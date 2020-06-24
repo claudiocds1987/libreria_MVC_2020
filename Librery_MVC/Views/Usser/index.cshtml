@@ -17,6 +17,7 @@
     autorList = sa.ListAutores();
     categoryList = cs.getAllCategories();
     TempData.Keep("User");
+    TempData.Keep("ProductsAddedToShoppingCar");
 
 }
 
@@ -136,8 +137,6 @@
 </div>
 
 <script type="text/javascript">
-
-    alert('ahhh')
 
     //Obtengo la lista original de todos los libros de la db)
     var originalList = @Html.Raw(Json.Encode(Model));
