@@ -55,7 +55,7 @@
         var idBook = @Html.Raw(Json.Encode(Model.IdLibro));
         
         if (sessionStorage.getItem('booksToBuy') != null) {
-                             
+            //Obtengo los idBook guardados en la sessionStorage                 
             myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));                     
             //check si el libro ya fue elegido
             var exist = checkIdBook(idBook, myArray);

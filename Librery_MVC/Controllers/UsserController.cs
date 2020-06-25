@@ -312,13 +312,18 @@ namespace Librery_MVC.Controllers
         {
             //Creo y Guardo en el ViewBag.User el userName guardado en TempData
             ViewBag.User = TempData["User"];
+
+            if (String.IsNullOrEmpty(totalBooks) || arrayIdBooks == null || arrayIdBooks.Length == 0)
+            {
+                ViewBag.Msg = "Usted no tiene productos en el carrito";
+                return View();
+            }
+
             LightBookService lbs = new LightBookService();
-
-            //int e = Convert.ToInt32(Request.Form["hidden-totalBooks"]);
-            //ViewBag.TotalBooks = e;
-
             List<LightBook> list = new List<LightBook>();
 
+            //recorro el arrayIdBooks recibido desde ajax para extraer c/u de los id
+            //y pasarselo a la funcion getLightBookById(id) para obtener cada libro
             for (int i = 0; i < arrayIdBooks.Length; i++)
             {
                 string id = arrayIdBooks[i];

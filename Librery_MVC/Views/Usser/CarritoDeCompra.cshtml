@@ -2,25 +2,216 @@
 @using Librery_MVC.Models;
 
 @{
+    /**/
+
     ViewBag.Title = "CarritoDeCompra";
     Layout = "~/Views/Shared/_UsserLayout.cshtml";
 }
 
-<h2>CarritoDeCompra</h2>
+<h2>CARRITO DE COMPRAS</h2>
 
-@foreach (LightBook item in Model)
+@if (ViewBag.Msg != null)
 {
-    @item.Nombre<br />
+    <h3 style="color:red">@ViewBag.Msg</h3>
 }
+else
+{
+    <div class="shopping-cart">
+
+        <div class="column-labels">
+            <label class="product-image">Image</label>
+            <label class="product-details">Product</label>
+            <label class="product-price">Precio</label>
+            <label class="product-quantity">Cantidad</label>
+            <label class="product-removal">Remove</label>
+            <label class="product-line-price">Total</label>
+        </div>
+
+        @foreach (LightBook item in Model)
+        {
+            <div class="product">
+
+                <div class="product-image">
+                    <img src="~/@item.UrlImagen">
+                </div>
+
+                <div class="product-details">
+                    <div class="product-title">@item.Nombre</div>
+                    @*<p class="product-description">No hace falta la descripcion</p>*@
+                </div>
+
+                <div class="product-price">@item.Precio</div>
+
+                <div class="product-quantity">
+                    <input type="number" value="2" min="1">
+                </div>
+
+                <div class="product-removal">
+                    <button class="remove-product" value="@item.IdLibro">
+                        Remove
+                    </button>
+                </div>
+
+                <div class="product-line-price">@item.Precio</div>
+
+            </div>
+
+        }
+
+        <div>Precio final: <span id="precioFinal"></span></div>
+        <button class="checkout">Checkout</button>
+
+    </div>
+
+}
+
+
 
 <script type="text/javascript">
 
-    var myArray = [];
-    //sessionStorage 'booksToBuy' es creada en la view MostrarLibro.cshtml al hacer clic en el boton agregar a carrito
-    myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));
+    //var myArray = [];
+    ////sessionStorage 'booksToBuy' es creada en la view MostrarLibro.cshtml al hacer clic en el boton agregar a carrito
+    //myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));
 
 
 
+    $(document).ready(function () {
 
+        /* Set variables*/
+
+        var taxRate = 0; //valor de impuestos
+        var shippingRate = 0; //costo de viaje
+        var fadeTime = 300;//tiempo asignado pra el efecto fadeTime
+        var precioFinal = 0;
+
+        //siempre seteo el input de quantity a 1 al recargar la pagina
+        $('.product-quantity input').val(1);
+
+        ///////////calculando el precio final en al 1er carga de la pagina//////////////////////
+
+        /* Sumo los de cada totales de filas para el precioFinal en la 1er carga de la pagina */
+        $('.product').each(function () {
+            precioFinal += parseFloat($(this).children('.product-line-price').text());
+        });
+
+        precioFinal = precioFinal + taxRate + shippingRate;
+
+        $('#precioFinal').text(precioFinal);
+        ////////////////////////////////////////////////////////////////////////////////////////
+
+        // al clickear en el input number de quantity llamo a la funcion updateQuantity
+        $('.product-quantity input').change(function () {
+            updateQuantity(this);
+        });
+
+        //al clickear en el boton eliminar llamo a la funcion removeItem
+        $('.product-removal button').click(function () {
+            removeItem(this);
+        });
+
+
+        /* Recalcular el carrito */
+        function recalculateCart() {
+            var subtotal = 0;
+
+            /* Sumar totales de filas */
+            $('.product').each(function () {
+                subtotal += parseFloat($(this).children('.product-line-price').text());
+            });
+
+            /* Calculando totales con impuesto/costo de viaje incluidos */
+            var tax = subtotal * taxRate;
+            var shipping = (subtotal > 0 ? shippingRate : 0);
+            var total = subtotal + tax + shipping;
+
+            //Actualizando el precio final
+            $('#precioFinal').text(total);
+
+            /* Actualizo la visualización de totales con el efecto fadeOut */
+            $('.totals-value').fadeOut(fadeTime, function () {
+                //$('#cart-subtotal').html(subtotal.toFixed(2));
+                //$('#cart-tax').html(tax.toFixed(2));
+                //$('#cart-shipping').html(shipping.toFixed(2));
+                //$('#cart-total').html(total.toFixed(2));
+                if (total == 0) {
+                    $('.checkout').fadeOut(fadeTime);
+                } else {
+                    $('.checkout').fadeIn(fadeTime);
+                }
+                $('.totals-value').fadeIn(fadeTime);
+
+            });
+        }
+
+
+        function updateQuantity(quantityInput) {
+            /* Calculando el precio de linea */
+            var productRow = $(quantityInput).parent().parent();
+            var price = parseFloat(productRow.children('.product-price').text());
+            var quantity = $(quantityInput).val();
+            var linePrice = price * quantity;
+
+            /* Actualiza la visualización del precio de línea y vuelve a calcular los totales del carrito */
+            productRow.children('.product-line-price').each(function () {
+                $(this).fadeOut(fadeTime, function () {
+                    $(this).text(linePrice.toFixed(2));
+                    recalculateCart();
+                    $(this).fadeIn(fadeTime);
+                });
+            });
+
+        }
+
+
+        /* Remover items del carrito */
+        function removeItem(removeButton) {
+            /* Removiendo row from DOM y recalculando el precio final del carrito */
+            var productRow = $(removeButton).parent().parent();
+
+            productRow.slideUp(fadeTime, function () {
+                productRow.remove();
+                recalculateCart();
+            });
+
+            //aca borrar el idbook del array y descontar en el carrito
+            var idBook = $(removeButton).val();
+
+            //borrando el Idbook de la sessionStorage
+            removeIdBookFromSessionStorage(idBook)
+
+            //descontando el item del carrito de la navbar
+            discountItem()
+
+        }
+
+    });
+
+    function removeIdBookFromSessionStorage(idBook) {
+
+        arrayIdBooks = [];
+
+        arrayIdBooks = JSON.parse(sessionStorage.getItem('booksToBuy'));
+
+        //borrando el id del array
+        for (var i = 0; i < arrayIdBooks.length; i++) {
+
+            if (arrayIdBooks[i] == idBook) {
+                arrayIdBooks.splice(i, 1);
+            }
+        }
+
+        //actualizo la sessionStorage
+        sessionStorage.setItem('booksToBuy', JSON.stringify(arrayIdBooks));
+    }
+
+    function discountItem() {
+
+        var items = parseInt(sessionStorage.getItem('ProductsAddedToShoppingCar'));
+        items = items - 1;
+        alert(items)
+        sessionStorage.setItem('ProductsAddedToShoppingCar', items);
+        //actualizo la cantidad de libros adheridos en el icono del carrito del navbar
+        $('.shoppingCar').html(items);
+    }
 
 </script>

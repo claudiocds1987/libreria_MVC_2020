@@ -117,12 +117,10 @@
         function sendToActionCarritoDeCompra() {
             //obteniendo el total de libros que hay en el carrito
             var totalBooks = sessionStorage.getItem('ProductsAddedToShoppingCar');
-            //el total lo mando al value del input hidden del formulario
-            //$('#hidden-totalBooks').val(totalBooks);
+            var arrayIdBooks = [];
 
-            MyAray = [];
-
-            arrayIdBooks = JSON.parse(sessionStorage.getItem('booksToBuy')); 
+            if (sessionStorage.getItem('booksToBuy') != null)
+                arrayIdBooks = JSON.parse(sessionStorage.getItem('booksToBuy')); 
 
             var uri = '@Url.Action("CarritoDeCompra", "Usser")';
 
@@ -138,16 +136,6 @@
             //nota: #div principal es el div que esta en _UsserLayout.cshtml
         }
         
-
-        //function sendToActionCarritoDeCompra() {
-        //    //obteniendo el total de libros que hay en el carrito
-        //    var totalBooks = sessionStorage.getItem('ProductsAddedToShoppingCar');
-        //    //el total lo mando al value del input hidden del formulario
-        //    $('#hidden-totalBooks').val(totalBooks);
-        //    document.formCarrito.submit();
-        //}
-
-
     </script>
 
 </body>
