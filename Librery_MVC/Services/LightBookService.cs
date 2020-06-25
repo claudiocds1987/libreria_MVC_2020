@@ -11,6 +11,31 @@ namespace Librery_MVC.Services
     {
         DataAccess da = new DataAccess();
 
+        public LightBook getLightBookById(String idBook)
+        {
+            LightBook book= new LightBook();
+            String consulta = "SELECT libros.IdLibro, libros.urlImagen, libros.nombre, libros.anioDeLanzamiento, libros.precio, libros.estado FROM libros WHERE libros.IdLibro = " + idBook;
+            MySqlConnection cn = new MySqlConnection();
+            cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                book.IdLibro = dr.GetInt32("IdLibro");
+                book.Nombre = dr.GetString("nombre");
+                book.AnioDeLanzamiento = dr.GetInt32("anioDeLanzamiento");
+                book.Precio = dr.GetDecimal("precio");
+                book.UrlImagen = dr.GetString("urlImagen");
+                book.Estado = dr.GetBoolean("estado");                                  
+            }
+
+            dr.Close();
+            cn.Close();
+            return book;
+
+        }
+
         public List<LightBook> getFilteredPaginationList(List<LightBook> list, int booksxPage, int numberPage, int totalPages)
         {
             List<LightBook> listPaginada = new List<LightBook>();

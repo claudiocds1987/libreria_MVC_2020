@@ -1,0 +1,26 @@
+﻿@model List<Librery_MVC.Models.LightBook>
+@using Librery_MVC.Models;
+
+@{
+    ViewBag.Title = "CarritoDeCompra";
+    Layout = "~/Views/Shared/_UsserLayout.cshtml";
+}
+
+<h2>CarritoDeCompra</h2>
+
+@foreach (LightBook item in Model)
+{
+    @item.Nombre<br />
+}
+
+<script type="text/javascript">
+
+    var myArray = [];
+    //sessionStorage 'booksToBuy' es creada en la view MostrarLibro.cshtml al hacer clic en el boton agregar a carrito
+    myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));
+
+
+
+
+
+</script>

@@ -369,6 +369,7 @@
     <Content Include="Views\Home\adminFiltrarLibro.cshtml" />
     <Content Include="Views\Usser\userFilterLightBooks.cshtml" />
     <Content Include="Views\Usser\Paginar.cshtml" />
+    <Content Include="Views\Usser\CarritoDeCompra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

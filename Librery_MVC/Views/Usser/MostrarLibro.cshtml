@@ -57,6 +57,7 @@
         if (sessionStorage.getItem('booksToBuy') != null) {
                              
             myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));                     
+            //check si el libro ya fue elegido
             var exist = checkIdBook(idBook, myArray);
 
             if (!exist) {
@@ -80,7 +81,9 @@
             $('.shoppingCar').html(1);
             var myArray = [];
             myArray.push(idBook);
-            sessionStorage.setItem('booksToBuy', JSON.stringify(myArray));         
+            //sessionStorage 'booksToBuy' guarda en un arrray los idBooks
+            sessionStorage.setItem('booksToBuy', JSON.stringify(myArray));
+            //sessionStorage 'ProductsAddedToShoppingCar' guarda la cantidad de books cargados en el carrito
             sessionStorage.setItem('ProductsAddedToShoppingCar', 1);
             
         }

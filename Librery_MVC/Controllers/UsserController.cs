@@ -308,6 +308,26 @@ namespace Librery_MVC.Controllers
             return View(lista);
         }
 
+        public ActionResult CarritoDeCompra(string totalBooks, string[] arrayIdBooks)
+        {
+            //Creo y Guardo en el ViewBag.User el userName guardado en TempData
+            ViewBag.User = TempData["User"];
+            LightBookService lbs = new LightBookService();
+
+            //int e = Convert.ToInt32(Request.Form["hidden-totalBooks"]);
+            //ViewBag.TotalBooks = e;
+
+            List<LightBook> list = new List<LightBook>();
+
+            for (int i = 0; i < arrayIdBooks.Length; i++)
+            {
+                string id = arrayIdBooks[i];
+                list.Add(lbs.getLightBookById(id));
+            }
+
+            return View(list);
+        }
+
         [HttpPost]
         public ActionResult userFiltrarLibros(string[] data)
         {
