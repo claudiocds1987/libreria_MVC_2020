@@ -6,6 +6,7 @@
 
     ViewBag.Title = "CarritoDeCompra";
     Layout = "~/Views/Shared/_UsserLayout.cshtml";
+    int cont = 0;
 }
 
 <h2>CARRITO DE COMPRAS</h2>
@@ -16,7 +17,7 @@
 }
 else
 {
-    <div class="shopping-cart">
+    <div class="shopping-cart" id="ca">
 
         <div class="column-labels">
             <label class="product-image">Image</label>
@@ -29,6 +30,7 @@ else
 
         @foreach (LightBook item in Model)
         {
+
             <div class="product">
 
                 <div class="product-image">
@@ -36,8 +38,7 @@ else
                 </div>
 
                 <div class="product-details">
-                    <div class="product-title">@item.Nombre</div>
-                    @*<p class="product-description">No hace falta la descripcion</p>*@
+                    <div class="product-title">@item.Nombre</div>                   
                 </div>
 
                 <div class="product-price">@item.Precio</div>
@@ -56,10 +57,18 @@ else
 
             </div>
 
+            //Creando los input hidden para enviar al ActionResult RealizarCompra
+
+            //capturo el idLibro
+            //<input type="hidden" id="cont++" value="@item.IdLibro" />
+            //capturo la cantidad del libro comprado
+            //<input type="hidden" id="hQuantity-@cont++" value="" />
+
+
         }
 
         <div>Precio final: <span id="precioFinal"></span></div>
-        <button class="checkout">Checkout</button>
+        <button class="checkout" onclick="Comprar();">Comprar</button>
 
     </div>
 
@@ -72,8 +81,6 @@ else
     //var myArray = [];
     ////sessionStorage 'booksToBuy' es creada en la view MostrarLibro.cshtml al hacer clic en el boton agregar a carrito
     //myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));
-
-
 
     $(document).ready(function () {
 
@@ -212,6 +219,35 @@ else
         sessionStorage.setItem('ProductsAddedToShoppingCar', items);
         //actualizo la cantidad de libros adheridos en el icono del carrito del navbar
         $('.shoppingCar').html(items);
+    }
+
+    function Comprar() {
+
+        var arrPrice = [];
+
+        //con jquery obtengo todos los valores de los div class product-price precio/unidad
+        //el div class .product es el padre de .product-price por eso el simbolo mayor ">" en $('.product>.product-price').map
+        $('.product>.product-price').map(function () {           
+            arrPrice.push(this.innerHTML);
+        });
+
+        for (var i = 0; i < arrPrice.length; i++) {
+            console.log(arrPrice[i]);
+        }
+      
+        //precio por la cantidad elegida 
+        $('.product>.product-line-price').map(function () {
+            alert(this.innerHTML);
+        });
+
+        //no funciona bien solo muestra un resultado
+        //$('.product-removal>.remove-product').map(function () {
+
+        //    alert($('.remove-product').val());
+        //});
+
+        
+
     }
 
 </script>

@@ -283,9 +283,6 @@ namespace Librery_MVC.Controllers
             return View(book);
         }
 
-       
-
-
         //[HttpPost]
         public ActionResult Comprar()
         {
