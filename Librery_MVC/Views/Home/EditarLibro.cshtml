@@ -19,152 +19,156 @@
 
 <h1 id="titulo">Editar Libro</h1>
 
-@if(ViewBag.Msg != null)
+@if (ViewBag.Msg != null)
 {
     <h5 style="color:red">@ViewBag.Msg</h5>
 }
-
-<br />
-
-@using (Html.BeginForm("LibroEditado", "Home", FormMethod.Post, new { onsubmit = "return confirmation();" }))
+else
 {
-    autor = sa.getAutor(Model.IdAutor);
-    List<Autor> autorList = new List<Autor>();
-    List<Categoria> categoryList = new List<Categoria>();
-    List<Editorial> editorialList = new List<Editorial>();
-    autorList = sa.ListAutores();
-    categoryList = cs.getAllCategories();
-    editorialList = es.getAllEditorials();
-    category = cs.getCategoria(Model.IdCategoria);
-    editorial = es.GetEditorial(Model.IdEditorial);
+    using (Html.BeginForm("LibroEditado", "Home", FormMethod.Post, new { onsubmit = "return confirmation();" }))
+    {
+        autor = sa.getAutor(Model.IdAutor);
+        List<Autor> autorList = new List<Autor>();
+        List<Categoria> categoryList = new List<Categoria>();
+        List<Editorial> editorialList = new List<Editorial>();
+        autorList = sa.ListAutores();
+        categoryList = cs.getAllCategories();
+        editorialList = es.getAllEditorials();
+        category = cs.getCategoria(Model.IdCategoria);
+        editorial = es.GetEditorial(Model.IdEditorial);
 
-    <div class="text-center" id="div-form-editarLibro">
+        <div class="text-center" id="div-form-editarLibro">
 
-        <div class="grupo">
-          
-            <div class="form-group col-md-2 text-center">
-                <label>Id:</label>
-                <input type="text" class="form-control" id="txt_idBook" name="txt_idBook" value="@Model.IdLibro" readonly />
+            <div class="grupo">
+
+                <div class="form-group col-md-2 text-center">
+                    <label>Id:</label>
+                    <input type="text" class="form-control" id="txt_idBook" name="txt_idBook" value="@Model.IdLibro" readonly />
+                </div>
+
+
+                <div class="form-group col-md-8">
+                    <label>Nombre:</label>
+                    <input type="text" class="form-control" id="txt_bookName" name="txt_bookName" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" title="Solo texto" maxlength="100" value="@Model.Nombre" required autofocus />
+                </div>
+
+
+                <div class="form-group col-md-2">
+                    <label>Lanzamiento:</label>
+                    @*<input type="number" class="form-control" id="txt_lanzamiento" name="txt_lanzamiento" min="500" max="9999" value="@Model.AnioDeLanzamiento" required />*@
+                    <input type="number" class="form-control" id="nbr_lanzamiento" name="nbr_lanzamiento" min="500" max="9999" value="@Convert.ToInt32(Model.AnioDeLanzamiento)" required />
+                </div>
+
+
             </div>
 
-            
-            <div class="form-group col-md-8">
-                <label>Nombre:</label>
-                <input type="text" class="form-control" id="txt_bookName" name="txt_bookName" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" title="Solo texto" maxlength="100" value="@Model.Nombre" required autofocus />
-            </div>
+            <div class="grupo">
 
-           
-            <div class="form-group col-md-2">
-                <label>Lanzamiento:</label>
-                <input type="number" class="form-control" id="txt_lanzamiento" name="txt_lanzamiento" min="500" max="9999" value="@Model.AnioDeLanzamiento" required />
-            </div>
+                <div class="form-group col-md-4">
+                    <label>Autor:</label>
+                    <select name="ddlAutor" class="form-control" id="ddlAutor" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+                        <option value=@autor.IdAutor>@autor.Nombre</option>
 
-
-        </div>
-
-        <div class="grupo">
-
-            <div class="form-group col-md-4">
-                <label>Autor:</label>
-                <select name="ddlAutor" class="form-control" id="ddlAutor" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
-                    <option value=@autor.IdAutor>@autor.Nombre</option>
-                   
-                    @foreach (Autor item in autorList)
-                    {
-                        if (!autor.Nombre.Equals(item.Nombre))
-                        {                          
-                            <option value=@item.IdAutor>@item.Nombre</option>
-                        }
-
-                    }
-                </select>
-            </div>
-
-            <div class="form-group col-md-4">
-                <label>Categoria:</label>
-                <select name="ddlCategory" id="ddlCategory" class="form-control" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
-
-                    <option value=@category.IdCategoria>@category.Nombre</option>
-
-                    @foreach (Categoria item in categoryList)
-                    {
-                        if (!category.Nombre.Equals(item.Nombre))
+                        @foreach (Autor item in autorList)
                         {
-                            <option value=@item.IdCategoria>@item.Nombre</option>
+                            if (!autor.Nombre.Equals(item.Nombre))
+                            {
+                                <option value=@item.IdAutor>@item.Nombre</option>
+                            }
+
                         }
-                    }
+                    </select>
+                </div>
 
-                </select>
-            </div>
+                <div class="form-group col-md-4">
+                    <label>Categoria:</label>
+                    <select name="ddlCategory" id="ddlCategory" class="form-control" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
 
-            <div class="form-group col-md-4">
-                <label>Editorial:</label>
-                <select name="ddlEditorial" id="ddlEditorial" class="form-control" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+                        <option value=@category.IdCategoria>@category.Nombre</option>
 
-                    <option value=@editorial.IdEditorial>@editorial.Nombre</option>
-
-                    @foreach (Editorial item in editorialList)
-                    {
-                        if (!editorial.Nombre.Equals(item.Nombre))
+                        @foreach (Categoria item in categoryList)
                         {
-                            <option value=@item.IdEditorial>@item.Nombre</option>
+                            if (!category.Nombre.Equals(item.Nombre))
+                            {
+                                <option value=@item.IdCategoria>@item.Nombre</option>
+                            }
                         }
 
-                    }
+                    </select>
+                </div>
 
-                </select>
+                <div class="form-group col-md-4">
+                    <label>Editorial:</label>
+                    <select name="ddlEditorial" id="ddlEditorial" class="form-control" onmousedown="if(this.options.length>5){this.size=5;}" onchange='this.size=0;' onblur="this.size=0;">
+
+                        <option value=@editorial.IdEditorial>@editorial.Nombre</option>
+
+                        @foreach (Editorial item in editorialList)
+                        {
+                            if (!editorial.Nombre.Equals(item.Nombre))
+                            {
+                                <option value=@item.IdEditorial>@item.Nombre</option>
+                            }
+
+                        }
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="grupo">
+
+                <div class="form-group col-md-8">
+                    <label>Descripcion:</label>
+                    <textarea name="description" id="description" class="form-control" maxlength="500" rows="4" cols="40" required>@Model.Descripcion</textarea>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label>Cantidad:</label>
+                    <input type="number" class="form-control" id="nbr_quantity" name="nbr_quantity" min="1" max="10000" value="@Model.Cantidad" required />
+                </div>
+                @*//para input number agregue atributo "any" para que permita poner numero con punto o coma
+                    //Corregir si quiero guardar en precio por ej 240000,78 me guarda 240001
+                    //Una posible solucion es cambiar en la base de datos el campo precio al tipo double*@
+
+                <div class="form-group col-md-2">
+                    <label>Precio:</label>
+                    @*<input type="number" class="form-control" id="nbr_price" name="nbr_price" step="any" maxlength="10" min="1" max="500000" value="@Model.Precio" required />*@
+                    <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@Model.Precio" required />
+                </div>
+
+            </div>
+
+            <div class="grupo">
+                <div class="col-md-2"></div>
+
+                <div class="form-group col-md-8">
+                    <label>Imagen:</label>
+                    @*//Si no se modifica la imagen le paso a LibroEditado.cshtml la url de la imagen original que viene desde el Model*@
+                    <input type="hidden" id="txt_urlImage" name="txt_urlImage" value="@Model.UrlImagen" />
+                    @*//------------------------------------------------------------------------------------------------------*@
+
+                    <input type="file" class="form-control" id="itf_urlImage" name="itf_urlImage" value="@Model.UrlImagen" />
+
+                </div>
+                <div class="col-md-2"></div>
+
+            </div>
+
+            <div id="cont-buttons">
+                <input type="submit" class="btn btn-primary" name="btn_Guardar" value="Guardar" />
+                <input type="reset" class="btn btn-warning" value="Restaurar">
+                <a class="btn btn-danger" href="@Url.Action("Libros", "Home")">Cancelar</a>
             </div>
 
         </div>
 
-        <div class="grupo">
-
-            <div class="form-group col-md-8">
-                <label>Descripcion:</label>
-                <textarea name="description" id="description" class="form-control" maxlength="500" rows="4" cols="40" required>@Model.Descripcion</textarea>
-            </div>
-
-            <div class="form-group col-md-2">
-                <label>Cantidad:</label>
-                <input type="number" class="form-control" id="nbr_cantidad" name="nbr_cantidad" min="1" max="10000" value="@Model.Cantidad" required />              
-            </div>
-            @*//para input number agregue atributo "any" para que permita poner numero con punto o coma
-                //Corregir si quiero guardar en precio por ej 240000,78 me guarda 240001
-                //Una posible solucion es cambiar en la base de datos el campo precio al tipo double*@
-
-            <div class="form-group col-md-2">
-                <label>Precio:</label>
-                @*<input type="number" class="form-control" id="nbr_price" name="nbr_price" step="any" maxlength="10" min="1" max="500000" value="@Model.Precio" required />*@
-                <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@Model.Precio" required />
-            </div>
-
-        </div>
-
-        <div class="grupo">
-            <div class="col-md-2"></div>
-
-            <div class="form-group col-md-8">
-                <label>Imagen:</label>
-                @*//Si no se modifica la imagen le paso a LibroEditado.cshtml la url de la imagen original que viene desde el Model*@
-                <input type="hidden" id="txt_urlImage" name="txt_urlImage" value="@Model.UrlImagen" />
-                @*//------------------------------------------------------------------------------------------------------*@
-
-                <input type="file" class="form-control" id="itf_urlImage" name="itf_urlImage" value="@Model.UrlImagen" />
-
-            </div>
-            <div class="col-md-2"></div>
-
-        </div>
-
-        <div id="cont-buttons">
-            <input type="submit" class="btn btn-primary" name="btn_Guardar" value="Guardar" />
-            <input type="reset" class="btn btn-warning" value="Restaurar">
-            <a class="btn btn-danger" href="@Url.Action("Libros", "Home")">Cancelar</a>
-        </div>
-
-    </div>
+    }
 
 }
+
+
 
 
 <script type="text/javascript">
@@ -193,7 +197,7 @@
 
 
 <script>
-    window.addEventListener("load", loadPricewithDecimalDot, false); 
+    window.addEventListener("load", loadPricewithDecimalDot, false);
 </script>
 
 @*Hacer validaciones con js*@

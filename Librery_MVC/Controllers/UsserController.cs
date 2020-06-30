@@ -404,8 +404,7 @@ namespace Librery_MVC.Controllers
             ViewBag.Sold = true;
             VentaService vs = new VentaService();
             Venta sale = new Venta();
-            decimal totalPrice = decimal.Parse(finalPrice);
-            totalPrice = totalPrice / 100;// ojo si el valor es $880 lo pone como 8.8
+            decimal totalPrice = check.ConvertStringToDecimal(finalPrice);          
             //enviando por set
             sale.NombreUsuario = userName;
             sale.PrecioTotal = totalPrice;
@@ -643,8 +642,10 @@ namespace Librery_MVC.Controllers
             ViewBag.Sold = true;
             VentaService vs = new VentaService();
             Venta sale = new Venta();
+            ///////cambialo dejarlo como en insertarLibro lado user//////////////////////////////////
             decimal totalPrice = decimal.Parse(precioTotal);
             totalPrice = totalPrice / 100;
+            ///////////////////////////////////////////
             //enviando por set
             sale.NombreUsuario = usuario;
             sale.PrecioTotal = totalPrice;

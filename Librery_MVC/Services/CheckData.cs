@@ -86,6 +86,59 @@ namespace Librery_MVC.Services
 
         }
 
+        /*****************************************************************************
+        FUNCION: ConvertStringToDecimal(String num).
+        RETURN: decimal number.
+        ACCION: Convierte un string que tiene coma o punto en numero decimal
+                Evalua cuantos decimales hay despues de la coma o punto, dependiendo
+                de la cantidad de decimales quehay divide el nmeero poor10 o por 100
+                
+            Ej: a) El string "800,5" al convertir en decimal  8005 => 8005/10 = 800.5
+                b) El string "800,52" al convertir en decimal  80052 => 80052/100 = 800.52
+        
+        nota: si el string no contiene coma o punto, lo convierte a decimal sin dividir
+        Ej: el string "800", al convertir en decimal va a ser 800 tmb.
+
+        Aclaracion: Esta funcion no sirve para un string con letras, simbolos, mas de una coma 
+        o punto decimal. Es recomendado que previamente fuera de esta funcion, se haga un check
+        del string ingresado ej: 
+
+        Decimal price = 0;
+        bool result = decimal.TryParse(string num, out price);
+                       
+        *****************************************************************************/
+
+        public decimal ConvertStringToDecimal(String num)
+        {
+            decimal newNumber = Convert.ToDecimal(num);
+            int quantityDecimals = 0;
+
+            for(int i = 0; i < num.Length; i++)
+            {
+                if(num[i].Equals(',') || num[i].Equals('.'))
+                {
+                    for (int x = i + 1; x < num.Length; x++)
+                        quantityDecimals++;
+
+                    if (quantityDecimals == 1)
+                    {                       
+                        newNumber = newNumber / 10;
+                        return newNumber;
+                    }
+
+                    if (quantityDecimals == 2)
+                    {                      
+                        newNumber = newNumber / 100;
+                        return newNumber;
+                    }
+
+                }                
+                   
+            }
+
+            return newNumber;
+        }
+
         public bool CheckDateFormat(String date)
         {
             DateTime dt;

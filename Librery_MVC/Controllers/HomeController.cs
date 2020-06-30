@@ -255,19 +255,82 @@ namespace Librery_MVC.Controllers
             LibroService ls = new LibroService();
             Libro book = new Libro();
             book = ls.GetBook(idLibro);
+            
             //****************** VALIDANDO LADO BACK-END *********************************//
+            
             //nota: todos los TempData son creados en ActionResult Libroeditado();
+        
+            //Aviso si hay un error en el nombre del libro
+            if (TempData["errorString"] != null)
+            {
+                ViewBag.Msg = "El nombre del libro solo debe tener letras!";
+                return View();
+            }
+
+            //Aviso error de precio 
+            if (TempData["errorPrice"] != null)
+            {
+                ViewBag.Msg = "El precio no es valido!, si es un numero decimal use el punto decimal con un maximo de dos decimales ej: 1500.88";
+                return View();
+            }
+
+            //Aviso si hay un error en el año del libro
+            if (TempData["errorYear"] != null)
+            {
+                ViewBag.Msg = "El año no es valido!";
+                return View();
+            }
+
+            //Aviso si el autor existe en la base de datos
+            if (TempData["errorAutor"] != null)
+            {
+                ViewBag.Msg = "El autor no existe en la base de datos!";
+                return View();
+            }
+
+            if (TempData["errorCategory"] != null)
+            {
+                ViewBag.Msg = "La categoria no existe en la base de datos!";
+                return View();
+            }
+
+            if (TempData["errorEditorial"] != null)
+            {
+                ViewBag.Msg = "La editorial no existe en la base de datos!";
+                return View();
+            }
+
+            if (TempData["errorQuantity"] != null)
+            {
+                ViewBag.Msg = "La cantidad debe ser un numero entero";
+                return View();
+            }
+
+            //Aviso si la img no se encuentra en la ruta especificada
+            if (TempData["errorPathImg"] != null)
+            {
+                ViewBag.Msg = "Error. La imagen no se encuentra en la ruta especificada";
+                return View();
+            }
+
+            //Aviso si el formato de img es incorrecto
+            if (TempData["errorImg"] != null)
+            {
+                ViewBag.Msg = "Error. El formato de imagen no es correcto. Formatos permitidos .jpg, .png, .gif, .bmp";
+                return View();
+            }
+
 
             //Aviso error de precio
             if (TempData["errorPrice"] != null)
             {
                 ViewBag.Msg = "El precio fue invalido!. No debe contener simbolos. Si el precio es decimal, use el punto decimal en vez de la coma.";
-                return View(book);
+                return View();
             }
 
             //******** fin validaciones back-end ************************
 
-            //ViewBag.Message = "Your contact page.";
+            
             return View(book);
         }
 
@@ -277,39 +340,101 @@ namespace Librery_MVC.Controllers
             ViewBag.Message = "Your contact page.";
             String ruta = "principal/imagenes/";
             Libro book = new Libro();
-
-            //-------------------------------------------------------------------------
-
             CheckData check = new CheckData();
 
-            //if (!check.CheckPrice(Request.Form["txt_price"]))
-            //{
-            //    //Si hay error en el precio creo la Tempdata
-            //    TempData["errorPrice"] = true;
-            //    //redirecciono a ActionResult editarLibro() enviando la TempData
-            //    //y el id del libro
-            //    int idBook = Convert.ToInt32(form[0]);
-            //    return RedirectToAction("EditarLibro", new { idLibro = idBook });
-                
-            //}
-          
-            //check precio de libro
-         
-            Decimal price = 0;
-            bool result = decimal.TryParse(Request.Form["txt_price"], out price);
-
-            if (!result)
+            //****************** VALIDACIONES BACK-END ***********************//
+            //permite white space en el nombre y checkea que no tenga numeros ni simbolos 
+            if (!check.CheckStringWithWhiteSpace(Request.Form["txt_bookName"]))
             {
-                //Si hay error en el precio creo la Tempdata
-                TempData["errorPrice"] = true;
+                TempData["errorString"] = true;
                 //redirecciono a ActionResult editarLibro() enviando la TempData
                 //y el id del libro
                 int idBook = Convert.ToInt32(form[0]);
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
-            //price = check.DividirNumber((Request.Form["txt_price"])); //no lo uses sacalo de Home InsertarLibro tmb
-            
+            //check length del año de lanzamiento solo cuatro numeros
+            if (Request.Form["nbr_lanzamiento"].Length != 4)
+            {
+                TempData["errorYear"] = true;              
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+            //check que el año de lanzamiento sea solo numeros
+            if (!check.CheckIntNumber(Request.Form["nbr_lanzamiento"]))
+            {
+                TempData["errorYear"] = true;               
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+
+            //check si existe el idAutor es un dato int
+            if (!check.CheckIntNumber(Request.Form["ddlAutor"]))
+            {
+                TempData["errorAutor"] = true;              
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+            //check si el idAutor existe en la base de datos
+            if (!check.CheckIdAutor(Request.Form["ddlAutor"]))
+            {
+                TempData["errorAutor"] = true;               
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+
+            //check si existe el idCategoria es un dato int
+            if (!check.CheckIntNumber(Request.Form["ddlCategory"]))
+            {
+                TempData["errorCategory"] = true;              
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+            //check si el idCategory existe en la base de datos
+            if (!check.CheckIdCategory(Request.Form["ddlCategory"]))
+            {
+                TempData["errorCategory"] = true;               
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+
+            //check si el idEditorial es un dato int
+            if (!check.CheckIntNumber(Request.Form["ddlEditorial"]))
+            {
+                TempData["errorEditorial"] = true;             
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+            //check si el idEditorial existe en la base de datos
+            if (!check.CheckIdEditorial(Request.Form["ddlEditorial"]))
+            {
+                TempData["errorEditorial"] = true;                
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+
+            //checking si la cantidad es un numero (si es null devuelve false)
+            if (!check.CheckIntNumber(Request.Form["nbr_quantity"]))
+            {
+                TempData["errorQuantity"] = true;
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+
+            //checking precio, tambien evalua si llega vacio
+            if (!check.CheckPrice(Request.Form["txt_price"]))
+            {
+                TempData["errorPrice"] = true;              
+                int idBook = Convert.ToInt32(form[0]);
+                return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            }
+      
+            /****************** fin validaciones back end****************************/
+
+            //convierto el precio string en decimal
+            String precio = Request.Form["txt_price"];
+            decimal price = check.ConvertStringToDecimal(precio);
+
             book.IdLibro = Convert.ToInt32(form[0]);
             book.Nombre = form[1];
             book.AnioDeLanzamiento = Convert.ToInt32(form[2]);
@@ -329,7 +454,7 @@ namespace Librery_MVC.Controllers
           
             book.Estado = true;
 
-            return View(book); //los datos se envian a LibroEditado.cshtml
+            return View(book);
         }
 
 
@@ -345,10 +470,10 @@ namespace Librery_MVC.Controllers
                 return View();
             }
 
-            //Aviso error de precio
+            //Aviso error de precio 
             if (TempData["errorPrice"] != null)
             {
-                ViewBag.Msg = "El precio no es valido!, si es un numero decimal use el punto decimal ej: 1500.88";
+                ViewBag.Msg = "El precio no es valido!, si es un numero decimal use el punto decimal con un maximo de dos decimales ej: 1500.88";
                 return View();
             }
 
@@ -375,6 +500,12 @@ namespace Librery_MVC.Controllers
             if (TempData["errorEditorial"] != null)
             {
                 ViewBag.Msg = "La editorial no existe en la base de datos!";
+                return View();
+            }
+
+            if(TempData["errorQuantity"] != null)
+            {
+                ViewBag.Msg = "La cantidad debe ser un numero entero";
                 return View();
             }
 
@@ -463,23 +594,23 @@ namespace Librery_MVC.Controllers
                 TempData["errorEditorial"] = true;
                 return RedirectToAction("InsertarLibro");
             }
-
-            //check precio de libro
-
-            //si hay caracteres raros decimal.TryParse devuelve false
-
-            Decimal price = 0;
-            bool result = decimal.TryParse(Request.Form["txt_price"], out price);
-
-            if(!result)
+            //checking precio, tambien evalua si llega vacio
+            if (!check.CheckPrice(Request.Form["txt_price"]))
             {
                 TempData["errorPrice"] = true;
-                //redirecciono a ActionResult InsertarLibro() enviando la TempData
+                return RedirectToAction("InsertarLibro");
+            }
+            //checking si la cantidad es un numero (si es null devuelve false)
+            if(!check.CheckIntNumber(Request.Form["nbr_quantity"]))
+            {
+                TempData["errorQuantity"] = true;
                 return RedirectToAction("InsertarLibro");
             }
 
-            //price = check.DividirNumber((Request.Form["txt_price"]));//no lo uses sacalo
-
+            //convierto el precio string en decimal
+            String precio = Request.Form["txt_price"];
+            decimal price = check.ConvertStringToDecimal(precio);           
+            
             //para la descripcion no hago check
 
             //pregunto si se recibió null como imagen
@@ -504,10 +635,6 @@ namespace Librery_MVC.Controllers
             book.IdEditorial = Convert.ToInt32(Request.Form["ddlEditorial"]);
             book.Descripcion = Request.Form["txta_description"];
             book.Cantidad = Convert.ToInt32(Request.Form["nbr_quantity"]);
-
-            /*El precio no va a venir con "coma", porque al hacer float.TryParse(Request.Form["txt_price"], out price); 
-              si encuentra una coma no lo convierte a float.*/
-
             book.Precio = price;
 
             /*Para obtener la ruta absoluta de la img Usar esto:

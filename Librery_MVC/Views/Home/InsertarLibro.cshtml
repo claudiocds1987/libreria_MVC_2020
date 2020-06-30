@@ -126,15 +126,6 @@
 
 <script>
     //Nota: esta funcion se activa desde un parametro del formulario
-    function confirmation() {
-        if (confirm("Esta seguro/a que Desea guardar los cambios?")) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     function checkDataInsertBook() {
 
         var confirmar = confirmation();
@@ -143,16 +134,25 @@
 
             var price = $('#txt_price').val();
 
-            if (isNumber(price)) {
-                alert('el precio esta mal');
-            } else
-                return true;
+            if (!validateDecimal(price)) {
+                alert("El precio ingresado no es valido");
+                return false;
+            }
 
         }
         else {
             return false;
         }
 
+    }
+
+    function confirmation() {
+        if (confirm("Esta seguro/a que Desea guardar los cambios?")) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     function isNumber(num) {
@@ -164,6 +164,27 @@
 
     }
 
+    /*----------------------------------------------------------------------------*
+    *    Function: validateDecimal(valor).                                        *
+    *    type: bool.                                                              *
+    *    Parametro: valor.                                                        *
+    *                                                                             *
+    *    Accion: 1) Evalua mediante una expresion regular que el valor ingresado  *
+    *               sea un numero o un numero con solo un punto decimal,          *
+    *               con un maximo de dos decimales                                *
+    *    return: true or false.                                                   *                                                                    
+    *---------------------------------------------------------------------------- */
+
+    function validateDecimal(valor) {
+        //var RE = /^\d*(\,\d{1})?\d{0,1}$/; permite poner el numero decimal con coma y un max de dos decimales
+        var RE = /^\d*(\.\d{1})?\d{0,1}$/; //permite poner el numero decimal con punto y un max de dos decimales
+
+        if (RE.test(valor)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
   
 </script>
 
