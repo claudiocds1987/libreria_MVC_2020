@@ -6,7 +6,8 @@
 
     ViewBag.Title = "CarritoDeCompra";
     Layout = "~/Views/Shared/_UsserLayout.cshtml";
-    int cont = 0;
+    int cont= 0;
+    
 }
 
 <h2>CARRITO DE COMPRAS</h2>
@@ -17,7 +18,7 @@
 }
 else
 {
-    <div class="shopping-cart" id="ca">
+    <div class="shopping-cart" id="cont-shoppingCart">
 
         <div class="column-labels">
             <label class="product-image">Image</label>
@@ -38,13 +39,13 @@ else
                 </div>
 
                 <div class="product-details">
-                    <div class="product-title">@item.Nombre</div>                   
+                    <div class="product-title">@item.Nombre</div>
                 </div>
 
                 <div class="product-price">@item.Precio</div>
 
                 <div class="product-quantity">
-                    <input type="number" value="2" min="1">
+                    <input type="number" class="quantity" value="2" min="1" max="@ViewBag.Quantity[cont]">
                 </div>
 
                 <div class="product-removal">
@@ -57,17 +58,12 @@ else
 
             </div>
 
-            //Creando los input hidden para enviar al ActionResult RealizarCompra
-
-            //capturo el idLibro
-            //<input type="hidden" id="cont++" value="@item.IdLibro" />
-            //capturo la cantidad del libro comprado
-            //<input type="hidden" id="hQuantity-@cont++" value="" />
-
+            cont++;
 
         }
 
-        <div>Precio final: <span id="precioFinal"></span></div>
+        <div>Precio final:<span id="precioFinal"></span></div>
+        <input type="hidden" id="userName" name="userName" value="@ViewBag.User" />
         <button class="checkout" onclick="Comprar();">Comprar</button>
 
     </div>
@@ -75,13 +71,8 @@ else
 }
 
 
-
 <script type="text/javascript">
-
-    //var myArray = [];
-    ////sessionStorage 'booksToBuy' es creada en la view MostrarLibro.cshtml al hacer clic en el boton agregar a carrito
-    //myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));
-
+   
     $(document).ready(function () {
 
         /* Set variables*/
@@ -98,11 +89,13 @@ else
 
         /* Sumo los de cada totales de filas para el precioFinal en la 1er carga de la pagina */
         $('.product').each(function () {
-            precioFinal += parseFloat($(this).children('.product-line-price').text());
+            
+            precioFinal += parseFloat($(this).children('.product-line-price').text().replace(/,/g, "."));
         });
-
-        precioFinal = precioFinal + taxRate + shippingRate;
-
+     
+        precioFinal = (precioFinal + taxRate + shippingRate);
+               
+        //coloco el precio en el span id="precioFinal"
         $('#precioFinal').text(precioFinal);
         ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -119,6 +112,7 @@ else
 
         /* Recalcular el carrito */
         function recalculateCart() {
+
             var subtotal = 0;
 
             /* Sumar totales de filas */
@@ -131,7 +125,7 @@ else
             var shipping = (subtotal > 0 ? shippingRate : 0);
             var total = subtotal + tax + shipping;
 
-            //Actualizando el precio final
+            /* Actualizando el precio final */
             $('#precioFinal').text(total);
 
             /* Actualizo la visualización de totales con el efecto fadeOut */
@@ -154,7 +148,7 @@ else
         function updateQuantity(quantityInput) {
             /* Calculando el precio de linea */
             var productRow = $(quantityInput).parent().parent();
-            var price = parseFloat(productRow.children('.product-price').text());
+            var price = parseFloat(productRow.children('.product-price').text().replace(/,/g, "."));
             var quantity = $(quantityInput).val();
             var linePrice = price * quantity;
 
@@ -195,7 +189,7 @@ else
 
     function removeIdBookFromSessionStorage(idBook) {
 
-        arrayIdBooks = [];
+        let arrayIdBooks = [];
 
         arrayIdBooks = JSON.parse(sessionStorage.getItem('booksToBuy'));
 
@@ -214,8 +208,7 @@ else
     function discountItem() {
 
         var items = parseInt(sessionStorage.getItem('ProductsAddedToShoppingCar'));
-        items = items - 1;
-        alert(items)
+        items = items - 1;      
         sessionStorage.setItem('ProductsAddedToShoppingCar', items);
         //actualizo la cantidad de libros adheridos en el icono del carrito del navbar
         $('.shoppingCar').html(items);
@@ -223,30 +216,50 @@ else
 
     function Comprar() {
 
-        var arrPrice = [];
-
+        //Obteniendo el nombre de usuario que hace la compra
+        let user = $('#userName').val();
+        let arrPrice = [];
+               
         //con jquery obtengo todos los valores de los div class product-price precio/unidad
         //el div class .product es el padre de .product-price por eso el simbolo mayor ">" en $('.product>.product-price').map
-        $('.product>.product-price').map(function () {           
-            arrPrice.push(this.innerHTML);
+        $('.product>.product-price').map(function () {                      
+            arrPrice.push(this.innerHTML);             
         });
 
-        for (var i = 0; i < arrPrice.length; i++) {
-            console.log(arrPrice[i]);
-        }
-      
-        //precio por la cantidad elegida 
-        $('.product>.product-line-price').map(function () {
-            alert(this.innerHTML);
+           
+        //Obtengo los idBook del Modal
+        var model = @Html.Raw(Json.Encode(Model));
+        var arrIdBook = [];
+
+        //cargando los idBook en el array
+        model.forEach(function (elemento) {
+            arrIdBook.push(elemento.IdLibro);           
         });
 
-        //no funciona bien solo muestra un resultado
-        //$('.product-removal>.remove-product').map(function () {
-
-        //    alert($('.remove-product').val());
-        //});
+        //Obteniendo las cantidades elegidas de los input number con querySelectorAll
+        
+        let cantidades = document.querySelectorAll('.quantity');
+        let cantidadesAcumuladas = [];
+        cantidades.forEach((cantidad) => {
+            cantidadesAcumuladas.push(Number(cantidad.value));
+        });
 
         
+        //Obtengo el precio final
+        var finalPrice = $('#precioFinal').text();
+            
+        //enviando con ajax al ActionResult RegistrarCompra
+        let dataIdBook = JSON.parse(sessionStorage.getItem('booksToBuy')); 
+
+        var uri = '@Url.Action("RegistrarCompra", "Usser")';
+           $.ajax({
+               url: uri,
+               data: { dataIdBook: dataIdBook, quantityBook: cantidadesAcumuladas, username: user, finalPrice: finalPrice },
+               type: 'POST',
+               success: function (respuestaDelServidor) {
+                   $("#cont-shoppingCart").html(respuestaDelServidor);
+               }
+           });
 
     }
 

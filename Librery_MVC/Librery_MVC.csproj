@@ -370,6 +370,7 @@
     <Content Include="Views\Usser\userFilterLightBooks.cshtml" />
     <Content Include="Views\Usser\Paginar.cshtml" />
     <Content Include="Views\Usser\CarritoDeCompra.cshtml" />
+    <Content Include="Views\Usser\RegistrarCompra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

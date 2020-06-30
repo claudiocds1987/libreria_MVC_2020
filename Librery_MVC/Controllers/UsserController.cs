@@ -318,6 +318,8 @@ namespace Librery_MVC.Controllers
 
             LightBookService lbs = new LightBookService();
             List<LightBook> list = new List<LightBook>();
+            List<Int32> quantityList = new List<int>();
+
 
             //recorro el arrayIdBooks recibido desde ajax para extraer c/u de los id
             //y pasarselo a la funcion getLightBookById(id) para obtener cada libro
@@ -325,10 +327,137 @@ namespace Librery_MVC.Controllers
             {
                 string id = arrayIdBooks[i];
                 list.Add(lbs.getLightBookById(id));
+                //Guardando en una lista la cantidad que hay cada libro 
+                quantityList.Add(lbs.getQuantityBook(id));
             }
 
+            ViewBag.Quantity = quantityList;
             return View(list);
         }
+
+     
+        public ActionResult RegistrarCompra(int[] dataIdBook, int[] quantityBook, String userName, string finalPrice)
+        {
+            //Creo y Guardo en el ViewBag.User el userName guardado en TempData
+            ViewBag.User = TempData["User"];
+
+            //******************** Validacion back-end *********************************
+
+            if (String.IsNullOrEmpty(finalPrice) || dataIdBook == null || dataIdBook.Length == 0 || quantityBook == null || quantityBook.Length == 0)
+            {
+                ViewBag.Msg = "Error de compra lado cliente";
+                return View();
+            }
+
+            CheckData check = new CheckData();
+
+            //checking que el array dataIdBook recibido solo tenga numeros int
+            for (int i = 0; i <= dataIdBook.Length - 1; i++)
+            {
+                if (!check.CheckId(dataIdBook[i]))
+                {
+                    ViewBag.Msg = "Error, los id de libros recibidos, debe ser de tipo int";
+                    return View();
+                }
+
+            }
+
+            //checking que el array quantityBook recibido solo tenga numeros int
+            for (int i = 0; i <= quantityBook.Length - 1; i++)
+            {
+                if (!check.CheckId(quantityBook[i]))
+                {
+                    ViewBag.Msg = "Error, el tipo de dato para la 'cantidad' de libros debe ser de tipo int";
+                    return View();
+                }
+
+            }
+
+            //checking que el String que contiene el nombre de usuario no este vacio
+            if (userName == null || userName == "")
+            {
+                ViewBag.Msg = "Error, se necesita el nombre de usuario para realizar la compra!";
+                return View();
+            }
+
+            //checking que el usuario exista en la base de datos
+            UsserService us = new UsserService();
+
+            if (!us.SearchUsserName(userName))
+            {
+                ViewBag.Msg = "Error, el nombre de usuario no existe en la base de datos!";
+                return View();
+            }
+
+            //checking el precio final
+            if (!check.CheckPrice(finalPrice))
+            {
+                //Si hay error en el precio creo la Tempdata
+                ViewBag.Msg = "El precio es invalido";
+                return View();
+            }
+
+            //****************** fin validaciones back-end **********************// 
+
+            //Haciendo la insercion de la venta y detalle de venta
+
+            ViewBag.Sold = true;
+            VentaService vs = new VentaService();
+            Venta sale = new Venta();
+            decimal totalPrice = decimal.Parse(finalPrice);
+            totalPrice = totalPrice / 100;// ojo si el valor es $880 lo pone como 8.8
+            //enviando por set
+            sale.NombreUsuario = userName;
+            sale.PrecioTotal = totalPrice;
+            DateTime actualDate = DateTime.Today;
+            sale.Fecha = actualDate;
+            //insert en la tabla Ventas de la db
+            int afectedRows = vs.InsertSale(sale);
+
+            if (afectedRows > 0)//si se pudo insertar en la tabla ventas, se inserta en detalleVentas
+            {
+
+                DetalleVenta saleDetail = new DetalleVenta();
+                DetalleVentaService dvs = new DetalleVentaService();
+
+                List<string> list = new List<string>();
+                LibroService ls = new LibroService();
+
+                int tam = dataIdBook.Length;
+
+                for (int i = 0; i < tam; i++)
+                {
+                    int idVenta = dvs.getLastIdVenta();//get ultimo idVenta de la tabla Ventas
+                    decimal price = ls.getBookPrice(dataIdBook[i]);//get price del libro
+                    //set
+                    saleDetail.IdVenta = idVenta;
+                    saleDetail.IdLibro = dataIdBook[i];
+                    saleDetail.Cantidad = quantityBook[i];
+                    saleDetail.Precio = price;
+
+                    //insert en tabla DetalleVentas de la db
+                    int insertRows = dvs.InsertSaleDetail(saleDetail);
+
+                    if (insertRows > 0)//si pudo insertar
+                    {
+                        list.Add(ls.getBookName(saleDetail.IdLibro));
+                        ViewBag.Sold = true;//aviso de compra exitosa                     
+                    }
+                    else
+                        ViewBag.Sold = false;
+                }
+
+                if (ViewBag.Sold == true)
+                    return View(list);//Enviando a la view lista de la compra reciente
+                else
+                    return View();
+            }
+
+            ViewBag.Sold = false;
+            return View();
+
+        }
+
 
         [HttpPost]
         public ActionResult userFiltrarLibros(string[] data)
@@ -807,8 +936,7 @@ namespace Librery_MVC.Controllers
                 ViewBag.Resultados = totalBooks;
                 return View(list);
             }
-            
-    
+               
         }
 
         public ActionResult Paginar(string numberPage)

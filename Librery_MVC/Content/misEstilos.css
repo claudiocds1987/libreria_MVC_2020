@@ -520,6 +520,10 @@ body {
     width: 10%;
 }
 
+.quantity{
+    color: black !important;
+}
+
 .product-removal {
     float: left;
     width: 9%;

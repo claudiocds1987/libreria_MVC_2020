@@ -210,7 +210,20 @@ namespace Librery_MVC.Services
             return list;
         }
 
+        public int getQuantityBook(String idBook)
+        {
+            String consulta = "SELECT libros.cantidad FROM libros WHERE libros.IdLibro = " + idBook;
+            MySqlConnection cn = new MySqlConnection();
+            cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+            int quantity = 0;
 
+            if (dr.Read())
+                quantity = dr.GetInt32("cantidad");
+
+            return quantity;
+        }
 
     }
 }
