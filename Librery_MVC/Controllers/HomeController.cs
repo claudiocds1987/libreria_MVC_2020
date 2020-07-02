@@ -454,7 +454,16 @@ namespace Librery_MVC.Controllers
           
             book.Estado = true;
 
-            return View(book);
+            LibroService ls = new LibroService();
+            int filasAfectadas;
+            filasAfectadas = ls.UpdateBook(book);
+
+            if(filasAfectadas > 0)        
+                ViewBag.Filas = 1;  
+            else
+                ViewBag.Filas = 0;
+
+            return View();
         }
 
 
@@ -648,7 +657,19 @@ namespace Librery_MVC.Controllers
                 book.UrlImagen = ruta + Request.Form["itf_urlImage"];
 
             book.Estado = true;
-            return View(book);
+
+            LibroService ls = new LibroService();
+            int filasAfectadas = 0;
+            filasAfectadas = ls.InsertBook(book);
+            //si filasAfectadas devuelve 1, es porque se pudo insertar en la base de datos
+            if (filasAfectadas > 0)
+            {               
+                ViewBag.Msg = 1;
+            }
+            else
+                ViewBag.Msg = 0;
+
+            return View();
         }
 
         public ActionResult ListarClientes()

@@ -97,7 +97,7 @@
 
             <div class="form-group col-md-2">
                 <label>Cantidad:</label>
-                <input type="number" class="form-control" id="nbr_quantity" name="nbr_quantity" min="1" max="250000" maxlength="10" required />
+                <input type="number" class="form-control" id="nbr_quantity" name="nbr_quantity" min="0" max="250000" maxlength="10" required />
             </div>
 
             <div class="form-group col-md-4">
@@ -131,11 +131,23 @@
         var confirmar = confirmation();
 
         if (confirmar) {
-
+            
             var price = $('#txt_price').val();
+            var quantity = $('#nbr_quantity').val();
+            var year = $('#nbr_lanzamiento').val(); 
+
+            if (!isAPositiveNumber(year)) {
+                alert("El año ingresado no es valido");              
+                return false;
+            }
+
+            if (!isAPositiveNumber(quantity)) {
+                alert("la cantidad ingresada no es valida");
+                return false;
+            }
 
             if (!validateDecimal(price)) {
-                alert("El precio ingresado no es valido");
+                alert("El precio ingresado no es valido. Si es un numero decimal use el punto decimal con un maximo de dos decimales.");
                 return false;
             }
 
@@ -162,6 +174,23 @@
         else
             return false;
 
+    }
+
+
+    /*----------------------------------------------------------------------------*
+    *    Function: isAPositiveNumber(str).                                        *
+    *    type: bool.                                                              *
+    *    Parametro: string.                                                       *
+    *                                                                             *
+    *    Accion: 1) Evalua mediante una expresion regular que el string ingresado *
+    *               sea un numero entero positivo entre 0-9.                      *
+    *                                                                             *
+    *    return: "true" si es un numero positivo, "false" si no lo es.            *                                                                    
+    *---------------------------------------------------------------------------- */
+
+    function isAPositiveNumber(str) {
+
+        return /^\+?(0|[1-9]\d*)$/.test(str);
     }
 
     /*----------------------------------------------------------------------------*

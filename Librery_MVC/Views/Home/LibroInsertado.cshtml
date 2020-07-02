@@ -1,15 +1,10 @@
-﻿@model Librery_MVC.Models.Libro
-@using Librery_MVC.Models;
-@using Librery_MVC.Services;
-
+﻿
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    LibroService ls = new LibroService();
-    int filasAfectadas;
-    filasAfectadas = ls.InsertBook(Model);
+    
 }
 
-@if (filasAfectadas > 0)
+@if (ViewBag.Msg > 0)
 {
 
     <script type="text/javascript">

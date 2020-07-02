@@ -105,7 +105,8 @@ namespace Librery_MVC.Services
 
         Decimal price = 0;
         bool result = decimal.TryParse(string num, out price);
-                       
+        
+        Solo divide el numero cuando tiene despues del punto o coma, 1 o dos decimales como maximo.    
         *****************************************************************************/
 
         public decimal ConvertStringToDecimal(String num)
@@ -131,7 +132,7 @@ namespace Librery_MVC.Services
                         newNumber = newNumber / 100;
                         return newNumber;
                     }
-
+                   
                 }                
                    
             }
@@ -264,6 +265,7 @@ namespace Librery_MVC.Services
             //expresion regular solo acepta numeros y un solo punto decimal
             //no acepta 150.445.2(ciento cincuenta mil cuatrocientos cuarenta y cinco con dos)
             //si acepta 150445.2(ciento cincuenta mil cuatrocientos cuarenta y cinco con dos)
+            //no evalua la cantidad de decimales que hay despues del punto.
             var regexItem = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
  
             //si el precio esta vacio
