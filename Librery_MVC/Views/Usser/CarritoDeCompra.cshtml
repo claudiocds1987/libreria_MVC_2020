@@ -49,7 +49,7 @@ else
 
                 <div class="product-removal">
                     <button class="remove-product" value="@item.IdLibro">
-                        Remove
+                        Eliminar
                     </button>
                 </div>
 
@@ -63,6 +63,8 @@ else
 
         <div>Precio final:<span id="precioFinal"></span></div>
         <input type="hidden" id="userName" name="userName" value="@ViewBag.User" />
+        @*<button class="cancel" onclick="Cancelar();">Cancelar</button>*@
+        <a class="cancel" href="@Url.Action("index", "Usser")">Cancelar</a>
         <button class="checkout" onclick="Comprar();">Comprar</button>
 
     </div>
@@ -84,7 +86,7 @@ else
         //siempre seteo el input de quantity a 1 al recargar la pagina
         $('.product-quantity input').val(1);
 
-        ///////////calculando el precio final en al 1er carga de la pagina//////////////////////
+        //////calculando el precio final en al 1er carga de la pagina//////////
 
         /* Sumo los de cada totales de filas para el precioFinal en la 1er carga de la pagina */
         $('.product').each(function () {
@@ -96,8 +98,7 @@ else
                
         //coloco el precio en el span id="precioFinal"
         $('#precioFinal').text(precioFinal);
-        ////////////////////////////////////////////////////////////////////////////////////////
-
+        
         // al clickear en el input number de quantity llamo a la funcion updateQuantity
         $('.product-quantity input').change(function () {
             updateQuantity(this);
@@ -215,8 +216,17 @@ else
 
     function Comprar() {
 
+        let userName = @Html.Raw(Json.Encode(ViewBag.User));
+      
+        if (userName === "" || userName === null) {
+            
+            alert('Para comprar debe estar logeado!');
+            return false;
+        }
+        
+
         //Obteniendo el nombre de usuario que hace la compra
-        let user = $('#userName').val();
+        //let user = $('#userName').val();
         let arrPrice = [];
                
         //con jquery obtengo todos los valores de los div class product-price precio/unidad
@@ -253,7 +263,7 @@ else
         var uri = '@Url.Action("RegistrarCompra", "Usser")';
            $.ajax({
                url: uri,
-               data: { dataIdBook: dataIdBook, quantityBook: cantidadesAcumuladas, username: user, finalPrice: finalPrice },
+               data: { dataIdBook: dataIdBook, quantityBook: cantidadesAcumuladas, username: userName, finalPrice: finalPrice },
                type: 'POST',
                success: function (respuestaDelServidor) {
                    $("#cont-shoppingCart").html(respuestaDelServidor);

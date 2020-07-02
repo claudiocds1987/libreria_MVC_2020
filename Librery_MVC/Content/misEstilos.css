@@ -2,13 +2,14 @@
 body {
     /*background-color: #E5E7E9 !important;*/
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
-    color: white !important;
+    /*color: white !important;*/
+    color: black !important;
 }
 
 
-.fondo-User{
-    background-image: url(/principal/imagenes/fondo-negro.png) !important;
-    
+.fondo-User {
+    /*background-image: url(/principal/imagenes/fondo-negro.png) !important;*/
+    background-color: white !important;
 }
 /*************************************************************************
                     _UsserLayout.cshtml
@@ -307,7 +308,7 @@ body {
 
 /*esta clase tambien esta center userFilterLightBook.cshtml y Paginar.cshtml*/
 .container-image {
-    box-sizing: border-box !important;     
+    box-sizing: border-box !important; 
     padding: 8px !important;
     max-width: 173px !important;
 }
@@ -317,19 +318,35 @@ body {
     max-height: 292px;
 }
 
+.container-image a {
+    color: black;
+    font-weight: 400;
+}
+
 /*************pagination************/
 .pagination-btns {
-    background-color: blue;
+    background-color: black;
+    color: white;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.42;
+    border-radius: 15px;
+    margin-right: 2px;
+}
+
+#pagination-buttons{
+    margin-top: 25px;
 }
 /********fin pagination************/
+
 
 /*************************************************************************
                   MostrarLibro.cshtml(lado Usser)
 *************************************************************************/
-
-
-
-#div-row{
+#div-row {
     margin-top: 15px !important;
 }
 
@@ -564,7 +581,7 @@ body {
 /* Body/Header stuff */
 body {
     padding: 0px 30px 30px 20px;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
     font-weight: 100;
 }
 
@@ -609,7 +626,7 @@ label {
 
     .product .product-details .product-title {
         margin-right: 20px;
-        font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";
+        /*font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";*/
     }
 
     .product .product-details{
@@ -626,7 +643,7 @@ label {
         padding: 4px 8px;
         background-color: #c66;
         color: #fff;
-        font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";
+        /*font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";*/
         font-size: 12px;
         border-radius: 3px;
     }
@@ -656,9 +673,9 @@ label {
         text-align: right;
     }
 
-.totals .totals-item-total {
+/*.totals .totals-item-total {
     font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";
-}
+}*/
 
 .checkout {
     float: right;
@@ -671,9 +688,27 @@ label {
     border-radius: 3px;
 }
 
-    .checkout:hover {
-        background-color: #494;
-    }
+.checkout:hover {
+    background-color: #494;
+}
+
+.cancel {
+    float: right;
+    border: 0;
+    margin-top: 20px;
+    margin-left: 8px;
+    padding: 6px 25px;
+    background-color: #FF0000;
+    color: #fff;
+    font-size: 25px;
+    border-radius: 3px;
+}
+
+.cancel:hover {
+    background-color: #8B0000;
+    color: #fff;
+    text-decoration: none;
+}
 
 /* Make adjustments for tablet */
 @media screen and (max-width: 650px) {

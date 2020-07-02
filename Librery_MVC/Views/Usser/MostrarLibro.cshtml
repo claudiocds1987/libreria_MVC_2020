@@ -39,7 +39,15 @@
         <label for="precio">Precio:</label>
         <span>$ @Model.Precio</span><br />
         <label for="cantidad">Cantidad disponible:</label>
-        <span>@Model.Cantidad</span><br />
+        @if (Model.Cantidad == 0)
+        {
+            <span>NO HAY STOCK</span><br />
+        }
+        else
+        {
+            <span>@Model.Cantidad</span><br />
+        }
+        @*<span>@Model.Cantidad</span><br />*@
         <hr />
         <button class="btn btn-default" onclick="addToShoppingCar();"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>AGREGAR AL CARRITO</button>
 
@@ -50,10 +58,17 @@
 <script type="text/javascript">
 
     function addToShoppingCar() {
-                  
-        var acu = 1;             
-        var idBook = @Html.Raw(Json.Encode(Model.IdLibro));
-        
+
+        let quantity =  @Html.Raw(Json.Encode(Model.Cantidad));
+
+        if (quantity == 0) {
+            alert('Lo sentimos!, No hay stock')
+            return false;
+        }
+
+
+        var idBook = @Html.Raw(Json.Encode(Model.IdLibro)); 
+        var acu = 1;  
         if (sessionStorage.getItem('booksToBuy') != null) {
             //Obtengo los idBook guardados en la sessionStorage                 
             myArray = JSON.parse(sessionStorage.getItem('booksToBuy'));                     

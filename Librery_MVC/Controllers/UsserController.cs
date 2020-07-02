@@ -339,7 +339,7 @@ namespace Librery_MVC.Controllers
         public ActionResult RegistrarCompra(int[] dataIdBook, int[] quantityBook, String userName, string finalPrice)
         {
             //Creo y Guardo en el ViewBag.User el userName guardado en TempData
-            ViewBag.User = TempData["User"];
+            //ViewBag.User = TempData["User"];
 
             //******************** Validacion back-end *********************************
 

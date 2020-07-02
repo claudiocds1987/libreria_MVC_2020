@@ -1,4 +1,5 @@
-﻿
+﻿@model List<string>
+
 @{
     Layout = null;
 }
@@ -8,16 +9,45 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>RegistrarCompra</title>
+    <title>Registrar Compra</title>
+    @*/*alertifyjs es un framework de js para ventanas alert elegantes**********/*@
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/alertify.min.css" />
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/themes/semantic.min.css" />
+    <script src="~/js-frameworks/alertifyjs/alertify.min.js"></script>
+    @*/*************************************************************************/*@
 </head>
 <body>
 
-    @if(ViewBag.Msg != null)
+    @if (ViewBag.Msg != null)
     {
         <h3 style="color: red">@ViewBag.Msg</h3>
     }
 
-    <div> 
-    </div>
+    @if (ViewBag.Sold == true)
+    {
+        <h3>libros comprados</h3>
+
+        foreach (String item in Model)
+        {
+            <h4>@item</h4>
+        }
+
+        <script>
+
+            //Borrando las sessionStorage
+            sessionStorage.removeItem('booksToBuy');
+            sessionStorage.removeItem('ProductsAddedToShoppingCar');
+            //seteo el carrito del navbar en cero
+            $('.shoppingCar').html(0);
+            alertify.alert("¡MUCHAS GRACIAS POR SU COMPRA!", "Usted puede ver su historial de compras en la sección 'Mis compras'.").set('label', 'Aceptar');
+        </script>
+    }
+    else
+    {
+        <script>
+            alertify.alert("ERROR DE COMPRA", "No se pudo realizar la compra.").set('label', 'Aceptar');
+        </script>
+    }
+
 </body>
 </html>
