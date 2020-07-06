@@ -49,6 +49,32 @@
 
     }
 
+    <div class="container-fluid">
+
+        <div id="cont-social-networks" class="col-md-4 text-left vcenter">
+
+            <b>Seguinos</b>
+
+            <img src="~/principal/imagenes/facebook-logo.png" alt="facebook logo" />
+            <img src="~/principal/imagenes/instagram-logo.png" alt="facebook logo" />
+
+        </div>
+
+        <div id="cont-img-logo-loyout" class="col-md-4 text-center">
+            <img class="img-circle" id="img-logo-loyout" src="~/principal/imagenes/bookLogo.png" alt="logo">
+        </div>
+
+        <div id="div-conact" class="col-md-4 text-right vcenter">
+            <b>Contacto</b>
+        </div>
+
+    </div>
+
+    <div class="container text-center">
+        <h2>Library MVC</h2>
+        Somos lo que leemos @ViewBag.User
+    </div>
+
     <div class="navbar navbar-inverse navbar-fixed-top" id="nav-fixedTop">
 
         <div class="cont-principal">
@@ -56,9 +82,11 @@
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
+
                         </button>
                         <a class="navbar-brand" id="brand" href="#">LibraryMVC</a>
                     </div>
@@ -71,7 +99,7 @@
                             <li><a href="@Url.Action("userLogin", "Usser")">Login</a></li>
                             <li><a href="@Url.Action("CrearUsuario", "Usser")">Registrarse</a></li>
                             @*<li><a onclick="sendToActionCarritoDeCompra();"><span class="glyphicon glyphicon-shopping-cart shoppingCar" id="glyphicon-shopping-cart" aria-hidden="true"></span></a></li>*@
-                            <li><a class="btn btn-block" onclick="sendToActionCarritoDeCompra();" role="button"><span class="glyphicon glyphicon-shopping-cart shoppingCar" id="glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
+                            <li><a class="btn btn-block" id="btn-shopping-cart" onclick="sendToActionCarritoDeCompra();" role="button"><span class="glyphicon glyphicon-shopping-cart shoppingCar" id="glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
 
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
@@ -107,34 +135,34 @@
     <script type="text/javascript">
 
         //sessionStorage 'ProductsAddedToShoppingCar' es creada en la view MostrarLibro.cshtml al hacer clic en el boton agregar a carrito
-        if (sessionStorage.getItem('ProductsAddedToShoppingCar') == null) 
+        if (sessionStorage.getItem('ProductsAddedToShoppingCar') == null)
             $('.shoppingCar').html(0);
 
-        else 
+        else
             $('.shoppingCar').html(sessionStorage.getItem('ProductsAddedToShoppingCar'))
-                             
+
         function sendToActionCarritoDeCompra() {
             //obteniendo el total de libros que hay en el carrito
             var totalBooks = sessionStorage.getItem('ProductsAddedToShoppingCar');
             var arrayIdBooks = [];
 
             if (sessionStorage.getItem('booksToBuy') != null)
-                arrayIdBooks = JSON.parse(sessionStorage.getItem('booksToBuy')); 
+                arrayIdBooks = JSON.parse(sessionStorage.getItem('booksToBuy'));
 
             var uri = '@Url.Action("CarritoDeCompra", "Usser")';
 
             $.ajax({
                 url: uri,
-                data: { totalBooks: totalBooks, arrayIdBooks: arrayIdBooks },               
+                data: { totalBooks: totalBooks, arrayIdBooks: arrayIdBooks },
                 type: 'POST',
                 success: function (response) {
                         $('#div-principal').html(response);
-                }             
+                }
             });
 
             //nota: #div principal es el div que esta en _UsserLayout.cshtml
         }
-        
+
     </script>
 
 </body>

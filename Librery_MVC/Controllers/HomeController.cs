@@ -261,11 +261,11 @@ namespace Librery_MVC.Controllers
             //nota: todos los TempData son creados en ActionResult Libroeditado();
         
             //Aviso si hay un error en el nombre del libro
-            if (TempData["errorString"] != null)
-            {
-                ViewBag.Msg = "El nombre del libro solo debe tener letras!";
-                return View();
-            }
+            //if (TempData["errorString"] != null)
+            //{
+            //    ViewBag.Msg = "El nombre del libro solo debe tener letras!";
+            //    return View();
+            //}
 
             //Aviso error de precio 
             if (TempData["errorPrice"] != null)
@@ -344,14 +344,14 @@ namespace Librery_MVC.Controllers
 
             //****************** VALIDACIONES BACK-END ***********************//
             //permite white space en el nombre y checkea que no tenga numeros ni simbolos 
-            if (!check.CheckStringWithWhiteSpace(Request.Form["txt_bookName"]))
-            {
-                TempData["errorString"] = true;
-                //redirecciono a ActionResult editarLibro() enviando la TempData
-                //y el id del libro
-                int idBook = Convert.ToInt32(form[0]);
-                return RedirectToAction("EditarLibro", new { idLibro = idBook });
-            }
+            //if (!check.CheckStringWithWhiteSpace(Request.Form["txt_bookName"]))
+            //{
+            //    TempData["errorString"] = true;
+            //    //redirecciono a ActionResult editarLibro() enviando la TempData
+            //    //y el id del libro
+            //    int idBook = Convert.ToInt32(form[0]);
+            //    return RedirectToAction("EditarLibro", new { idLibro = idBook });
+            //}
 
             //check length del año de lanzamiento solo cuatro numeros
             if (Request.Form["nbr_lanzamiento"].Length != 4)
@@ -473,11 +473,11 @@ namespace Librery_MVC.Controllers
             //nota: todos los TempData son creados en ActionResult LibroInsertado();
 
             //Aviso si hay un error en el nombre del libro
-            if(TempData["errorString"] != null)
-            {
-                ViewBag.Msg = "El nombre del libro solo debe tener letras!";
-                return View();
-            }
+            //if(TempData["errorString"] != null)
+            //{
+            //    ViewBag.Msg = "El nombre del libro solo debe tener letras!";
+            //    return View();
+            //}
 
             //Aviso error de precio 
             if (TempData["errorPrice"] != null)
@@ -532,6 +532,13 @@ namespace Librery_MVC.Controllers
                 return View();
             }
 
+            //Aviso si el libro  ya existe en la base de datos
+            if(TempData["duplicatedBook"] != null)
+            {
+                ViewBag.Msg = "Error. Ya existe un libro del mismo autor";
+                return View();
+            }
+
             ViewBag.Message = "Your contact page.";
             return View();
         }
@@ -546,12 +553,13 @@ namespace Librery_MVC.Controllers
 
             //****************** VALIDACIONES BACK-END ***********************//
             //permite white space en el nombre y checkea que no tenga numeros ni simbolos 
-            if (!check.CheckStringWithWhiteSpace(Request.Form["txt_bookName"]))
-            {
-                TempData["errorString"] = true;
-                return RedirectToAction("InsertarLibro");
-            }
-
+            //if (!check.CheckStringWithWhiteSpace(Request.Form["txt_bookName"]))
+            //{
+            //    //corregir porque no permite acentos
+            //    TempData["errorString"] = true;
+            //    return RedirectToAction("InsertarLibro");
+            //}
+           
             //check length del año de lanzamiento solo cuatro numeros
             if(Request.Form["nbr_lanzamiento"].Length != 4)
             {
@@ -634,7 +642,15 @@ namespace Librery_MVC.Controllers
                     return RedirectToAction("InsertarLibro");
                 }
             }
-                                              
+              
+            //ckeck existencia del libro en la base de datos por idAutor y nombre de libro
+            if(check.checkAutorAndBookName(Request.Form["txt_bookName"], Request.Form["ddlAutor"]))
+            {
+                TempData["duplicatedBook"] = true;
+                return RedirectToAction("InsertarLibro");
+            }
+
+
             // **************** fin validaciones back-end *********************//
 
             book.Nombre = Request.Form["txt_bookName"];

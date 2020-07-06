@@ -256,12 +256,15 @@
     <Content Include="principal\imagenes\Emociones Toxicas.jpg" />
     <Content Include="principal\imagenes\Equilibrio.jpg" />
     <Content Include="principal\imagenes\Evita jirones de su vida.png" />
+    <Content Include="principal\imagenes\Evita.jpg" />
+    <Content Include="principal\imagenes\facebook-logo.png" />
     <Content Include="principal\imagenes\fondo-cemento.jpg" />
     <Content Include="principal\imagenes\fondo-negro.png" />
-    <Content Include="principal\imagenes\Harry Potter and the sorcerer%27s stone.jpg" />
+    <Content Include="principal\imagenes\Harry-Poter-Y-La-Orden-Del-Fenix.png" />
     <Content Include="principal\imagenes\historieta-Argentina-invasiones-inglesas.jpg" />
     <Content Include="principal\imagenes\historieta-Argentina-revolucion-de-mayo.jpg" />
     <Content Include="principal\imagenes\historieta-Argentina-Sarmiento.jpg" />
+    <Content Include="principal\imagenes\instagram-logo.png" />
     <Content Include="principal\imagenes\juego de tronos choque de reyes.jpg" />
     <Content Include="principal\imagenes\juego-de-tronos-choque-de-reyes-n-0203.jpg" />
     <Content Include="principal\imagenes\juego-de-tronos-nueva-edicion-0104.jpg" />
@@ -282,6 +285,7 @@
     <Content Include="principal\imagenes\lo-pasado-pensado.jpg" />
     <Content Include="principal\imagenes\Los mitos de la historia Argentina tres.jpg" />
     <Content Include="principal\imagenes\los-cuentos-del-abuelo-jose.jpg" />
+    <Content Include="principal\imagenes\Los-Vestidos-De-Kate.png" />
     <Content Include="principal\imagenes\LosMitosDeLaHistoriaArgentina2.jpg" />
     <Content Include="principal\imagenes\Manuel-Belgrano-vida-y-pensamiento-de-un-revolucionario.jpg" />
     <Content Include="principal\imagenes\Mujeres insolentes.jpg" />
@@ -289,6 +293,7 @@
     <Content Include="principal\imagenes\mujeres-tenian-que-ser.jpg" />
     <Content Include="principal\imagenes\next.png" />
     <Content Include="principal\imagenes\previous.png" />
+    <Content Include="principal\imagenes\Sapo-En-Buenos-Aires.jpg" />
     <Content Include="principal\imagenes\seguimiento.png" />
     <Content Include="principal\imagenes\slider-img1.jpg" />
     <Content Include="principal\imagenes\slider-img2.jpg" />
@@ -296,6 +301,7 @@
     <Content Include="principal\imagenes\snext.png" />
     <Content Include="principal\imagenes\sprevious.png" />
     <Content Include="principal\imagenes\TheCrazyHaacksYLaCamaraImposible.jpg" />
+    <Content Include="principal\imagenes\Vidas-De-Gato.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -369,8 +375,8 @@
     <Content Include="Views\Home\adminFiltrarLibro.cshtml" />
     <Content Include="Views\Usser\userFilterLightBooks.cshtml" />
     <Content Include="Views\Usser\Paginar.cshtml" />
-    <Content Include="Views\Usser\CarritoDeCompra.cshtml" />
     <Content Include="Views\Usser\RegistrarCompra.cshtml" />
+    <Content Include="Views\Usser\CarritoDeCompra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

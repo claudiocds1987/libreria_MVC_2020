@@ -2,78 +2,82 @@
 @using Librery_MVC.Models;
 
 @{
-    /**/
-
-    ViewBag.Title = "CarritoDeCompra";
-    Layout = "~/Views/Shared/_UsserLayout.cshtml";
-    int cont= 0;
-    
+    Layout = null;
+    int cont = 0;
 }
 
-<h2>CARRITO DE COMPRAS</h2>
+<!DOCTYPE html>
 
-@if (ViewBag.Msg != null)
-{
-    <h3 style="color:red">@ViewBag.Msg</h3>
-}
-else
-{
-    <div class="shopping-cart" id="cont-shoppingCart">
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CarritoDeCompra</title>
+</head>
+<body>
 
-        <div class="column-labels">
-            <label class="product-image">Image</label>
-            <label class="product-details">Product</label>
-            <label class="product-price">Precio</label>
-            <label class="product-quantity">Cantidad</label>
-            <label class="product-removal">Remove</label>
-            <label class="product-line-price">Total</label>
-        </div>
+    <h2>CARRITO DE COMPRAS</h2>
 
-        @foreach (LightBook item in Model)
-        {
-            <div class="product">
+    @if (ViewBag.Msg != null)
+    {
+        <h3 style="color:red">@ViewBag.Msg</h3>
+    }
+    else
+    {
+        <div class="shopping-cart" id="cont-shoppingCart">
 
-                <div class="product-image">
-                    <img src="~/@item.UrlImagen">
-                </div>
-
-                <div class="product-details">
-                    <div class="product-title">@item.Nombre</div>
-                </div>
-
-                <div class="product-price">@item.Precio</div>
-
-                <div class="product-quantity">
-                    <input type="number" class="quantity" value="2" min="1" max="@ViewBag.Quantity[cont]">
-                </div>
-
-                <div class="product-removal">
-                    <button class="remove-product" value="@item.IdLibro">
-                        Eliminar
-                    </button>
-                </div>
-
-                <div class="product-line-price">@item.Precio</div>
-
+            <div class="column-labels">
+                <label class="product-image">Image</label>
+                <label class="product-details">Product</label>
+                <label class="product-price">Precio</label>
+                <label class="product-quantity">Cantidad</label>
+                <label class="product-removal">Remove</label>
+                <label class="product-line-price">Total</label>
             </div>
 
-            cont++;
+            @foreach (LightBook item in Model)
+            {
+                <div class="product">
 
-        }
+                    <div class="product-image">
+                        <img src="~/@item.UrlImagen">
+                    </div>
 
-        <div>Precio final:<span id="precioFinal"></span></div>
-        <input type="hidden" id="userName" name="userName" value="@ViewBag.User" />
-        @*<button class="cancel" onclick="Cancelar();">Cancelar</button>*@
-        <a class="cancel" href="@Url.Action("index", "Usser")">Cancelar</a>
-        <button class="checkout" onclick="Comprar();">Comprar</button>
+                    <div class="product-details">
+                        <div class="product-title">@item.Nombre</div>
+                    </div>
 
-    </div>
+                    <div class="product-price">@item.Precio</div>
 
-}
+                    <div class="product-quantity">
+                        <input type="number" class="quantity" value="2" min="1" max="@ViewBag.Quantity[cont]">
+                    </div>
 
+                    <div class="product-removal">
+                        <button class="remove-product" value="@item.IdLibro">
+                            Eliminar
+                        </button>
+                    </div>
 
-<script type="text/javascript">
-   
+                    <div class="product-line-price">@item.Precio</div>
+
+                </div>
+
+                cont++;
+
+            }
+
+            <div>Precio final:<span id="precioFinal"></span></div>
+            <input type="hidden" id="userName" name="userName" value="@ViewBag.User" />
+            @*<button class="cancel" onclick="Cancelar();">Cancelar</button>*@
+            <a class="cancel" href="@Url.Action("index", "Usser")">Cancelar</a>
+            <button class="checkout" onclick="Comprar();">Comprar</button>
+
+        </div>
+
+    }
+
+    <script type="text/javascript">
+
     $(document).ready(function () {
 
         /* Set variables*/
@@ -90,15 +94,15 @@ else
 
         /* Sumo los de cada totales de filas para el precioFinal en la 1er carga de la pagina */
         $('.product').each(function () {
-            
+
             precioFinal += parseFloat($(this).children('.product-line-price').text().replace(/,/g, "."));
         });
-     
+
         precioFinal = (precioFinal + taxRate + shippingRate);
-               
+
         //coloco el precio en el span id="precioFinal"
         $('#precioFinal').text(precioFinal);
-        
+
         // al clickear en el input number de quantity llamo a la funcion updateQuantity
         $('.product-quantity input').change(function () {
             updateQuantity(this);
@@ -208,7 +212,7 @@ else
     function discountItem() {
 
         var items = parseInt(sessionStorage.getItem('ProductsAddedToShoppingCar'));
-        items = items - 1;      
+        items = items - 1;
         sessionStorage.setItem('ProductsAddedToShoppingCar', items);
         //actualizo la cantidad de libros adheridos en el icono del carrito del navbar
         $('.shoppingCar').html(items);
@@ -217,48 +221,48 @@ else
     function Comprar() {
 
         let userName = @Html.Raw(Json.Encode(ViewBag.User));
-      
+
         if (userName === "" || userName === null) {
-            
+
             alert('Para comprar debe estar logeado!');
             return false;
         }
-        
+
 
         //Obteniendo el nombre de usuario que hace la compra
         //let user = $('#userName').val();
         let arrPrice = [];
-               
+
         //con jquery obtengo todos los valores de los div class product-price precio/unidad
         //el div class .product es el padre de .product-price por eso el simbolo mayor ">" en $('.product>.product-price').map
-        $('.product>.product-price').map(function () {                      
-            arrPrice.push(this.innerHTML);             
+        $('.product>.product-price').map(function () {
+            arrPrice.push(this.innerHTML);
         });
 
-           
+
         //Obtengo los idBook del Modal
         var model = @Html.Raw(Json.Encode(Model));
         var arrIdBook = [];
 
         //cargando los idBook en el array
         model.forEach(function (elemento) {
-            arrIdBook.push(elemento.IdLibro);           
+            arrIdBook.push(elemento.IdLibro);
         });
 
         //Obteniendo las cantidades elegidas de los input number con querySelectorAll
-        
+
         let cantidades = document.querySelectorAll('.quantity');
         let cantidadesAcumuladas = [];
         cantidades.forEach((cantidad) => {
             cantidadesAcumuladas.push(Number(cantidad.value));
         });
 
-        
+
         //Obtengo el precio final
         var finalPrice = $('#precioFinal').text();
-            
+
         //enviando con ajax al ActionResult RegistrarCompra
-        let dataIdBook = JSON.parse(sessionStorage.getItem('booksToBuy')); 
+        let dataIdBook = JSON.parse(sessionStorage.getItem('booksToBuy'));
 
         var uri = '@Url.Action("RegistrarCompra", "Usser")';
            $.ajax({
@@ -272,4 +276,8 @@ else
 
     }
 
-</script>
+    </script>
+
+
+</body>
+</html>

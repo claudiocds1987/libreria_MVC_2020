@@ -149,12 +149,17 @@ function buttonsPagination(totalBooks, booksxPage, idDiv) {
         var button = '<button type=button value="1" class="pagination-btns" onclick="doPagination(this);">1</button>)';
         $(idDiv).html(button);
     }
-    
-
-    
-    
+          
 }
 
+
+function CheckNombreCompuesto(nombre) {
+
+    let regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+
+    if (!regex.test(nombre))  
+        return false;          
+}
 
 //function filtrar() {
 

@@ -15,27 +15,68 @@ namespace Librery_MVC.Services
 
         DataAccess da = new DataAccess();
 
-        public bool checkEmailFormat(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        //public String cleanInnecesaryWhiteSpace(String word)
+        //{
+        //    return word = word.replace(/^\s +|\s +$/ g, '')
+        //}
 
-        public Decimal DividirNumber(String number)
-        {
-            /*nota: si el string tiene mas de 7 caracteres ej 152988.25
-                la division no va a dar exacta, esto es porque float soporta hasta 7 digitos.
-                una solucion seria cambiar en la base de datos de float a double.
-            */
 
-            int tam = number.Length;
+        /*****************************************************************************
+         *  FUNCTION: checkAutorAndBookName(String bookName, String idAutor)
+         *  TYPE: bool.
+         *  RETURN: True/False.
+         *  ACTION: Checkea en la base de datos si el libro pertenece al autor.
+         *  devuelve true si lo encuentra, false caso contrario.
+         *  
+         *  Nota: Esta funcion se utiliza antes de hacer el Insert del libro en la db,
+         *  para que no ingrese 2 libros con el mismo nombre y mismo autor.
+         *  Pude suceder que haya 2 o mas libros con el mismo nombre, pero no del mismo 
+         *  autor.
+         * 
+        ******************************************************************************/
+        public bool checkAutorAndBookName(String bookName, String idAutor)
+       {
+           String consulta = "SELECT libros.nombre, libros.idAutor FROM libros WHERE libros.nombre='" + bookName + "' AND libros.idAutor = " + idAutor;
+           MySqlConnection cn = da.ConnectToDB();
+           MySqlCommand cmd = new MySqlCommand(consulta, cn);
+           MySqlDataReader dr = cmd.ExecuteReader();
+
+           if (dr.Read())
+           {
+               dr.Close();
+               cn.Close();
+               return true;
+           }          
+           else
+           {
+               dr.Close();
+               cn.Close();
+               return false;
+           }
+
+       }
+
+       public bool checkEmailFormat(string email)
+       {
+           try
+           {
+               var addr = new System.Net.Mail.MailAddress(email);
+               return addr.Address == email;
+           }
+           catch
+           {
+               return false;
+           }
+       }
+
+       public Decimal DividirNumber(String number)
+       {
+           /*nota: si el string tiene mas de 7 caracteres ej 152988.25
+               la division no va a dar exacta, esto es porque float soporta hasta 7 digitos.
+               una solucion seria cambiar en la base de datos de float a double.
+           */
+
+        int tam = number.Length;
             int pos = 0;
             decimal newNumber = Convert.ToDecimal(number);
 
@@ -251,12 +292,14 @@ namespace Librery_MVC.Services
         //Si la cadena solo contiene letras devuelve true
         public bool CheckStringWithoutWhiteSpace(String word)
         {
+            //nota: ojo! si la palabra tiene acentos devuelve false.
             return Regex.IsMatch(word, @"^[a-zA-Z]+$");         
         }
 
         //checkea si la cadena tiene espacios vacios
         public bool CheckStringWithWhiteSpace(String word)
         {
+            //nota: ojo! si la palabra tiene acentos devuelve false.
             return Regex.IsMatch(word, @"^[a-zA-Z ]+$");
         }
 

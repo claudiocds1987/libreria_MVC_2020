@@ -9,20 +9,16 @@
      TempData.Remove("User");
  }
 
-
-<h2>Login de usuario</h2>
-
 <h2 style="color: red">@ViewBag.Msg</h2>
 
 
 @using (Html.BeginForm("userLogin", "Usser", FormMethod.Post))
 {
-
     <div id="caja">
 
-        <div id="cont-img">
+        @*<div id="cont-img">
             <img id="img-logo" src="~/principal/imagenes/bookLogo.png" alt="logo">
-        </div>
+        </div>*@
         <h3>INICIAR SESIÓN</h3>
 
         <div id="form-login">

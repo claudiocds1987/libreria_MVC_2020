@@ -6,14 +6,47 @@ body {
     color: black !important;
 }
 
-
 .fondo-User {
     /*background-image: url(/principal/imagenes/fondo-negro.png) !important;*/
     background-color: white !important;
 }
+
+.vcenter {
+   /*display: inline-block;*/
+   margin-top: 50px;
+    
+}
+
 /*************************************************************************
                     _UsserLayout.cshtml
 *************************************************************************/
+
+#btn-shopping-cart {
+    float: left !important;
+}
+
+#glyphicon-shopping-cart{
+    float: left !important;
+}
+
+#cont-social-networks img {
+    width: 45px;
+    height: 45px;
+}
+
+#cont-img-logo-loyout {
+    margin-top: 45px;
+}
+
+#img-logo-loyout {
+    height: 160px;
+    width: 160px;
+    /*-webkit-box-shadow: 0 5px 10px 10px black;*/
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);   
+    -moz-box-shadow:  10px 10px 5px 0px rgba(0,0,0,0.75);    
+}
+
+
 #navigation {
     /*para cambiar de color el nav*/
     /*background: #138AF7 !important; buen color celeste*/
@@ -129,6 +162,7 @@ body {
     font-weight: 700;
     margin: 0 auto;
     width: 300px;
+    height: 450px;
 }
 
 #caja h3 {
@@ -136,17 +170,18 @@ body {
     text-align: center;
 }
 
-#cont-img {
+/*#cont-img {
     margin-top: 45px;
     text-align: center;
-}
+}*/
 
-#img-logo {
+/*#img-logo {
     height: 120px;
     width: 120px;
-}
+}*/
 
 #form-login {
+    margin-top: 100px;
     margin-left: 5px;
     margin-right: 5px;
 }
@@ -217,7 +252,7 @@ body {
 }
 
 
-/********************************* FIN index.cshtml ***************************************/
+/********************************* FIN userLogin.cshtml ***************************************/
 
 /******************************************************************************************
                             CrearUsuario.cshtml (lado user)
@@ -302,15 +337,15 @@ body {
 #cont-libros{
     display: flex !important;
     flex-wrap: wrap !important;
-    justify-content:flex-start !important;
-    
+    justify-content:flex-start !important;   
 }
 
 /*esta clase tambien esta center userFilterLightBook.cshtml y Paginar.cshtml*/
 .container-image {
-    box-sizing: border-box !important; 
+    box-sizing: border-box !important;
     padding: 8px !important;
-    max-width: 173px !important;
+    /*max-width: 173px !important;*/
+    width: 153px !important;
 }
 
 .container-image img{
@@ -341,6 +376,8 @@ body {
     margin-top: 25px;
 }
 /********fin pagination************/
+
+/************************** FIN index.cshtml (lado user) *********************************/
 
 
 /*************************************************************************
