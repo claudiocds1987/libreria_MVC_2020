@@ -24,6 +24,7 @@
 
         <img src="/@Model.UrlImagen.Replace("\\", "/")" />       
         <a class="btn btn-primary" id="btn-volver" href="@Url.Action("index", "Usser")">Volver</a>
+    
     </div>
 
     <div class="col-md-8 contInfo">
@@ -39,6 +40,7 @@
         <label for="precio">Precio:</label>
         <span>$ @Model.Precio</span><br />
         <label for="cantidad">Cantidad disponible:</label>
+        
         @if (Model.Cantidad == 0)
         {
             <span>NO HAY STOCK</span><br />
@@ -47,7 +49,7 @@
         {
             <span>@Model.Cantidad</span><br />
         }
-        @*<span>@Model.Cantidad</span><br />*@
+      
         <hr />
         <button class="btn btn-default" onclick="addToShoppingCar();"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>AGREGAR AL CARRITO</button>
 

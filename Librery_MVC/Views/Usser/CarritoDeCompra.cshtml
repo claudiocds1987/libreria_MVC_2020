@@ -3,6 +3,7 @@
 
 @{
     Layout = null;
+    TempData.Keep("User");
     int cont = 0;
 }
 
@@ -67,8 +68,7 @@
             }
 
             <div>Precio final:<span id="precioFinal"></span></div>
-            <input type="hidden" id="userName" name="userName" value="@ViewBag.User" />
-            @*<button class="cancel" onclick="Cancelar();">Cancelar</button>*@
+            <input type="hidden" id="userName" name="userName" value="@ViewBag.User" />        
             <a class="cancel" href="@Url.Action("index", "Usser")">Cancelar</a>
             <button class="checkout" onclick="Comprar();">Comprar</button>
 
@@ -220,17 +220,25 @@
 
     function Comprar() {
 
+        //Me fijo cuantos items estan en el carrito para comprar
+        let isThereItems = sessionStorage.getItem('ProductsAddedToShoppingCar');
+        //Obtengo el nombre de usuario llamando a la ViewBag.User
         let userName = @Html.Raw(Json.Encode(ViewBag.User));
 
+        //Si el usuario no esta logeado le informo que no puede comprar si no esta logeado
         if (userName === "" || userName === null) {
 
             alert('Para comprar debe estar logeado!');
             return false;
         }
 
+        //Por si el usuario elimina todos los items del carrito de compras y pulsa el boton Comprar
+        if (isThereItems == 0 || isThereItems === null) {
 
-        //Obteniendo el nombre de usuario que hace la compra
-        //let user = $('#userName').val();
+            alert('No hay items en el carrito para poder comprar!');
+            return false;
+        }
+      
         let arrPrice = [];
 
         //con jquery obtengo todos los valores de los div class product-price precio/unidad

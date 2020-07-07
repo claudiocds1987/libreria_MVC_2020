@@ -264,15 +264,7 @@ namespace Librery_MVC.Controllers
             return View(usser); //pasando el objeto usser y ViewBag.Email a la vista registrarUsuario.cshtml
 
         }
-
-        public ActionResult userListarLibros()
-        {
-            //Guardo en el ViewBag.User el userName guardado en TempData
-            ViewBag.User = TempData["User"];
-            return View();
-        }
-
-
+    
         public ActionResult MostrarLibro(int idLibro)
         {
             LibroService ls = new LibroService();
@@ -283,27 +275,6 @@ namespace Librery_MVC.Controllers
             return View(book);
         }
 
-        //[HttpPost]
-        public ActionResult Comprar()
-        {
-            //Creo y Guardo en el ViewBag.User el userName guardado en TempData
-            ViewBag.User = TempData["User"];
-            //?ViewBag.User = Request.Form["user"];
-
-            int tam = Convert.ToInt32(Request.Form["idTotales"]);
-            LibroService ls = new LibroService();
-            Libro book = new Libro();
-            List<Libro> lista = new List<Libro>();
-
-            for (int i = 0; i < tam; i++)
-            {
-                //pasando los value de los input hidden de userListarLibros
-                book = ls.GetBook(Convert.ToInt32(Request.Form[i]));
-                lista.Add(book);
-            }
-
-            return View(lista);
-        }
 
         public ActionResult CarritoDeCompra(string totalBooks, string[] arrayIdBooks)
         {
@@ -338,8 +309,8 @@ namespace Librery_MVC.Controllers
      
         public ActionResult RegistrarCompra(int[] dataIdBook, int[] quantityBook, String userName, string finalPrice)
         {
-            //Creo y Guardo en el ViewBag.User el userName guardado en TempData
-            //ViewBag.User = TempData["User"];
+           
+            ViewBag.User = userName;
 
             //******************** Validacion back-end *********************************
 
@@ -456,250 +427,9 @@ namespace Librery_MVC.Controllers
             return View();
 
         }
-
-
-        [HttpPost]
-        public ActionResult userFiltrarLibros(string[] data)
-        {
-            CheckData check = new CheckData();
-            AutorService sa = new AutorService();
-            CategoriaService cs = new CategoriaService();
-            LibroService ls = new LibroService();
-            List<Libro> list = new List<Libro>();
-            //Obteniendo los datos enviados desde ajax
-            String bookName = data[0];
-            String idAutor = data[1];
-            String idCategory = data[2];
-            String price1 = data[3];
-            String price2 = data[4];
-
-            //si no filtra y hace click en "buscar" lista todos los libros
-            if (bookName == "" && idAutor == "todos" && idCategory == "todos" && price1 == "" && price2 == "")
-            {
-                list = ls.ListBooks();
-                return View(list);
-            }
-
-            String consulta = "SELECT * FROM libros WHERE";
-            String estado = " AND libros.estado = 1";
-            int cont = 0; // referencia si hay que agregar  el "AND" a la consulta
-
-            //****************** Check back-end *************************//
-
-            if (!String.IsNullOrEmpty(bookName))
-            {
-                consulta += " libros.nombre LIKE '%" + bookName + "%'";
-                cont++;
-            }
-
-
-            if (check.CheckIntNumber(idAutor)) //idAutor es un numero int?
-            {
-                if (check.CheckIdAutor(idAutor)) //idAutor existe en la base datos?
-                {
-                    if (cont > 0)
-                        consulta += " AND libros.idAutor= " + idAutor;
-                    else
-                    {
-                        consulta += " libros.idAutor= " + idAutor;
-                        cont++;
-                    }
-
-                }
-                else
-                {
-                    ViewBag.Msg = "Error al recibir el value del autor";
-                    return View();
-                }
-
-            }
-            else if (idAutor != "todos")
-            {
-                ViewBag.Msg = "Error al recibir el value del autor";
-                return View();
-            }
-
-            if (check.CheckIntNumber(idCategory)) //idCategory es un numero int?
-            {
-                if (check.CheckIdCategory(idCategory)) //idCategory existe en la db?
-                {
-                    if (cont > 0) //si es > a 0 agrego el "AND" a la consulta                  
-                        consulta += " AND libros.idCategoria= " + idCategory;
-                    else
-                    {
-                        consulta += " libros.idCategoria= " + idCategory;
-                        cont++;
-                    }
-
-                }
-                else
-                {
-                    ViewBag.Msg = "Error al recibir el value de la categoria";
-                    return View();
-                }
-
-            }
-            else if (idCategory != "todos")
-            {
-                ViewBag.Msg = "Error al recibir el value de la categoria";
-                return View();
-            }
-
-            //check precio 1
-            if (check.CheckIntNumber(price1))
-            {
-                if (cont > 0)
-                    consulta += " AND libros.precio >= " + price1;
-                else
-                {
-                    consulta += " libros.precio >= " + price1;
-                    cont++;
-                }
-
-            }
-            else if (!String.IsNullOrEmpty(price1))
-            {
-                ViewBag.Msg = "Error al recibir el value del precio 1";
-                return View();
-            }
-
-            //check precio 2
-            if (check.CheckIntNumber(price2))
-            {
-                if (cont > 0)
-                    consulta += " AND libros.precio <= " + price2;
-                else
-                    consulta += " libros.precio <= " + price2;
-            }
-            else if (!String.IsNullOrEmpty(price2))
-            {
-                ViewBag.Msg = "Error al recibir el value del precio 2";
-                return View();
-            }
-
-
-            //****************** Fin Check back-end *************************//
-
-            list = ls.filtrarLibro(consulta += estado);
-            return View(list);
-        }
-
-        [HttpPost]
-        public ActionResult CompraFinalizada(int[] dataId, int[] dataQuantity, String usuario, String precioTotal)
-        {
-
-            //**** Validacion back-end ****
-
-            CheckData check = new CheckData();
-
-            //checking que el array dataId recibido solo tenga numeros int
-            for (int i = 0; i <= dataId.Length - 1; i++)
-            {
-                if (!check.CheckId(dataId[i]))
-                {
-                    ViewBag.Msg = "Error, los id de libros recibidos, debe ser de tipo int";
-                    return View();
-                }
-
-            }
-            //checking que el array dataQuantity recibido solo tenga numeros int
-            for (int i = 0; i <= dataQuantity.Length - 1; i++)
-            {
-                if (!check.CheckId(dataQuantity[i]))
-                {
-                    ViewBag.Msg = "Error, el tipo de dato para la 'cantidad' de libros debe ser de tipo int";
-                    return View();
-                }
-
-            }
-
-            //checking que el String que contiene el nombre de usuario no este vacio
-            if (usuario == null || usuario == "")
-            {
-                ViewBag.Msg = "Error, se necesita el nombre de usuario para realizar la compra!";
-                return View();
-            }
-
-            //checking si el usuario existe en la base de datos
-            UsserService us = new UsserService();
-
-            if (!us.SearchUsserName(usuario))
-            {
-                ViewBag.Msg = "Error, el nombre de usuario no existe en la base de datos!";
-                return View();
-            }
-
-            //checking el precioTotal
-            if (!check.CheckPrice(precioTotal))
-            {
-                //Si hay error en el precio creo la Tempdata
-                ViewBag.Msg = "El precio es invalido";
-                return View();
-            }
-
-            //**** fin validaciones back-end *** // 
-
-            ViewBag.Sold = true;
-            VentaService vs = new VentaService();
-            Venta sale = new Venta();
-            ///////cambialo dejarlo como en insertarLibro lado user//////////////////////////////////
-            decimal totalPrice = decimal.Parse(precioTotal);
-            totalPrice = totalPrice / 100;
-            ///////////////////////////////////////////
-            //enviando por set
-            sale.NombreUsuario = usuario;
-            sale.PrecioTotal = totalPrice;
-            DateTime actualDate = DateTime.Today;
-            sale.Fecha = actualDate;
-            //insert en la tabla Ventas de la db
-            int afectedRows = vs.InsertSale(sale);
-
-            if (afectedRows > 0)//si se pudo insertar en la tabla ventas, se inserta en detalleVentas
-            {
-
-                DetalleVenta saleDetail = new DetalleVenta();
-                DetalleVentaService dvs = new DetalleVentaService();
-
-                List<string> list = new List<string>();
-                LibroService ls = new LibroService();
-
-                int tam = dataId.Length;
-
-                for (int i = 0; i < tam; i++)
-                {
-                    int idVenta = dvs.getLastIdVenta();//get ultimo idVenta de la tabla Ventas
-                    decimal price = ls.getBookPrice(dataId[i]);//get price del libro
-                    //set
-                    saleDetail.IdVenta = idVenta;
-                    saleDetail.IdLibro = dataId[i];
-                    saleDetail.Cantidad = dataQuantity[i];
-                    saleDetail.Precio = price;
-
-                    //insert en tabla DetalleVentas de la db
-                    int insertRows = dvs.InsertSaleDetail(saleDetail);
-
-                    if (insertRows > 0)//si pudo insertar
-                    {
-                        list.Add(ls.getBookName(saleDetail.IdLibro));
-                        ViewBag.Sold = true;//aviso de compra exitosa                     
-                    }
-                    else
-                        ViewBag.Sold = false;
-                }
-
-                if (ViewBag.Sold == true)
-                    return View(list);//Enviando a la view lista de la compra reciente
-                else
-                    return View();
-
-            }
-
-            ViewBag.Sold = false;
-            return View();
-        }
-
+       
         public ActionResult MisCompras()
-        {
+        {         
             ViewBag.User = TempData["User"];
             String userName = ViewBag.User;
 

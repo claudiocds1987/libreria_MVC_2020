@@ -46,43 +46,52 @@ body {
     -moz-box-shadow:  10px 10px 5px 0px rgba(0,0,0,0.75);    
 }
 
-
 #navigation {
     /*para cambiar de color el nav*/
     /*background: #138AF7 !important; buen color celeste*/
-    background: #5858FA !important;
-    border: none !important;
+    /*background: #5858FA !important;*/
+    background: rgba(51,51,51,1) !important;
     color: white !important;
 }
+
 
 #navigation a {
     color: white !important;
 }
 
-#navigation a:hover {
-    background: rgba(51,51,51,1);
+#navigation a:hover {   
     /*background-color: #5E3EFE; tono violeta*/
+    color: black !important;
+}
+
+#myNavbar ul li a:hover{
+    background: orange !important;
+    animation: fadeIn 4s !important;
+    
 }
 
 .navbar-header #brand {
     background: rgba(51,51,51,1) !important;
-    color: #8181F7 !important;
+    /*color: #8181F7 !important;*/
+    color: orange !important;
     font-weight: 600;
 }
 
 #nav-fixedTop {
-    background: #5858FA !important;
+    /*background: #5858FA !important;*/
+    background: rgba(51,51,51,1) !important;
     border: none !important;
-    height: 50px !important;
-    /*border: none !important;*/
+    height: 50px !important;   
 }
 
 .navbar-toggle:hover {
-    background: rgba(51,51,51,1) !important;
+    /*background: rgba(51,51,51,1) !important;*/
+    background: orange !important;
 }
 
 #dropdown-menu {
-    background:#5858FA !important;
+    /*background:#5858FA !important;*/
+    background: rgba(51,51,51,1) !important;
 }
 
 #glyphicon-user {
@@ -93,7 +102,11 @@ body {
     margin-right: 10px !important;
 }
 
-#glyphicon-education {
+#glyphicon-log-in{
+    margin-right: 10px !important;
+}
+
+#glyphicon-ok{
     margin-right: 10px !important;
 }
 
@@ -326,12 +339,17 @@ body {
         margin-bottom: 15px !important;
 }
 
-#row3 {
+/*#row3 {
     margin-top: 50px !important;
-}
+}*/
 
 #filtro-panel-body {
     background: #F4F4F4 !important;
+}
+
+#btn_reset {
+    height: 45px !important;
+    width: 100px !important;
 }
 
 #cont-libros{
@@ -400,12 +418,14 @@ body {
 
 .contImgBook img {
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
+    max-width: 252px;
+    max-height: 408px;
 }
 
 #btn-volver {
     width: 92% !important;
     height: 40px !important;
-    max-width: 320px !important;
+    max-width: 252px !important;
     margin-top: 10px !important;    
 }
 
@@ -482,6 +502,10 @@ body {
     color: white !important;
     height: 45px;
     width: 100px;
+}
+
+#btn_buscar:hover{
+    background: #5218fa !important;
 }
 
 #glyphicon-search{

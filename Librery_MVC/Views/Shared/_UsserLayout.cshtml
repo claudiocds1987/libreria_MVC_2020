@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    //TempData.Keep("User");
 }
 
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
     <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/themes/semantic.min.css" />
     <script src="~/js-frameworks/alertifyjs/alertify.min.js"></script>
     @*/*************************************************************************/*@
-
+    @*---------------enlazo mis funciones de js---------------------------*@
     <script type="text/javascript" src="~/js/funciones.js"></script>
 
 
@@ -71,7 +72,7 @@
     </div>
 
     <div class="container text-center">
-        <h2>Library MVC</h2>
+        <h2 style="color:orange">BOOKSTORE</h2>
         Somos lo que leemos @ViewBag.User
     </div>
 
@@ -94,24 +95,26 @@
                         <ul class="nav navbar-nav">
 
                             <li><a href="@Url.Action("index", "Usser")"><span class="glyphicon glyphicon-home" id="glyphicon-home" aria-hidden="true"></span>Home</a></li>
-                            <li><a href="@Url.Action("userListarLibros", "Usser")"><span class="glyphicon glyphicon-education" id="glyphicon-education" aria-hidden="true"></span>libros</a></li>
                             <li><a href="@Url.Action("Contacto", "Usser")"><span class="glyphicon glyphicon-envelope" id="glyphicon-envelope" aria-hidden="true"></span>Contacto</a></li>
-                            <li><a href="@Url.Action("userLogin", "Usser")">Login</a></li>
-                            <li><a href="@Url.Action("CrearUsuario", "Usser")">Registrarse</a></li>
-                            @*<li><a onclick="sendToActionCarritoDeCompra();"><span class="glyphicon glyphicon-shopping-cart shoppingCar" id="glyphicon-shopping-cart" aria-hidden="true"></span></a></li>*@
+                            <li><a href="@Url.Action("userLogin", "Usser")"><span class="glyphicon glyphicon-log-in" id="glyphicon-log-in" aria-hidden="true"></span>Login</a></li>
+                            <li><a href="@Url.Action("CrearUsuario", "Usser")"><span class="glyphicon glyphicon-ok" id="glyphicon-ok" aria-hidden="true"></span>Registrarse</a></li>                         
                             <li><a class="btn btn-block" id="btn-shopping-cart" onclick="sendToActionCarritoDeCompra();" role="button"><span class="glyphicon glyphicon-shopping-cart shoppingCar" id="glyphicon-shopping-cart" aria-hidden="true"></span></a></li>
 
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
 
                             <li class="dropdown">
+
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user" id="glyphicon-user"></span>@ViewBag.User<span class="caret"></span></a>
+                                
                                 <ul class="dropdown-menu" id="dropdown-menu">
-                                    @*<li>@Html.ActionLink("Mis compras", "userListarLibros", "Usser")</li>*@
+                                    
                                     <li><a href="@Url.Action("MisCompras", "Usser")"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>Mis compras</a></li>
                                     <li><a href="@Url.Action("#", "Usser")"><span class="glyphicon glyphicon-wrench" id="glyphicon-wrench" aria-hidden="true"></span>Ajustes</a></li>
                                     <li><a href="@Url.Action("index", "Usser")"><span class="glyphicon glyphicon-off" id="glyphicon-wrench" aria-hidden="true"></span>Cerrar sesión</a></li>
+                                
                                 </ul>
+
                             </li>
 
                         </ul>

@@ -33,7 +33,7 @@
 
             <div class="form-group col-md-10">
                 <label>Nombre:</label>
-                <input type="Text" onblur="cleanUnnecessaryWhiteSpaces(this);" class="form-control" id="txt_bookName" name="txt_bookName" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" title="Ingrese solo palabras" placeholder="Nombre de libro" required />
+                <input type="Text" onblur="cleanUnnecessaryWhiteSpaces(this, txt_bookName);" class="form-control" id="txt_bookName" name="txt_bookName" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" title="Ingrese solo palabras" placeholder="Nombre de libro" required />
             </div>
 
             <div class="form-group col-md-2">
@@ -87,7 +87,7 @@
 
             <div class="form-group col-md-4">
                 <label>Descripción:</label>
-                <textarea name="txta_description" maxlength="500" class="form-control" rows="4" cols="40" placeholder="Descripcion del libro" required></textarea>
+                <textarea  onblur="cleanUnnecessaryWhiteSpaces(this, txta_description);" id="txta_description" name="txta_description" maxlength="500" class="form-control" rows="4" cols="40" placeholder="Descripcion del libro" required></textarea>
             </div>
 
             <div class="form-group col-md-2">
@@ -166,23 +166,7 @@
             return false;
         }
     }
-
-    /*----------------------------------------------------------------------------
-    *    Function: cleanUnnecessaryWhiteSpaces(R).                                        
-    *    type:                                                              
-    *    Parametro:                                                       
-    *                                                                             
-    *    Accion: Elimina espacios en blanco del titulo del libro que estan demas.
-    *                                                                                                                                                                                         
-    *---------------------------------------------------------------------------- */
-    function cleanUnnecessaryWhiteSpaces(R) {
-
-        let word = R.value;    
-        word = word.replace(/\s{2,}/g, ' ').trim();
-        $('#txt_bookName').val(word);
-
-    }
-
+   
     function isNumber(num) {
 
         if (isNaN(num))

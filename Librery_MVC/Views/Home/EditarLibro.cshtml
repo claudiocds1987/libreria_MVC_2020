@@ -49,7 +49,7 @@ else
 
                 <div class="form-group col-md-8">
                     <label>Nombre:</label>
-                    <input type="text" class="form-control" id="txt_bookName" name="txt_bookName" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" title="Solo texto" maxlength="100" value="@Model.Nombre" required autofocus />
+                    <input type="text" onblur="cleanUnnecessaryWhiteSpaces(this, txt_bookName);" class="form-control" id="txt_bookName" name="txt_bookName" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" title="Solo texto" maxlength="100" value="@Model.Nombre" required autofocus />
                 </div>
 
 
@@ -121,7 +121,7 @@ else
 
                 <div class="form-group col-md-8">
                     <label>Descripcion:</label>
-                    <textarea name="description" id="description" class="form-control" maxlength="500" rows="4" cols="40" required>@Model.Descripcion</textarea>
+                    <textarea onblur="cleanUnnecessaryWhiteSpaces(this, description);" name="description" id="description" class="form-control" maxlength="500" rows="4" cols="40" required>@Model.Descripcion</textarea>
                 </div>
 
                 <div class="form-group col-md-2">

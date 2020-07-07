@@ -359,11 +359,7 @@
     <Content Include="Views\Home\ListarClientes.cshtml" />
     <Content Include="Views\Usser\CrearUsuario.cshtml" />
     <Content Include="Views\Usser\RegistrarUsuario.cshtml" />
-    <Content Include="Views\Usser\userListarLibros.cshtml" />
     <Content Include="Views\Usser\MostrarLibro.cshtml" />
-    <Content Include="Views\Usser\Comprar.cshtml" />
-    <Content Include="Views\Usser\userFiltrarLibros.cshtml" />
-    <Content Include="Views\Usser\CompraFinalizada.cshtml" />
     <Content Include="Views\Usser\MisCompras.cshtml" />
     <Content Include="Views\Usser\FiltrarCompras.cshtml" />
     <Content Include="Views\Home\crearAdmin.cshtml" />

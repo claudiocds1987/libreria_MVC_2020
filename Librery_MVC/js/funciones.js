@@ -1,4 +1,23 @@
-﻿function Pagination(originalList, booksxPage, numberPage, idDiv) {
+﻿
+/*----------------------------------------------------------------------------
+ *    Function: cleanUnnecessaryWhiteSpaces(R).                                        
+ *    type:                                                              
+ *    Parametro: inputText(this), id del input text.                                                      
+ *                                                                             
+ *    Accion: Elimina espacios en blanco innecesarios. 
+ *    Funcion util para titulos o descripciones.
+ *                                                                                                                                                                                         
+ *---------------------------------------------------------------------------*/
+ function cleanUnnecessaryWhiteSpaces(inputText, idInputText) {
+
+     let word = inputText.value;    
+     word = word.replace(/\s{2,}/g, ' ').trim();     
+     $(idInputText).val(word);
+
+ }
+
+
+function Pagination(originalList, booksxPage, numberPage, idDiv) {
 
     if (numberPage == 1) {
 
@@ -10,7 +29,6 @@
     }
 
 }
-
 
 function doPagination(page) {
 

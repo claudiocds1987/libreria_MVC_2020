@@ -117,6 +117,7 @@
 
     <div class="text-center" id="cont-btn_buscar">
         <button class="btn btn-default" id="btn_buscar" type="button" onclick="filtrar();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
+        <button class="btn btn-warning" id="btn_reset" onclick="reset();">Reset</button>
     </div>
 
 </div>
@@ -167,21 +168,30 @@
     filtros.push(price1);
     filtros.push(price2);
 
-    $.ajax({
-        url: uri,
-        data: { data: filtros },
-        type: 'POST',
-        success: function (respuestaDelServidor) {
+        $.ajax({
+            url: uri,
+            data: { data: filtros },
+            type: 'POST',
+            success: function (respuestaDelServidor) {
 
             //desaparece el div pagination-buttons
             document.getElementById('pagination-buttons').style.display = 'none';
          
             $("#cont-libros").html(respuestaDelServidor);
 
-        }
-    });
+            }
+        });
 
-}
+    }
+
+    function reset() {
+
+        $('#nombreLibro').val("");
+        $('#ddlAutor').val('todos');
+        $('#ddlCategory').val('todos');
+        $('#price1').val("");
+        $('#price2').val("");
+    }
 
 
 </script>
