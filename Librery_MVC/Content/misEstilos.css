@@ -12,9 +12,8 @@ body {
 }
 
 .vcenter {
-   /*display: inline-block;*/
-   margin-top: 50px;
-    
+    /*display: inline-block;*/
+    margin-top: 50px;
 }
 
 /*************************************************************************
@@ -25,8 +24,12 @@ body {
     float: left !important;
 }
 
-#glyphicon-shopping-cart{
+#glyphicon-shopping-cart {
     float: left !important;
+}
+
+#cont-social-networks {
+    margin-top: 35px;
 }
 
 #cont-social-networks img {
@@ -35,15 +38,14 @@ body {
 }
 
 #cont-img-logo-loyout {
-    margin-top: 45px;
+    margin-top: 35px;
 }
 
 #img-logo-loyout {
     height: 160px;
     width: 160px;
-    /*-webkit-box-shadow: 0 5px 10px 10px black;*/
-    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);   
-    -moz-box-shadow:  10px 10px 5px 0px rgba(0,0,0,0.75);    
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 #navigation {
@@ -59,15 +61,13 @@ body {
     color: white !important;
 }
 
-#navigation a:hover {   
-    /*background-color: #5E3EFE; tono violeta*/
+#navigation a:hover {           
     color: black !important;
 }
 
-#myNavbar ul li a:hover{
+#myNavbar ul li a:hover {
     background: orange !important;
     animation: fadeIn 4s !important;
-    
 }
 
 .navbar-header #brand {
@@ -81,7 +81,7 @@ body {
     /*background: #5858FA !important;*/
     background: rgba(51,51,51,1) !important;
     border: none !important;
-    height: 50px !important;   
+    height: 50px !important;
 }
 
 .navbar-toggle:hover {
@@ -102,11 +102,11 @@ body {
     margin-right: 10px !important;
 }
 
-#glyphicon-log-in{
+#glyphicon-log-in {
     margin-right: 10px !important;
 }
 
-#glyphicon-ok{
+#glyphicon-ok {
     margin-right: 10px !important;
 }
 
@@ -115,7 +115,7 @@ body {
 }
 
 #glyphicon-shopping-cart {
-    margin-right: 10px !important; 
+    margin-right: 10px !important;
     font-size: 20px !important;
 }
 
@@ -166,7 +166,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-#caja {    
+#caja {
     background-color: #F2F2F2;
     border-radius: 2px;
     display: flex;
@@ -182,16 +182,6 @@ body {
     color: #5858FA;
     text-align: center;
 }
-
-/*#cont-img {
-    margin-top: 45px;
-    text-align: center;
-}*/
-
-/*#img-logo {
-    height: 120px;
-    width: 120px;
-}*/
 
 #form-login {
     margin-top: 100px;
@@ -287,16 +277,14 @@ body {
 }
 
 #cont-formulario div input {
-     width: 100%;
-     height: 45px;
+    width: 100%;
+    height: 45px;
 }
 
 #button-group {
     display: flex;
-    margin: 15px auto !important;
-    /*width: 600px;*/
+    margin: 15px auto !important;    
 }
-
 
 #button-group button {
     border: none;
@@ -336,15 +324,28 @@ body {
 }
 
 #row1 div {
-        margin-bottom: 15px !important;
+    margin-bottom: 15px !important;
 }
 
-/*#row3 {
-    margin-top: 50px !important;
-}*/
 
 #filtro-panel-body {
     background: #F4F4F4 !important;
+}
+
+#btn_buscar {
+    background: #5858FA !important;
+    border: none !important;
+    color: white !important;
+    height: 45px;
+    width: 100px;
+}
+
+#btn_buscar:hover {
+    background: #5218fa !important;
+}
+
+#glyphicon-search {
+    margin-right: 4px !important;
 }
 
 #btn_reset {
@@ -352,22 +353,27 @@ body {
     width: 100px !important;
 }
 
-#cont-libros{
+/*#model-result es el div que marca la cantidad de resultados encontrados en el filtro*/
+#model-result {
+    width: 100% !important;
+}
+
+#cont-libros {
     display: flex !important;
     flex-wrap: wrap !important;
-    justify-content:flex-start !important;   
+    justify-content: flex-start !important;   
 }
 
 /*esta clase tambien esta center userFilterLightBook.cshtml y Paginar.cshtml*/
 .container-image {
     box-sizing: border-box !important;
-    padding: 8px !important;
-    /*max-width: 173px !important;*/
+    padding: 8px !important;   
     width: 153px !important;
+    /*margin: 0 auto !important;*/
 }
 
-.container-image img{
-    width: 100% !important;    
+.container-image img {
+    width: 100% !important;
     max-height: 292px;
 }
 
@@ -390,10 +396,18 @@ body {
     margin-right: 2px;
 }
 
-#pagination-buttons{
+#pagination-buttons {
     margin-top: 25px;
 }
 /********fin pagination************/
+
+@media screen and (max-width: 360px) {
+
+    .container-image {
+        margin: 0 auto !important;
+    }
+}
+
 
 /************************** FIN index.cshtml (lado user) *********************************/
 
@@ -417,16 +431,16 @@ body {
 }
 
 .contImgBook img {
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
-    max-width: 252px;
-    max-height: 408px;
+     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
+     max-width: 252px;
+     max-height: 408px;
 }
 
 #btn-volver {
     width: 92% !important;
     height: 40px !important;
     max-width: 252px !important;
-    margin-top: 10px !important;    
+    margin-top: 10px !important;
 }
 
 .contInfo {
@@ -435,7 +449,7 @@ body {
 
 
 @media screen and (max-width: 700px) {
-    
+
     .contCentrar {
         width: 90%;
         transform: translate(5%);
@@ -447,102 +461,6 @@ body {
 }
 
 
-/*************************************************************************
-                  userListarLibros.cshtml
-*************************************************************************/
-#tableBooks {
-    color: black;
-    width: 100%;
-}
-
-#tableBooks thead{
-    background: #F2F2F2;
-    color: black;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width: 100%;
-}
-
-#tableBooks tbody tr {
-    background: none;
-}
-
-#filter-row {
-    margin-top: 15px;
-}
-
-#filter-panel-body {
-    background: rgba(51,51,51,1) !important;   
-}
-
-#filter-panel-body label {
-    color: #8181F7 !important;
-   
-}
-
-#cont-prices{
-    display: flex !important;
-    flex-wrap: wrap !important;
-}
-
-#price1, #price2 {
-    max-width: 80px !important;
-    margin-left: 10px;
-    margin-right: 10px;
-
-}
-
-#table-sscroll {     
-    max-height: 241px !important;
-    overflow: auto;
-}
-
-#btn_buscar {
-    background: #5858FA !important;
-    border: none !important;
-    color: white !important;
-    height: 45px;
-    width: 100px;
-}
-
-#btn_buscar:hover{
-    background: #5218fa !important;
-}
-
-#glyphicon-search{
-    margin-right: 4px !important;
-}
-
-#btnComprar {
-    text-align: center !important;
-    height: 45px;
-    width: 120px;
-}
-
-
-
-#IdDeAlgunDivDondeColocarasEsaVista {
-    border: 1px solid #dddddd !important; /*#c3c3c3*/
-    height: 620px !important;
-}
-
-/***Tablas originadas desde javascript***/
-
-#tablaSeleccionados thead {
-    background: rgba(51,51,51,1);
-    color: white;
-    text-align: center !important; /*no lo respeta*/
-    vertical-align: middle !important;
-} 
-
-#emptyTable thead {
-    background: rgba(51,51,51,1);
-    color: white;
-    text-align: center !important; /*no lo respeta*/
-    vertical-align: middle !important;
-}
-
-/***********************    FIN userListarLibros.cshtml **********************************/
-
 /******************************************************************************************
                   userFilterLightBooks.cshtml
 ******************************************************************************************/
@@ -553,30 +471,10 @@ body {
     justify-content: flex-start !important;
 }
 
-/*#cont-pagination-btns{
-    display: table !important;
-}*/
-/******************************************************************************************
-                  userFiltrarLibros.cshtml ?? borrar ??
-******************************************************************************************/
-#model-result {
-    width: 100% !important;
-}
-
-#btnAgregar{
-    height: 38px !important;
-}
-
-#btnMostrar_lb {
-    height: 38px !important;
-
-}
-/***********************    FIN userFiltrarLibros.cshtml **********************************/
 
 /******************************************************************************************
                             CarritoDeCompra.cshtml (lado user)
 ******************************************************************************************/
-/* Global settings */
 
 .product-image {
     float: left;
@@ -598,7 +496,7 @@ body {
     width: 10%;
 }
 
-.quantity{
+.quantity {
     color: black !important;
 }
 
@@ -608,12 +506,13 @@ body {
 }
 
 .product-line-price {
-    float: left;
+    /*float: left; asi estaba antes*/
+    float: right;
     width: 12%;
     text-align: right;
 }
 
-/* This is used as the traditional .clearfix class */
+/* Estio es usado como la tradicional .clearfix class */
 .group:before, .shopping-cart:before, .column-labels:before, .product:before, .totals-item:before,
 .group:after,
 .shopping-cart:after,
@@ -632,11 +531,11 @@ body {
     zoom: 1;
 }
 
-    /* Apply clearfix in a few places */
-    /* Apply dollar signs */
-    .product .product-price:before, .product .product-line-price:before, .totals-value:before {
-        content: '$';
-    }
+/* Apply clearfix in a few places */
+/* Apply signo de dolar */
+.product .product-price:before, .product .product-line-price:before, .totals-value:before {
+     content: '$';
+}
 
 
 /* Body/Header stuff */
@@ -656,7 +555,7 @@ label {
 
 .shopping-cart {
     /*margin-top: -45px;*/
-    margin-top: 45px;
+    margin-top: 35px;
 }
 
 /* Column headers */
@@ -677,42 +576,41 @@ label {
     border-bottom: 1px solid #eee;
 }
 
-    .product .product-image {
-        text-align: center;
-    }
+.product .product-image {
+    text-align: center;
+}
 
-        .product .product-image img {
-            width: 100px;
-        }
+.product .product-image img {
+    width: 100px;
+}
 
-    .product .product-details .product-title {
-        margin-right: 20px;
-        /*font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";*/
-    }
+.product .product-details .product-title {
+    margin-right: 20px;
+}
 
-    .product .product-details{
-        margin: 5px 20px 5px 0;
-        line-height: 1.4em;
-    }
+.product .product-details {
+    margin: 5px 20px 5px 0;
+    line-height: 1.4em;
+}
 
-    .product .product-quantity input {
-        width: 40px;
-    }
+.product .product-quantity input {
+    width: 40px;
+}
 
-    .product .remove-product {
-        border: 0;
-        padding: 4px 8px;
-        background-color: #c66;
-        color: #fff;
-        /*font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";*/
-        font-size: 12px;
-        border-radius: 3px;
-    }
+.product .remove-product {
+    border: 0;
+    padding: 4px 8px;
+    background-color: #c66;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 3px;
+}
 
-        .product .remove-product:hover {
-            background-color: #a44;
-        }
+.product .remove-product:hover {
+    background-color: #a44;
+}
 
+    
 /* Totals section */
 .totals .totals-item {
     float: right;
@@ -721,22 +619,18 @@ label {
     margin-bottom: 10px;
 }
 
-    .totals .totals-item label {
-        float: left;
-        clear: both;
-        width: 79%;
-        text-align: right;
-    }
+.totals .totals-item label {
+    float: left;
+    clear: both;
+    width: 79%;
+    text-align: right;
+}
 
-    .totals .totals-item .totals-value {
-        float: right;
-        width: 21%;
-        text-align: right;
-    }
-
-/*.totals .totals-item-total {
-    font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium";
-}*/
+.totals .totals-item .totals-value {
+    float: right;
+    width: 21%;
+    text-align: right;
+}
 
 .checkout {
     float: right;
@@ -773,6 +667,11 @@ label {
 
 /* Make adjustments for tablet */
 @media screen and (max-width: 650px) {
+
+    #title-carrito-de-compra{
+        margin-top: 20px;
+    }
+
     .shopping-cart {
         margin: 0;
         padding-top: 20px;
@@ -788,9 +687,9 @@ label {
         width: auto;
     }
 
-        .product-image img {
-            margin: 0 0 10px 10px;
-        }
+    .product-image img {
+        margin: 0 0 10px 10px;
+    }
 
     .product-details {
         float: none;
@@ -807,13 +706,13 @@ label {
         width: 100px;
     }
 
-        .product-quantity input {
-            margin-left: 20px;
-        }
+    .product-quantity input {
+        margin-left: 20px;
+    }   
 
-        .product-quantity:before {
-            content: 'x';
-        }
+    .product-quantity:before {
+        content: 'x';
+    }
 
     .product-removal {
         width: auto;
@@ -823,9 +722,11 @@ label {
         float: right;
         width: 70px;
     }
+
 }
-/* Make more adjustments for phone */
+/* Mas ajustes con medias query for phone */
 @media screen and (max-width: 350px) {
+    
     .product-removal {
         float: right;
     }
@@ -851,86 +752,16 @@ label {
 }
 
 
-
-/******************************************************************************************
-                            Comprar.cshtml (lado user)
-******************************************************************************************/
-
-#cont-icon-carrito a {
-    color: blue;
-    font-weight: 500;
-    text-decoration: none;
-    vertical-align: super;
-}
-
-#cont-icon-carrito a:hover {
-    color: #5858FA;
-  
-}
-
-#icon-shopping-cart {
-    color: black !important;
-    font-size: 30px !important;
-    margin-right: 10px !important;
-}
-
-#contenido {
-    padding: 0px !important;
-}
-
-#imagen{
-    margin-bottom: 15px;
-}
-
-#imagen img{
-    width: 250px;
-    height: 250px;    
-}
-
-#table-scroll-comprar{
-    max-height: 400px !important;
-}
-
-#tableComprar thead {
-    background: #5858FA !important;
-    color: white !important;
-    text-align: center !important;
-    
-}
-
-#tableComprar tbody tr th input {
-    width: 80px !important;
-}
-
-#glyphicon-ok, #glyphicon-remove{
-    margin-right: 4px !important;
-}
-
-#finalizarBuy{
-    display: flex;
-    justify-content: space-between;
-}
-
-#finalizarBuy label{
-    font-size: 18px;
-}
-
-#finalizarBuy input{
-     width: 80px;
-}
-
-/*********************** FIN Comprar.cshtml ***************************************/
-
 /**********************************************************************************
                     MisCompras.cshtml
 ***********************************************************************************/
 #panel-body-select {
     border: 1px solid #dddddd !important;
     margin-bottom: 15px !important;
-    padding: 0 !important;  
+    padding: 0 !important;
 }
 
-.selectores{
+.selectores {
     margin-top: 15px !important;
 }
 
@@ -938,10 +769,10 @@ label {
     margin-top: 15px !important;
 }
 
-#btn_allPurchases{
+#btn_allPurchases {
     height: 45px !important;
 }
 
-#btn_allPurchases span{
-     vertical-align: middle !important;
+#btn_allPurchases span {
+    vertical-align: middle !important;
 }

@@ -92,7 +92,7 @@ function doPagination(page) {
             }
         }
 
-        //determinando los indices para recorrer la lista
+        //determinando los indices para recorrer la lista segun la pagina elegida
         if (numberPage == 1) {
 
             desde = pos[0];
@@ -118,8 +118,8 @@ function doPagination(page) {
     var data = "";
 
     for (var z = desde; z <= hasta; z++) {
-
-        data += "<div class='col-md-3 container-image text-center'>";
+        //data += "<div class='col-md-3 container-image text-center'>";
+        data += "<div class='container-image text-center fade-in'>";
 
         data += "<img src='/" + originalList[z].UrlImagen + "' alt='" + originalList[z].Nombre + "'>";
 

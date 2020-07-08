@@ -14,10 +14,16 @@
 
 <h2>Mis Compras</h2>
 
-<div class="row">
+@if (TempData["User"] == null)
+{
+    <span style="color: red">Debe esta logeado para realizar esta acción.</span>
+}
+else
+{
+    <div class="row">
 
-    <div class="panel-body" id="panel-body-select">
-      
+        <div class="panel-body" id="panel-body-select">
+
             <div class="form-group col-sm-4 selectores">
 
                 <select class="form-control" id="selectMonth1">
@@ -70,46 +76,49 @@
 
             </div>
 
+        </div>
+
+        <div class="text-center" id="cont-btn_buscar">
+            <button class="btn btn-default" id="btn_buscar" type="button" onclick="sendToActionFiltrarCompras();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
+            <button class="btn btn-warning" id="btn_allPurchases" type="button" onclick="sendAllpurchases();"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>Todas mis compras</button>
+        </div>
+
     </div>
 
-    <div class="text-center" id="cont-btn_buscar">
-        <button class="btn btn-default" id="btn_buscar" type="button" onclick="sendToActionFiltrarCompras();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
-        <button class="btn btn-warning" id="btn_allPurchases" type="button" onclick="sendAllpurchases();"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>Todas mis compras</button>
+    <div id="div-respuesta-ajax">
+
+        <table cellspacing="0" class="table table-striped table-primary mt-5 table-bordered">
+
+            <thead>
+                <tr>
+                    <th class="text-center">Fecha</th>
+                    <th>Libro</th>
+                    <th class="text-center">P/unidad</th>
+                    <th class="text-center">Cantidad</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <th colspan="4"> 0 resultados</th>
+                </tr>
+
+            </tbody>
+
+        </table>
+
     </div>
 
-</div>
+}
 
-<div id="div-respuesta-ajax">
-
-    <table cellspacing="0" class="table table-striped table-primary mt-5 table-bordered">
-
-        <thead>
-            <tr>
-                <th class="text-center">Fecha</th>
-                <th>Libro</th>
-                <th class="text-center">P/unidad</th>
-                <th class="text-center">Cantidad</th>
-            </tr>
-        </thead>
-
-        <tbody>
-           
-            <tr>
-                <th colspan="4"> 0 resultados</th>
-            </tr>
-
-        </tbody>
-      
-    </table>
-
-</div>
 
 <script>
 
     function sendAllpurchases() {
 
         //Al pulsar el boton, le escribo los valores en el input
-        
+
         $("#selectMonth1").val('Desde el mes');
         $("#selectMonth2").val('Hasta el mes');
         $("#selectYear").val('Año');
@@ -150,7 +159,7 @@
               });
 
         }
-      
+
 
     }
 
