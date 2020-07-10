@@ -364,12 +364,12 @@ body {
     justify-content: flex-start !important;   
 }
 
-/*esta clase tambien esta center userFilterLightBook.cshtml y Paginar.cshtml*/
+/*.container-image tambien esta en userFilterLightBook.cshtml y Paginar.cshtml*/
 .container-image {
     box-sizing: border-box !important;
     padding: 8px !important;   
     width: 153px !important;
-    /*margin: 0 auto !important;*/
+    /*margin: 0 auto !important; no queda muy bien visualmente*/
 }
 
 .container-image img {

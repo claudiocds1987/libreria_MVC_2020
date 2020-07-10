@@ -264,7 +264,7 @@ namespace Librery_MVC.Controllers
             return View(usser); //pasando el objeto usser y ViewBag.Email a la vista registrarUsuario.cshtml
 
         }
-    
+        
         public ActionResult MostrarLibro(int idLibro)
         {
             LibroService ls = new LibroService();

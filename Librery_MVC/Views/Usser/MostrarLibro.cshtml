@@ -15,7 +15,7 @@
     category = cs.getCategoria(Model.IdCategoria);
     editorial = es.GetEditorial(Model.IdEditorial);
 
-    TempData.Keep("ProductsAddedToShoppingCar");
+    /*TempData.Keep("ProductsAddedToShoppingCar");*/
 }
 
 <div class="row" id="div-row">
@@ -85,6 +85,7 @@
                 sessionStorage.setItem('ProductsAddedToShoppingCar', acu);
                 //aca muestro la cantidad de libros adheridos en el icono del carrito del navbar
                 $('.shoppingCar').html(acu);
+                alert("Se ah agregado el producto al carrito.");
             }
             else {
 
@@ -102,7 +103,7 @@
             sessionStorage.setItem('booksToBuy', JSON.stringify(myArray));
             //sessionStorage 'ProductsAddedToShoppingCar' guarda la cantidad de books cargados en el carrito
             sessionStorage.setItem('ProductsAddedToShoppingCar', 1);
-            
+            alert("Se ah agregado el producto al carrito.");
         }
               
     }

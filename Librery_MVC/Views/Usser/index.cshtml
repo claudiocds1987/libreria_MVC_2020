@@ -17,7 +17,7 @@
     autorList = sa.ListAutores();
     categoryList = cs.getAllCategories();
     TempData.Keep("User");
-    TempData.Keep("ProductsAddedToShoppingCar");
+    /*TempData.Keep("ProductsAddedToShoppingCar");*/
 
 }
 
@@ -141,11 +141,12 @@
     //id del div donde quiero mostrar el pagination
     var idDiv = '#cont-libros';  
     Pagination(originalList, booksxPage, 1, idDiv);
+    //Creando los botones del Pagination.
     buttonsPagination(totalBooks, booksxPage, '#pagination-buttons')
       
     function sendToActionMostrarLibro(id) {
 
-        var url = "@Url.Action("MostrarLibro", "Usser", new { idLibro="param-id"})";
+        var url = "@Url.Action("MostrarLibro", "Usser", new { idLibro = "param-id" })";
         url = url.replace("param-id", id)
         window.location.assign(url);
 
