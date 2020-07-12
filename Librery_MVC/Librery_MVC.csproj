@@ -285,6 +285,8 @@
     <Content Include="principal\imagenes\lo-pasado-pensado.jpg" />
     <Content Include="principal\imagenes\Los mitos de la historia Argentina tres.jpg" />
     <Content Include="principal\imagenes\los-cuentos-del-abuelo-jose.jpg" />
+    <Content Include="principal\imagenes\Los-Mitos-De-La-Historia-Argentina-4.jpg" />
+    <Content Include="principal\imagenes\Los-mitos-de-la-historia-argentina-5.jpg" />
     <Content Include="principal\imagenes\Los-Vestidos-De-Kate.png" />
     <Content Include="principal\imagenes\LosMitosDeLaHistoriaArgentina2.jpg" />
     <Content Include="principal\imagenes\Manuel-Belgrano-vida-y-pensamiento-de-un-revolucionario.jpg" />
@@ -295,6 +297,7 @@
     <Content Include="principal\imagenes\previous.png" />
     <Content Include="principal\imagenes\Sapo-En-Buenos-Aires.jpg" />
     <Content Include="principal\imagenes\seguimiento.png" />
+    <Content Include="principal\imagenes\Sinceramente.png" />
     <Content Include="principal\imagenes\slider-img1.jpg" />
     <Content Include="principal\imagenes\slider-img2.jpg" />
     <Content Include="principal\imagenes\slider-img3.jpg" />

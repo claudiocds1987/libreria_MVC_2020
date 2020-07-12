@@ -1,10 +1,9 @@
-﻿@model Librery_MVC.Models.Admin
-@using Librery_MVC.Services;
+﻿@*@model Librery_MVC.Models.Admin
+@using Librery_MVC.Services;*@
 
 @{
     Layout = null;
-    AdminService sa = new AdminService();
-    int filasAfectadas = sa.InsertAdmin(Model);
+    
 
 }
 
@@ -30,7 +29,7 @@
 <body>
 
    
-    @if (filasAfectadas > 0)
+    @if (ViewBag.Msg == 1)
     {
         <script type="text/javascript">
 

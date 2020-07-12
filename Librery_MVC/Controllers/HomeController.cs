@@ -165,22 +165,32 @@ namespace Librery_MVC.Controllers
             //checking que las 2 contraseñas sean iguales
             String pass1 = Request.Form["txtClave1"];
             String pass2 = Request.Form["txtClave2"];
-            bool iguales = true;
+            //bool iguales = true;
 
-            for (int i = 0; i < pass1.Length; i++)
-            {
-                if (pass2[i] != pass1[i])
-                {
-                    iguales = false;
-                    break;
-                }
-            }
-
-            if (!iguales)
+            //Check que tenga el mismo tamaño
+            if(pass1.Length != pass2.Length)
             {
                 TempData["invalidPasswordsAdmin"] = true;
                 return RedirectToAction("crearAdmin");
             }
+
+            //ya sabiendo que tienen el mismo tamaño pregunto si son iguales
+            for (int i = 0; i < pass1.Length; i++)
+            {
+                if (pass2[i] != pass1[i])
+                {
+                    TempData["invalidPasswordsAdmin"] = true;
+                    return RedirectToAction("crearAdmin");
+                    //iguales = false;
+                    //break;
+                }
+            }
+
+            //if (!iguales)
+            //{
+            //    TempData["invalidPasswordsAdmin"] = true;
+            //    return RedirectToAction("crearAdmin");
+            //}
 
             //****************** FIN VALIDACIONES LADO BACK-END ***************************//
 
@@ -193,7 +203,17 @@ namespace Librery_MVC.Controllers
             admin.Estado = 1;
 
             ViewBag.Admin = admin.email; //creando la ViewBag.Email con el email del administrador
-            return View(admin); //pasando el objeto admin y ViewBag.Email a la vista registrarAdmin.cshtml
+            AdminService sa = new AdminService();
+
+            int filasAfectadas = sa.InsertAdmin(admin);
+
+            if(filasAfectadas > 0)         
+                ViewBag.Msg = 1;          
+            else
+                ViewBag.Msg = 0;
+
+
+            return View(); //pasando el objeto admin y ViewBag.Email a la vista registrarAdmin.cshtml
 
         }
 

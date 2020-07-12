@@ -18,6 +18,10 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    @Scripts.Render("~/bundles/jquery")
+
+   
+
     <style>
         .bordeRojoValidacion {
             border-color: red;
@@ -47,7 +51,7 @@
 
             <div class="form-group">
                 <label for="lblName">Nombre:</label>
-                <input type="text" class="form-control" id="txtName" name="txtName" onkeyup="return removeClass(this);" maxlength="45" placeholder="Nombre" required>
+                <input type="text" class="form-control a" id="txtName" name="txtName" onkeyup="return removeClass(this);" maxlength="45" placeholder="Nombre" required>
             </div>
 
             <div class="form-group">
@@ -66,7 +70,7 @@
             </div>
 
             <div id="button-group">
-                <button type="button" class="btn btn-primary" id="btn-guardar" onClick="checkAdminData()">Guardar</button>
+                <button class="btn btn-primary" id="btn-guardar" onclick="checkAdminData();">Guardar</button>
                 <button type="reset" class="btn btn-warning" id="btn-reset">Resetear</button>
                 <a class="btn btn-danger" href="@Url.Action("index", "Home")">Cancelar</a>
             </div>
@@ -83,48 +87,50 @@
 
         function checkAdminData() {
 
-       
             if (validarCamposInput()) {
-                             
+   
                 if (!validateEmail()) {
-                    alert("El Email es invalido!")
-                    return
-                }
-                else if (!EqualPasswords()) {
-                    alert("Las contraseñas deben ser iguales!")
+
+                    alert("El Email es invalido!");
+                    $("#txtEmail").addClass('bordeRojoValidacion');
                     return;
                 }
+
+                else if (!EqualPasswords()) {
+
+                    alert("Las contraseñas deben ser iguales!");
+                    return;
+                }
+
                 else {
+                    
                     document.formAdmin.submit();//pulsa el submit y manda los datos del form
-                }   
+                }
 
             }
             else {
+
                 alert("Hay campos vacios!");
                 return;
             }
-                
            
         }
 
         function validateEmail() {
 
-            if (!/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formAdmin.txtEmail.value)) {
-                
-                $("#txtEmail").addClass('bordeRojoValidacion');
+            if (!/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formAdmin.txtEmail.value)) {            
                 return false;
             }
             else
                 return true;
-
-        }   
+        }
 
         function EqualPasswords() {
 
             var clave1 = document.formAdmin.txtClave1.value
             var clave2 = document.formAdmin.txtClave2.value
 
-            if (clave1 != clave2) { 
+            if (clave1 != clave2) {
 
                 addClassToClaves()
                 return false;
@@ -132,7 +138,7 @@
             else
                 return true;
 
-        }  
+        }
 
         function validarCamposInput() {
 
@@ -142,7 +148,7 @@
 
                     $("#" + this.id).addClass('bordeRojoValidacion');
                     inputVacio = true;
-                    //importante! la clase bordeRojoValidacion esta declarada en el <head>
+                    //importante! la clase bordeRojoValidacion esta declarada en _UsserLayout
                 }
             });
 
@@ -154,15 +160,17 @@
 
         //funcion que quita el marcado rojo sobre el input cuando no esta vacio
         function removeClass(caracter) {
+
             if (caracter != "") {
                 $("#" + caracter.id).removeClass('bordeRojoValidacion');
+                //$(caracter.id).removeClass('bordeRojoValidacion');
             }
         }
 
         function addClassToClaves() {
-           
+
             $('#clave1').addClass('bordeRojoValidacion');
-            $('#clave2').addClass('bordeRojoValidacion');           
+            $('#clave2').addClass('bordeRojoValidacion');
         }
 
     </script>
