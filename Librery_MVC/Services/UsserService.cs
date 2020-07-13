@@ -11,12 +11,40 @@ namespace Librery_MVC.Services
     {
         DataAccess da = new DataAccess();
 
-        //Listar usuarios tipo admin= 2 (usuarios clientes)
+        public List<Usser> filtrarUsuario(String consulta)
+        {
+            List<Usser> list = new List<Usser>();
+            MySqlConnection cn = new MySqlConnection();
+            cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                list.Add(new Usser(
+                    dr.GetString("Nombre"),
+                    dr.GetString("apellido"),
+                    dr.GetDateTime("fechaNacimiento"),
+                    dr.GetString("Email"),
+                    dr.GetString("NombreUsuario"),
+                    dr.GetString("pass"),
+                    dr.GetString("Domicilio"),
+                    dr.GetInt32("adminType"),
+                    dr.GetInt32("estado")
+                    ));
+            }
+
+            dr.Close();
+            cn.Close();
+            return list;
+        }
+
+
         public List<Usser> GetUsserClientList()
         {
             List<Usser> list = new List<Usser>();
             MySqlConnection cn = da.ConnectToDB();
-            String consulta = "select * from libreria.usuarios where usuarios.adminType = 2";
+            String consulta = "select * from libreria.usuarios";
             MySqlCommand cmd = new MySqlCommand(consulta, cn);
             MySqlDataReader dr = cmd.ExecuteReader();
 

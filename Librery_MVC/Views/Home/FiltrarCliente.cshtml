@@ -1,0 +1,54 @@
+﻿@model List<Librery_MVC.Models.Usser>
+@using Librery_MVC.Models;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Filtrar Cliente</title>
+</head>
+<body>
+
+    @if (ViewBag.Msg != null)
+    {
+        <h4 style="color: red">@ViewBag.Msg</h4>
+    }
+    else
+    {
+        <table class="table table-striped table-primary mt-5 border-primary" id="myTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nombre de usuario</th>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Fecha de nacimiento</th>
+                    <th>Domicilio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Usser item in Model)
+                {
+                    <tr>
+                        <th>@Html.ActionLink("Seguimiento", "SeguimientoCliente", "Usser", new { @class = "btn btn-info" })</th>
+                        <th>@item.UsserName</th>
+                        <th>@item.Surname</th>
+                        <th>@item.Name</th>
+                        <th>@item.Email</th>
+                        <th>@item.dateTime</th>
+                        <th>@item.Address</th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+
+</body>
+</html>

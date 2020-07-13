@@ -181,16 +181,9 @@ namespace Librery_MVC.Controllers
                 {
                     TempData["invalidPasswordsAdmin"] = true;
                     return RedirectToAction("crearAdmin");
-                    //iguales = false;
-                    //break;
+                    
                 }
             }
-
-            //if (!iguales)
-            //{
-            //    TempData["invalidPasswordsAdmin"] = true;
-            //    return RedirectToAction("crearAdmin");
-            //}
 
             //****************** FIN VALIDACIONES LADO BACK-END ***************************//
 
@@ -229,7 +222,7 @@ namespace Librery_MVC.Controllers
 
         public ActionResult adminFiltrarLibro(String option, String search)
         {
-            //no hacer back-end de option o search, si el usuario escribe cualqueir cosa
+            //no hago back-end de option o search, si el usuario escribe cualquier cosa
             //porque en la view va a aparecer 0 registros encontrados!
 
             LibroService ls = new LibroService();
@@ -710,10 +703,45 @@ namespace Librery_MVC.Controllers
 
         public ActionResult ListarClientes()
         {
-            UsserService us = new UsserService();
-            List<Usser> list = us.GetUsserClientList();
-            return View(list);
+            //UsserService us = new UsserService();
+            //List<Usser> list = us.GetUsserClientList();
+            //return View(list);
+            return View();
         }
+
+        public ActionResult FiltrarCliente(String option, String search)
+        {
+            //no hago back-end de option o search, si el usuario escribe cualquier cosa
+            //porque en la view va a aparecer 0 registros encontrados!
+
+            UsserService us = new UsserService();
+            String consulta = "";
+                 
+            if (option == "userName" || option == "allUsers")
+            {
+                if (option == "userName")
+                {
+                    if(String.IsNullOrEmpty(search))
+                    {
+                        ViewBag.Msg = "El nombre de usuario no puede ser vacio";
+                        return View();
+                    }
+                    else
+                        consulta = "SELECT * FROM usuarios where usuarios.NombreUsuario = '" + search + "'";
+                }
+                    
+                else
+                    consulta = "SELECT * FROM usuarios";
+            }
+            else
+            { //por si pinchan los values de los radio button
+                ViewBag.Msg = "Error al recibir los value de los radio button";
+                return View();
+            }
+
+            return View(us.filtrarUsuario(consulta));
+        }
+
 
         //[HttpGet]
         //public FileResult ObtenerImagen(string itf_urlImage)
