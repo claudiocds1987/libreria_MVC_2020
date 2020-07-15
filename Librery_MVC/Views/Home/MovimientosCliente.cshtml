@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "MovimientosCliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 style="margin-top: 25px !important;">Movimientos del cliente: @ViewBag.userName</h4>
+
+<div class="DivFilterSale">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <input type="radio" onclick="enableInput(txtSearch);" name="option" id="nro-sale" value="nro-sale" checked /> Buscar por id venta
+
+            <br />
+
+            <input type="radio" onclick="disabledInput(txtSearch);" name="option" id="allPurchases" value="allPurchases" /> Ver todas las ventas
+
+        </div>
+
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" id="txtSearch" name="txtSearch" maxlength="80" required placeholder="id venta" />
+        </div>
+
+        <div class="form-group col-md-4">
+            <button type="button" class="btn btn-default" onclick="SendToActionFiltrarVenta();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<div id="ajaxResponseFilterSalesClient">
+
+    @*div donde ajax devuelve la respuesta al filtrado de las ventas*@
+
+</div>
+
+<br />
+
+<script type="text/javascript">
+
+    function SendToActionFiltrarVenta() {
+
+        let userName = @Html.Raw(Json.Encode(ViewBag.userName));
+        let option = $("input:radio[name='option']:checked").val();
+        let idSale = $('#txtSearch').val();
+
+        if (option == "nro-sale") {
+
+            if (idSale == null || idSale == "") {
+
+                alert("Escriba el nombre de usuario");
+                return false;
+            }
+
+        }
+
+        var uri = '@Url.Action("FiltrarVenta", "Home")';
+
+        $.ajax({
+            url: uri,
+            data: { option: option, idSale: idSale, userName: userName},
+            type: 'POST',
+            success: function (respuestaDelServidor) {
+                $("#ajaxResponseFilterSalesClient").html(respuestaDelServidor);
+            }
+        });
+
+    }
+
+</script>

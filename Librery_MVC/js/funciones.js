@@ -205,6 +205,18 @@ function buttonsPagination(totalBooks, booksxPage, idDiv) {
 }
 
 
+function disabledInput(idInput) {
+    
+    $(idInput).val('');
+    $(idInput).attr('disabled', 'disabled');
+}
+
+function enableInput(idInput) {
+
+    $(idInput).removeAttr('disabled');
+}
+
+
 
 function CheckNombreCompuesto(nombre) {
 

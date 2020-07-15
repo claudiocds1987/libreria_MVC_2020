@@ -88,32 +88,51 @@
         function checkAdminData() {
 
             if (validarCamposInput()) {
-   
+
+                //hay un error, si no hay campos vacios y el email esta mal, js avisa
+                //pero a pesar del error se envian los datos del formulario.
+
                 if (!validateEmail()) {
 
                     alert("El Email es invalido!");
                     $("#txtEmail").addClass('bordeRojoValidacion');
-                    return;
+
+                    //document.getElementById("btn-guardar").addEventListener("click", function (event) {
+                    //    event.preventDefault()
+                    //});
+                    return false;
                 }
 
                 else if (!EqualPasswords()) {
 
                     alert("Las contraseñas deben ser iguales!");
-                    return;
+
+                    //document.getElementById("btn-guardar").addEventListener("click", function (event) {
+                    //    event.preventDefault()
+                    //});
+                    return false;
                 }
 
                 else {
                     
                     document.formAdmin.submit();//pulsa el submit y manda los datos del form
+                   
                 }
 
             }
             else {
 
                 alert("Hay campos vacios!");
-                return;
+
+                //document.getElementById("btn-guardar").addEventListener("click", function (event) {
+                //    event.preventDefault()
+                //});
+                return false;
             }
            
+            //document.getElementById("btn-guardar").addEventListener("click", function (event) {
+            //    event.preventDefault()
+            //});
         }
 
         function validateEmail() {

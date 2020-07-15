@@ -3,7 +3,8 @@
 }
 
 .fondo-Admin{
-    background-image: url(/principal/imagenes/fondo-cemento.jpg);
+    /*background-image: url(/principal/imagenes/fondo-cemento.jpg);*/
+    background-color: white;
 }
 /*nota: Esta clase en div que estan en index y crearAdmin*/
 .footerAdmin {
@@ -217,6 +218,15 @@
                   ListarClientes.cshtml (lado admin)
 *************************************************************************/
 .DivFiltrarCliente {
+    background: #F4F4F4 !important;
+    margin: 25px 0 20px 0 !important;
+    padding: 20px !important;
+}
+
+/*************************************************************************
+                  MovimientosCliente.cshtml
+*************************************************************************/
+.DivFilterSale {
     background: #F4F4F4 !important;
     margin: 25px 0 20px 0 !important;
     padding: 20px !important;

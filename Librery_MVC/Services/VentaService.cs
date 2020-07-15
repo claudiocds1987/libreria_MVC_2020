@@ -10,7 +10,7 @@ namespace Librery_MVC.Services
     public class VentaService
     {
         DataAccess da = new DataAccess();
-        MySqlConnection cn;
+        //MySqlConnection cn;
 
         private void ArmarParametrosSale(ref MySqlCommand Comando, Venta sale)
         {
@@ -35,6 +35,50 @@ namespace Librery_MVC.Services
             MySqlCommand comando = new MySqlCommand();
             ArmarParametrosSale(ref comando, sale);
             return da.EjecutarProcedimientoAlmacenado(comando, "InsertSale");
+        }
+
+
+        public List<Venta> FiltrarVenta(String consulta)
+        {
+            List<Venta> list = new List<Venta>();          
+            MySqlConnection cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                list.Add(new Venta(dr.GetInt32("IdVenta"),
+                                   dr.GetString("NombreUsuario"),
+                                   dr.GetDecimal("PrecioTotal"),
+                                   dr.GetDateTime("fecha")));
+            }
+
+            dr.Close();
+            cn.Close();
+
+            return list;
+        }
+
+        public List<Venta> getAllSalesFromClient(String userName)
+        {
+            List<Venta> list = new List<Venta>();
+            String consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName + "'";
+            MySqlConnection cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                list.Add(new Venta(dr.GetInt32("IdVenta"),
+                                   dr.GetString("NombreUsuario"),
+                                   dr.GetDecimal("PrecioTotal"), 
+                                   dr.GetDateTime("fecha")));                        
+            }
+
+            dr.Close();
+            cn.Close();
+
+            return list;
         }
        
     }

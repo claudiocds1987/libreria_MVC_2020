@@ -25,5 +25,6 @@ namespace Librery_MVC.Models
             PrecioTotal = precioTotal;
             Fecha = fecha;
         }
+       
     }
 }

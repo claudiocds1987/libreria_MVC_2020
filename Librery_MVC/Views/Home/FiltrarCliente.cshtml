@@ -18,36 +18,45 @@
     {
         <h4 style="color: red">@ViewBag.Msg</h4>
     }
+
+    @if (Model.Count == 0)
+    {
+        <span style="color: red">No se encontraron resultados.</span>
+    }
     else
     {
-        <table class="table table-striped table-primary mt-5 border-primary" id="myTable">
+        <table class="table table-striped">
+
             <thead>
                 <tr>
-                    <th></th>
-                    <th>Nombre de usuario</th>
-                    <th>Apellido</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Fecha de nacimiento</th>
-                    <th>Domicilio</th>
+                    <th scope="col"></th>
+                    <th scope="col">Nombre de usuario</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Fecha de nacimiento</th>
+                    <th scope="col">Domicilio</th>
                 </tr>
             </thead>
+
             <tbody>
+
                 @foreach (Usser item in Model)
                 {
                     <tr>
-                        <th>@Html.ActionLink("Seguimiento", "SeguimientoCliente", "Usser", new { @class = "btn btn-info" })</th>
+                        <th>@Html.ActionLink("Movimientos", "MovimientosCliente", "Home", new { userName = item.UsserName }, new { @class = "btn btn-info" })</th>
+                        @*<th><button onclick="sendToActionMovimientosCliente(this);" value="@item.UsserName" id="btn-Movimientos" class = "btn btn-info">Movimientos</button></th>*@
                         <th>@item.UsserName</th>
                         <th>@item.Surname</th>
                         <th>@item.Name</th>
                         <th>@item.Email</th>
-                        <th>@item.dateTime</th>
+                        <th>@item.dateTime.ToShortDateString()</th>
                         <th>@item.Address</th>
                     </tr>
                 }
+
             </tbody>
         </table>
-
     }
 
 </body>

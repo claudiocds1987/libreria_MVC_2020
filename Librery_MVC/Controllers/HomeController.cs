@@ -703,9 +703,7 @@ namespace Librery_MVC.Controllers
 
         public ActionResult ListarClientes()
         {
-            //UsserService us = new UsserService();
-            //List<Usser> list = us.GetUsserClientList();
-            //return View(list);
+            
             return View();
         }
 
@@ -740,6 +738,43 @@ namespace Librery_MVC.Controllers
             }
 
             return View(us.filtrarUsuario(consulta));
+        }
+
+        public ActionResult MovimientosCliente(String userName)
+        {
+            ViewBag.userName = userName;
+            return View();
+        }
+
+        public ActionResult FiltrarVenta(String option, String idSale, String userName)
+        {
+            String consulta = "";
+
+            if (option == "nro-sale" || option == "allPurchases")
+            {
+                if (option == "nro-sale")
+                {
+                    if (String.IsNullOrEmpty(idSale))
+                    {
+                        ViewBag.Msg = "Debe escribir el id de venta";
+                        return View();
+                    }
+                    else
+                        consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName + "' AND ventas.IdVenta = " + idSale;
+                }
+
+                else
+                    consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName +"'";
+            }
+            else
+            { //por si pinchan los values de los radio button
+                ViewBag.Msg = "Error al recibir los value de los radio button";
+                return View();
+            }
+
+            VentaService vs = new VentaService();
+            ViewBag.userName = userName;
+            return View(vs.FiltrarVenta(consulta));
         }
 
 
