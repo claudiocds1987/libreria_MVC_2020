@@ -777,6 +777,16 @@ namespace Librery_MVC.Controllers
             return View(vs.FiltrarVenta(consulta));
         }
 
+        public ActionResult DetalleVenta(string idVenta, string userName)
+        {
+            DetalleVentaService dvs = new DetalleVentaService();
+            List<DetalleVenta> list = new List<DetalleVenta>();
+            list = dvs.GetDetailSale(idVenta, userName);
+
+            ViewBag.IdVenta = idVenta;
+            ViewBag.userName = userName;
+            return View(list);
+        }
 
         //[HttpGet]
         //public FileResult ObtenerImagen(string itf_urlImage)

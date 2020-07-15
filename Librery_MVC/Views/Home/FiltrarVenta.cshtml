@@ -45,14 +45,14 @@
                 {
                     foreach (Venta item in Model)
                     {
-                        <tr>
+                    <tr>
 
-                            <td><button class="btn btn-default">Detalle</button></td>
-                            <td scope="row">@item.IdVenta</td>
-                            <td>@item.Fecha.ToShortDateString()</td>
-                            <td>@item.PrecioTotal</td>
+                        <td><a class = "btn btn-default" href="@Url.Action("DetalleVenta", "Home", new { idVenta = item.IdVenta, userName = item.NombreUsuario })">Detalle</a></td>                 
+                        <td scope="row">@item.IdVenta</td>
+                        <td>@item.Fecha.ToShortDateString()</td>
+                        <td>@item.PrecioTotal</td>
 
-                        </tr>
+                    </tr>
                     }
 
                 }

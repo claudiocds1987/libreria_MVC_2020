@@ -57,5 +57,34 @@ namespace Librery_MVC.Services
 
             return id;
         }
+
+        public List<DetalleVenta> GetDetailSale(String idVenta, String userName)
+        {
+            List<DetalleVenta> list = new List<DetalleVenta>();
+
+            String a = "SELECT detalleventas.IdVenta, detalleventas.IdLibro, detalleventas.Cantidad, detalleventas.Precio";
+            String b = " FROM detalleventas INNER JOIN ventas ON ventas.IdVenta = detalleventas.IdVenta";
+            String c = " WHERE ventas.IdVenta = " + idVenta;
+            String d = " AND ventas.NombreUsuario = '" + userName + "'";
+            String consulta = a + b + c + d;
+
+            cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+         
+            while(dr.Read())
+            {
+                list.Add(new DetalleVenta(dr.GetInt32("IdVenta"),
+                                          dr.GetInt32("IdLibro"),
+                                          dr.GetInt32("Cantidad"),
+                                          dr.GetDecimal("Precio")
+                ));
+                              
+            }
+
+            cn.Close();
+            dr.Close();
+            return list;
+        }
     }
 }

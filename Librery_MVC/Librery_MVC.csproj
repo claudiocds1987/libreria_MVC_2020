@@ -379,6 +379,7 @@
     <Content Include="Views\Home\FiltrarCliente.cshtml" />
     <Content Include="Views\Home\MovimientosCliente.cshtml" />
     <Content Include="Views\Home\FiltrarVenta.cshtml" />
+    <Content Include="Views\Home\DetalleVenta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

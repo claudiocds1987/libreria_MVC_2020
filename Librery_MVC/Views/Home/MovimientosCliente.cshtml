@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "MovimientosCliente";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime actualDate = DateTime.Today;
+    int actualYear = actualDate.Year;
 }
 
 <h4 style="margin-top: 25px !important;">Movimientos del cliente: @ViewBag.userName</h4>
@@ -12,18 +14,68 @@
 
         <div class="col-md-4">
 
-            <input type="radio" onclick="enableInput(txtSearch);" name="option" id="nro-sale" value="nro-sale" checked /> Buscar por id venta
+            <input type="radio" @*onclick="enableInput(txtSearch);"*@ name="option" id="nro-sale" value="nro-sale" checked /> Buscar por id venta
 
             <br />
 
-            <input type="radio" onclick="disabledInput(txtSearch);" name="option" id="allPurchases" value="allPurchases" /> Ver todas las ventas
+            <input type="radio" @*onclick="disabledInput(txtSearch);"*@ name="option" id="allPurchases" value="allPurchases" /> Ver todas las ventas
+
+            <br />
+
+            @*<input id="busqueda" type="checkbox">Buscar venta por Fecha*@
+            <input type="radio" name="option" id="date" value="date" /> Buscar venta por fecha
 
         </div>
 
         <div class="form-group col-md-4">
+            
             <input type="text" class="form-control" id="txtSearch" name="txtSearch" maxlength="80" required placeholder="id venta" />
-        </div>
+        
+            <select class="form-control select" disabled>
+                <option disabled selected>desde el mes</option>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+            
+            <select class="form-control select" disabled>
+                <option disabled selected>hasta el mes</option>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+            
+            <select class="form-control select" disabled>
+               
+                <option disabled selected>Año</option>
+               
+                @for (int i = 2015; i <= actualYear; i++)
+                {
+                    <option value="@i">@i</option>
+                }
 
+            </select>
+
+        </div>
+       
         <div class="form-group col-md-4">
             <button type="button" class="btn btn-default" onclick="SendToActionFiltrarVenta();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
         </div>
@@ -44,6 +96,44 @@
 <br />
 
 <script type="text/javascript">
+
+    /*Selector de clases para alcanzar todos los select*/
+    var allSelects = document.querySelectorAll(".select");
+    /*Selector de tipo para alcanzar todos los radio*/
+    var allRadios = document.querySelectorAll("input[type=radio]");
+
+    /*Asignamos dentro del bucle un click listener a cada radio*/
+    allRadios.forEach(function (oneRadio) {
+
+        oneRadio.addEventListener('click', function (e) {
+            //capturo el id del radio button activado
+            let idRadio = e.target.id;
+            /*Verifico si el radio button id="date" esta activado*/      
+            isEnabled = !(e.target.id === 'date');//devuelve false si esta activado
+
+            /*Cambiamos el estado de los select segun el estado de isEnabled*/
+            allSelects.forEach(function (oneSelect) {
+                /*si isEnabled es "false" todos los select se van a deshabilitar*/
+                oneSelect.disabled = isEnabled;
+                
+                if (idRadio == 'allPurchases') {
+                    $('#txtSearch').val('');//clean
+                    //deshabilitamos el input txtSearch
+                    $('#txtSearch').attr('disabled', 'disabled');
+                }
+                else if (idRadio == 'nro-sale')
+                    $('#txtSearch').removeAttr('disabled');
+
+                else {
+                    $('#txtSearch').val('');//clean
+                    //deshabilitamos el input txtSearch
+                    $('#txtSearch').attr('disabled', 'disabled');
+                }
+                   
+                
+            });
+        });
+    });
 
     function SendToActionFiltrarVenta() {
 
@@ -75,3 +165,4 @@
     }
 
 </script>
+

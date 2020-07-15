@@ -173,8 +173,7 @@ namespace Librery_MVC.Services
             mySqlParametros = Comando.Parameters.Add("_idCategoria", MySqlDbType.Int32);
             mySqlParametros.Value = book.IdCategoria;
             mySqlParametros = Comando.Parameters.Add("_idEditorial", MySqlDbType.Int32);
-            mySqlParametros.Value = book.IdEditorial;
-            //mySqlParametros = Comando.Parameters.Add("_descripcion", MySqlDbType.TinyText);
+            mySqlParametros.Value = book.IdEditorial;           
             mySqlParametros = Comando.Parameters.Add("_descripcion", MySqlDbType.MediumText);
             mySqlParametros.Value = book.Descripcion;
             mySqlParametros = Comando.Parameters.Add("_cantidad", MySqlDbType.Int32);

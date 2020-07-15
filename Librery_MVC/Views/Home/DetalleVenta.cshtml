@@ -1,0 +1,52 @@
+﻿@model List<Librery_MVC.Models.DetalleVenta>
+@using Librery_MVC.Models;
+@using Librery_MVC.Services;
+
+
+@{
+    ViewBag.Title = "DetalleVenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    LibroService ls = new LibroService();
+}
+
+<h4 style="margin-top: 25px !important;">Detalle de la venta nro: @ViewBag.IdVenta</h4>
+
+<table style="margin-top: 20px !important;" class="table table-striped">
+
+    <thead>
+
+        <tr>
+
+            <th scope="col">Nombre producto</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Precio/unidad</th
+>          
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (DetalleVenta item in Model)
+        {
+            String bookName = ls.getBookName(item.IdLibro);
+            <tr>
+               
+                <td scope="row">@bookName</td>
+                <td>@item.Cantidad</td>
+                <td>@item.Precio</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<div class="text-center">
+
+    <a class="btn btn-primary" href="@Url.Action("MovimientosCliente", "Home", new { userName = ViewBag.userName })">Volver</a>
+
+</div>
+
+
