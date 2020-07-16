@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     DateTime actualDate = DateTime.Today;
     int actualYear = actualDate.Year;
+
+    TempData.Keep("adminEmail");
 }
 
 <h4 style="margin-top: 25px !important;">Movimientos del cliente: @ViewBag.userName</h4>
@@ -28,10 +30,10 @@
         </div>
 
         <div class="form-group col-md-4">
-            
+
             <input type="text" class="form-control" id="txtSearch" name="txtSearch" maxlength="80" required placeholder="id venta" />
-        
-            <select class="form-control select" disabled>
+
+            <select class="form-control select" id="month1" disabled>
                 <option disabled selected>desde el mes</option>
                 <option value="1">Enero</option>
                 <option value="2">Febrero</option>
@@ -46,8 +48,8 @@
                 <option value="11">Noviembre</option>
                 <option value="12">Diciembre</option>
             </select>
-            
-            <select class="form-control select" disabled>
+
+            <select class="form-control select" id="month2" disabled>
                 <option disabled selected>hasta el mes</option>
                 <option value="1">Enero</option>
                 <option value="2">Febrero</option>
@@ -62,11 +64,11 @@
                 <option value="11">Noviembre</option>
                 <option value="12">Diciembre</option>
             </select>
-            
-            <select class="form-control select" disabled>
-               
+
+            <select class="form-control select" id="year" disabled>
+
                 <option disabled selected>Año</option>
-               
+
                 @for (int i = 2015; i <= actualYear; i++)
                 {
                     <option value="@i">@i</option>
@@ -75,7 +77,7 @@
             </select>
 
         </div>
-       
+
         <div class="form-group col-md-4">
             <button type="button" class="btn btn-default" onclick="SendToActionFiltrarVenta();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
         </div>
@@ -108,29 +110,42 @@
         oneRadio.addEventListener('click', function (e) {
             //capturo el id del radio button activado
             let idRadio = e.target.id;
-            /*Verifico si el radio button id="date" esta activado*/      
+            /*Verifico si el radio button id="date" esta activado*/
             isEnabled = !(e.target.id === 'date');//devuelve false si esta activado
 
             /*Cambiamos el estado de los select segun el estado de isEnabled*/
             allSelects.forEach(function (oneSelect) {
                 /*si isEnabled es "false" todos los select se van a deshabilitar*/
                 oneSelect.disabled = isEnabled;
-                
+
                 if (idRadio == 'allPurchases') {
                     $('#txtSearch').val('');//clean
                     //deshabilitamos el input txtSearch
                     $('#txtSearch').attr('disabled', 'disabled');
+                    //////////////////
+                    $('#month1').val('desde el mes');
+                    $('#month2').val('hasta el mes');
+                    $('#year').val('Año');
                 }
-                else if (idRadio == 'nro-sale')
-                    $('#txtSearch').removeAttr('disabled');
+                else if (idRadio == 'nro-sale') {
 
+                    $('#txtSearch').removeAttr('disabled');
+                    ////////////////
+                    $('#month1').val('desde el mes');
+                    $('#month2').val('hasta el mes');
+                    $('#year').val('Año');
+                }
+                   
                 else {
                     $('#txtSearch').val('');//clean
                     //deshabilitamos el input txtSearch
                     $('#txtSearch').attr('disabled', 'disabled');
+                    ////////////////
+                    $('#month1').val('desde el mes');
+                    $('#month2').val('hasta el mes');
+                    $('#year').val('Año');
                 }
-                   
-                
+
             });
         });
     });
@@ -140,6 +155,9 @@
         let userName = @Html.Raw(Json.Encode(ViewBag.userName));
         let option = $("input:radio[name='option']:checked").val();
         let idSale = $('#txtSearch').val();
+        let month1 = $('#month1').val();
+        let month2 = $('#month2').val();
+        let year = $('#year').val();
 
         if (option == "nro-sale") {
 
@@ -151,11 +169,13 @@
 
         }
 
+
+
         var uri = '@Url.Action("FiltrarVenta", "Home")';
 
         $.ajax({
             url: uri,
-            data: { option: option, idSale: idSale, userName: userName},
+            data: { option: option, idSale: idSale, userName: userName, month1: month1, month2: month2, year: year},
             type: 'POST',
             success: function (respuestaDelServidor) {
                 $("#ajaxResponseFilterSalesClient").html(respuestaDelServidor);

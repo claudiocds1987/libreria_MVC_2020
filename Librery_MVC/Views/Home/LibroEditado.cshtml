@@ -1,14 +1,14 @@
 ﻿
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
 
+    TempData.Keep("adminEmail");
 }
 
 
-@if(ViewBag.Filas > 0)
+@if (ViewBag.Filas > 0)
 {
-   
+
     <script type="text/javascript">
         window.alert("Los cambios se modificaron exitosamente!");
         window.location.href = "/Home/Libros";

@@ -3,6 +3,8 @@
 
 @{
     Layout = null;
+    int cont = 1;
+    TempData.Keep("adminEmail");
 }
 
 <!DOCTYPE html>
@@ -24,6 +26,7 @@
 
             <thead>
                 <tr>
+                    <th></th>
                     <th scope="col"></th>
                     <th scope="col">Id Venta</th>
                     <th scope="col">Fecha</th>
@@ -44,15 +47,16 @@
                 else
                 {
                     foreach (Venta item in Model)
-                    {
+                    {                    
                     <tr>
-
+                        <td>@cont</td>
                         <td><a class = "btn btn-default" href="@Url.Action("DetalleVenta", "Home", new { idVenta = item.IdVenta, userName = item.NombreUsuario })">Detalle</a></td>                 
                         <td scope="row">@item.IdVenta</td>
                         <td>@item.Fecha.ToShortDateString()</td>
                         <td>@item.PrecioTotal</td>
 
                     </tr>
+                        cont++;
                     }
 
                 }

@@ -28,8 +28,7 @@ namespace Librery_MVC.Controllers
                     return View();
                 }
 
-                //check que el password dno tenga caracteres raros o espacios vacios si el password 
-
+                /*check que el password no tenga caracteres raros o espacios vacios si el password */
                 if(adminService.SearchEmailAndPasswordAdmin(email, password))
                 {
                     //guardo el email de admin en la tempdata
@@ -49,59 +48,55 @@ namespace Librery_MVC.Controllers
         }
 
         public ActionResult adminPrincipal()
-        {
-            //TempData["adminEmail"] fue creada en ActionResult index
-            ViewBag.adminEmail = TempData["adminEmail"];
+        {           
             return View();
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
 
         public ActionResult crearAdmin()
         {
-            //nota: todos los TempData son creados en ActionResult registrarAdmin();
+            /*nota: todos los TempData son creados en ActionResult registrarAdmin();*/
 
-            //Aviso que hay campos vacios
+            /*Aviso que hay campos vacios*/
             if (TempData["emptyDataAdmin"] != null)
             {
                 ViewBag.Msg = "Hay campos vacios!";
                 return View();
             }
 
-            //Aviso que se supero el maxLength de el/los input
+            /*Aviso que se supero el maxLength de el/los input*/
             if (TempData["lengthErrorAdminInput"] != null)
             {
                 ViewBag.Msg = "Error!, no se permite mas de 45 caracteres en los campos: Nombre, Apellido, Email, Nombre de usuario, Contraseñas, Domicilio.";
                 return View();
             }
 
-            //Aviso que el formato de email es incorrecto
+            /*Aviso que el formato de email es incorrecto*/
             if (TempData["invalidAdminEmail"] != null)
             {
                 ViewBag.Msg = "El formato de email es invalido!";
                 return View();
             }
 
-            //Aviso si el email de admin ya esta registrado
+            /*Aviso si el email de admin ya esta registrado*/
             if (TempData["duplicatedEmailAdmin"] != null)
             {
                 ViewBag.Msg = "Error, ya existe un administrador con el mismo email.";
                 return View();
             }
 
-            //Aviso si las dos contraseñas no son iguales
+            /*Aviso si las dos contraseñas no son iguales*/
             if (TempData["invalidPasswordsAdmin"] != null)
             {
                 ViewBag.Msg = "Error, Las dos contraseñas deben ser iguales.";
@@ -113,10 +108,9 @@ namespace Librery_MVC.Controllers
 
         public ActionResult registrarAdmin(FormCollection _form)
         {
+            /****************** VALIDANDO LADO BACK-END **********************/
 
-            //****************** VALIDANDO LADO BACK-END **********************//
-
-            //Checkeando inputs vacios
+            /*Checkeando inputs vacios*/
 
             foreach (var item in _form)
             {
@@ -124,15 +118,15 @@ namespace Librery_MVC.Controllers
 
                 if (String.IsNullOrEmpty(valor))
                 {
-                    //Si hay inputs vacios se crea la TempData
+                    /*Si hay inputs vacios se crea la TempData*/
                     TempData["emptyDataAdmin"] = true;
-                    //redirecciono a ActionResult CrearUsuario() enviando la TempData
+                    /*redirecciono a ActionResult CrearUsuario() enviando la TempData*/
                     return RedirectToAction("crearAdmin");
                 }
 
             }
 
-            //Checking length de inputs
+            /*Checking length de inputs*/
 
             int emailSize = Convert.ToInt32(Request.Form["txtEmail"].Length);
             int nameSize = Convert.ToInt32(Request.Form["txtName"].Length);
@@ -146,7 +140,7 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("crearAdmin");
             }
 
-            //Checkeando formato valido de email
+            /*Checkeando formato valido de email*/
             string email = Request.Form["txtEmail"];
 
             if (!adminService.IsValidEmail(email))
@@ -155,26 +149,25 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("crearAdmin");
             }
 
-            //Checkeando si ya existe el email
+            /*Checkeando si ya existe el email*/
             if (adminService.SearchEmailAdmin(email))
             {
                 TempData["duplicatedEmailAdmin"] = true;
                 return RedirectToAction("crearAdmin");
             }
             
-            //checking que las 2 contraseñas sean iguales
+            /*checking que las 2 contraseñas sean iguales*/
             String pass1 = Request.Form["txtClave1"];
             String pass2 = Request.Form["txtClave2"];
-            //bool iguales = true;
-
-            //Check que tenga el mismo tamaño
+          
+            /*Check que tenga el mismo tamaño*/
             if(pass1.Length != pass2.Length)
             {
                 TempData["invalidPasswordsAdmin"] = true;
                 return RedirectToAction("crearAdmin");
             }
 
-            //ya sabiendo que tienen el mismo tamaño pregunto si son iguales
+            /*ya sabiendo que tienen el mismo tamaño pregunto si son iguales*/
             for (int i = 0; i < pass1.Length; i++)
             {
                 if (pass2[i] != pass1[i])
@@ -185,7 +178,7 @@ namespace Librery_MVC.Controllers
                 }
             }
 
-            //****************** FIN VALIDACIONES LADO BACK-END ***************************//
+            /****************** FIN VALIDACIONES LADO BACK-END ***************************/
 
             Admin admin = new Admin();
 
@@ -194,8 +187,8 @@ namespace Librery_MVC.Controllers
             admin.apellido = Request.Form["txtSurname"];
             admin.pass = Request.Form["txtClave1"];
             admin.Estado = 1;
-
-            ViewBag.Admin = admin.email; //creando la ViewBag.Email con el email del administrador
+            /*creando la ViewBag.Email con el email del administrador*/
+            ViewBag.Admin = admin.email; 
             AdminService sa = new AdminService();
 
             int filasAfectadas = sa.InsertAdmin(admin);
@@ -205,33 +198,32 @@ namespace Librery_MVC.Controllers
             else
                 ViewBag.Msg = 0;
 
-
-            return View(); //pasando el objeto admin y ViewBag.Email a la vista registrarAdmin.cshtml
+            /*pasando el objeto admin y ViewBag.Email a la vista registrarAdmin.cshtml*/
+            return View();
 
         }
 
         public ActionResult Libros(string option, string search)
         {
-            LibroService ls = new LibroService();  
-            //ViewBag.Message = "Your contact page.";     
+            LibroService ls = new LibroService();            
             String consulta = "Select * from libros";
-   
+       
             return View(ls.filtrarLibro(consulta));
-            //return View(ls.buscarLibrosByName(searching).ToList());
+            
         }
 
         public ActionResult adminFiltrarLibro(String option, String search)
         {
-            //no hago back-end de option o search, si el usuario escribe cualquier cosa
-            //porque en la view va a aparecer 0 registros encontrados!
+            /*no hago back-end de option o search, si el usuario escribe cualquier cosa
+              porque en la view va a aparecer 0 registros encontrados!*/
 
             LibroService ls = new LibroService();
             String consulta = "Select * from libros";
 
             if(search == "")
                 return View(ls.filtrarLibro(consulta));
-
-            
+           
+                          
             if (option == "bookName" || option == "idBook")
             {
                 if (option == "bookName")
@@ -240,12 +232,11 @@ namespace Librery_MVC.Controllers
                     consulta = consulta + " where libros.IdLibro = " + search;              
             }
            else
-            { //por si pinchan los values de los radio button
+            { /*por si pinchan los values de los radio button*/
                ViewBag.Msg = "Error al recibir los value de los radio button";
                return View();
            }
-           
-           
+            
             return View(ls.filtrarLibro(consulta));
 
         }
@@ -269,32 +260,25 @@ namespace Librery_MVC.Controllers
             Libro book = new Libro();
             book = ls.GetBook(idLibro);
             
-            //****************** VALIDANDO LADO BACK-END *********************************//
+            /****************** VALIDANDO LADO BACK-END *********************************/
             
-            //nota: todos los TempData son creados en ActionResult Libroeditado();
+            /*nota: todos los TempData son creados en ActionResult Libroeditado();*/
         
-            //Aviso si hay un error en el nombre del libro
-            //if (TempData["errorString"] != null)
-            //{
-            //    ViewBag.Msg = "El nombre del libro solo debe tener letras!";
-            //    return View();
-            //}
-
-            //Aviso error de precio 
+            /*Aviso error de precio*/ 
             if (TempData["errorPrice"] != null)
             {
                 ViewBag.Msg = "El precio no es valido!, si es un numero decimal use el punto decimal con un maximo de dos decimales ej: 1500.88";
                 return View();
             }
 
-            //Aviso si hay un error en el año del libro
+            /*Aviso si hay un error en el año del libro*/
             if (TempData["errorYear"] != null)
             {
                 ViewBag.Msg = "El año no es valido!";
                 return View();
             }
 
-            //Aviso si el autor existe en la base de datos
+            /*Aviso si el autor existe en la base de datos*/
             if (TempData["errorAutor"] != null)
             {
                 ViewBag.Msg = "El autor no existe en la base de datos!";
@@ -319,29 +303,28 @@ namespace Librery_MVC.Controllers
                 return View();
             }
 
-            //Aviso si la img no se encuentra en la ruta especificada
+            /*Aviso si la img no se encuentra en la ruta especificada*/
             if (TempData["errorPathImg"] != null)
             {
                 ViewBag.Msg = "Error. La imagen no se encuentra en la ruta especificada";
                 return View();
             }
 
-            //Aviso si el formato de img es incorrecto
+            /*Aviso si el formato de img es incorrecto*/
             if (TempData["errorImg"] != null)
             {
                 ViewBag.Msg = "Error. El formato de imagen no es correcto. Formatos permitidos .jpg, .png, .gif, .bmp";
                 return View();
             }
 
-
-            //Aviso error de precio
+            /*Aviso error de precio*/
             if (TempData["errorPrice"] != null)
             {
                 ViewBag.Msg = "El precio fue invalido!. No debe contener simbolos. Si el precio es decimal, use el punto decimal en vez de la coma.";
                 return View();
             }
 
-            //******** fin validaciones back-end ************************
+            /******************* fin validaciones back-end ************************/
 
             
             return View(book);
@@ -355,25 +338,16 @@ namespace Librery_MVC.Controllers
             Libro book = new Libro();
             CheckData check = new CheckData();
 
-            //****************** VALIDACIONES BACK-END ***********************//
-            //permite white space en el nombre y checkea que no tenga numeros ni simbolos 
-            //if (!check.CheckStringWithWhiteSpace(Request.Form["txt_bookName"]))
-            //{
-            //    TempData["errorString"] = true;
-            //    //redirecciono a ActionResult editarLibro() enviando la TempData
-            //    //y el id del libro
-            //    int idBook = Convert.ToInt32(form[0]);
-            //    return RedirectToAction("EditarLibro", new { idLibro = idBook });
-            //}
-
-            //check length del año de lanzamiento solo cuatro numeros
+            /****************** VALIDACIONES BACK-END ***********************/
+            
+            /*check length del año de lanzamiento solo cuatro numeros*/
             if (Request.Form["nbr_lanzamiento"].Length != 4)
             {
                 TempData["errorYear"] = true;              
                 int idBook = Convert.ToInt32(form[0]);
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
-            //check que el año de lanzamiento sea solo numeros
+            /*check que el año de lanzamiento sea solo numeros*/
             if (!check.CheckIntNumber(Request.Form["nbr_lanzamiento"]))
             {
                 TempData["errorYear"] = true;               
@@ -381,14 +355,14 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
-            //check si existe el idAutor es un dato int
+            /*check si existe el idAutor es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlAutor"]))
             {
                 TempData["errorAutor"] = true;              
                 int idBook = Convert.ToInt32(form[0]);
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
-            //check si el idAutor existe en la base de datos
+            /*check si el idAutor existe en la base de datos*/
             if (!check.CheckIdAutor(Request.Form["ddlAutor"]))
             {
                 TempData["errorAutor"] = true;               
@@ -396,14 +370,14 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
-            //check si existe el idCategoria es un dato int
+            /*check si existe el idCategoria es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlCategory"]))
             {
                 TempData["errorCategory"] = true;              
                 int idBook = Convert.ToInt32(form[0]);
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
-            //check si el idCategory existe en la base de datos
+            /*check si el idCategory existe en la base de datos*/
             if (!check.CheckIdCategory(Request.Form["ddlCategory"]))
             {
                 TempData["errorCategory"] = true;               
@@ -411,14 +385,14 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
-            //check si el idEditorial es un dato int
+            /*check si el idEditorial es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlEditorial"]))
             {
                 TempData["errorEditorial"] = true;             
                 int idBook = Convert.ToInt32(form[0]);
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
-            //check si el idEditorial existe en la base de datos
+            /*check si el idEditorial existe en la base de datos*/
             if (!check.CheckIdEditorial(Request.Form["ddlEditorial"]))
             {
                 TempData["errorEditorial"] = true;                
@@ -426,7 +400,7 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
-            //checking si la cantidad es un numero (si es null devuelve false)
+            /*checking si la cantidad es un numero (si es null devuelve false)*/
             if (!check.CheckIntNumber(Request.Form["nbr_quantity"]))
             {
                 TempData["errorQuantity"] = true;
@@ -434,7 +408,7 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
-            //checking precio, tambien evalua si llega vacio
+            /*checking precio, tambien evalua si llega vacio*/
             if (!check.CheckPrice(Request.Form["txt_price"]))
             {
                 TempData["errorPrice"] = true;              
@@ -442,9 +416,9 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
       
-            /****************** fin validaciones back end****************************/
+            /****************** fin validaciones back end ****************************/
 
-            //convierto el precio string en decimal
+            /*convierto el precio string en decimal*/
             String precio = Request.Form["txt_price"];
             decimal price = check.ConvertStringToDecimal(precio);
 
@@ -454,7 +428,7 @@ namespace Librery_MVC.Controllers
             book.IdAutor = Convert.ToInt32(form[3]);
             book.IdCategoria = Convert.ToInt32(form[4]);
             book.IdEditorial = Convert.ToInt32(form[5]);
-            //Obtengo lo que se edito en el textarea llamado description"
+            /*Obtengo lo que se edito en el textarea llamado "description"*/
             book.Descripcion = Request.Form["description"];
             book.Cantidad = Convert.ToInt32(form[7]);           
             book.Precio = price;
@@ -482,31 +456,24 @@ namespace Librery_MVC.Controllers
 
         public ActionResult InsertarLibro()
         {
-            //****************** VALIDANDO LADO BACK-END *********************************//
-            //nota: todos los TempData son creados en ActionResult LibroInsertado();
-
-            //Aviso si hay un error en el nombre del libro
-            //if(TempData["errorString"] != null)
-            //{
-            //    ViewBag.Msg = "El nombre del libro solo debe tener letras!";
-            //    return View();
-            //}
-
-            //Aviso error de precio 
+            /****************** VALIDANDO LADO BACK-END *********************************/
+            /*nota: todos los TempData son creados en ActionResult LibroInsertado();*/
+          
+            /*Aviso error de precio*/ 
             if (TempData["errorPrice"] != null)
             {
                 ViewBag.Msg = "El precio no es valido!, si es un numero decimal use el punto decimal con un maximo de dos decimales ej: 1500.88";
                 return View();
             }
 
-            //Aviso si hay un error en el año del libro
+            /*Aviso si hay un error en el año del libro*/
             if (TempData["errorYear"] != null)
             {
                 ViewBag.Msg = "El año no es valido!";
                 return View();
             }
 
-            //Aviso si el autor existe en la base de datos
+            /*Aviso si el autor existe en la base de datos*/
             if(TempData["errorAutor"] != null)
             {
                 ViewBag.Msg = "El autor no existe en la base de datos!";
@@ -531,21 +498,21 @@ namespace Librery_MVC.Controllers
                 return View();
             }
 
-            //Aviso si la img no se encuentra en la ruta especificada
+            /*Aviso si la img no se encuentra en la ruta especificada*/
             if(TempData["errorPathImg"] != null)
             {
                 ViewBag.Msg = "Error. La imagen no se encuentra en la ruta especificada";
                 return View();
             }
 
-            //Aviso si el formato de img es incorrecto
+            /*Aviso si el formato de img es incorrecto*/
             if(TempData["errorImg"] != null)
             {
                 ViewBag.Msg = "Error. El formato de imagen no es correcto. Formatos permitidos .jpg, .png, .gif, .bmp";
                 return View();
             }
 
-            //Aviso si el libro  ya existe en la base de datos
+            /*Aviso si el libro  ya existe en la base de datos*/
             if(TempData["duplicatedBook"] != null)
             {
                 ViewBag.Msg = "Error. Ya existe un libro del mismo autor";
@@ -564,91 +531,84 @@ namespace Librery_MVC.Controllers
             Libro book = new Libro();
             CheckData check = new CheckData();
 
-            //****************** VALIDACIONES BACK-END ***********************//
-            //permite white space en el nombre y checkea que no tenga numeros ni simbolos 
-            //if (!check.CheckStringWithWhiteSpace(Request.Form["txt_bookName"]))
-            //{
-            //    //corregir porque no permite acentos
-            //    TempData["errorString"] = true;
-            //    return RedirectToAction("InsertarLibro");
-            //}
-           
-            //check length del año de lanzamiento solo cuatro numeros
+            /****************** VALIDACIONES BACK-END ***********************/
+                      
+            /*check length del año de lanzamiento solo cuatro numeros*/
             if(Request.Form["nbr_lanzamiento"].Length != 4)
             {
                 TempData["errorYear"] = true;
                 return RedirectToAction("InsertarLibro");
             }
-            //check que el año de lanzamiento sea solo numeros
+            /*check que el año de lanzamiento sea solo numeros*/
             if (!check.CheckIntNumber(Request.Form["nbr_lanzamiento"]))
             {
                 TempData["errorYear"] = true;               
                 return RedirectToAction("InsertarLibro");
             }
       
-            //check si existe el idAutor es un dato int
+            /*check si existe el idAutor es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlAutor"]))
             {
                 TempData["errorAutor"] = true;
                 return RedirectToAction("InsertarLibro");
             }
-            //check si el idAutor existe en la base de datos
+            /*check si el idAutor existe en la base de datos*/
             if (!check.CheckIdAutor(Request.Form["ddlAutor"]))
             {
                 TempData["errorAutor"] = true;
                 return RedirectToAction("InsertarLibro");
             }
 
-            //check si existe el idCategoria es un dato int
+            /*check si existe el idCategoria es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlCategory"]))
             {
                 TempData["errorCategory"] = true;
                 return RedirectToAction("InsertarLibro");
             }
-            //check si el idCategory existe en la base de datos
+            /*check si el idCategory existe en la base de datos*/
             if (!check.CheckIdCategory(Request.Form["ddlCategory"]))
             {
                 TempData["errorCategory"] = true;
                 return RedirectToAction("InsertarLibro");
             }
 
-            //check si el idEditorial es un dato int
+            /*check si el idEditorial es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlEditorial"]))
             {
                 TempData["errorEditorial"] = true;
                 return RedirectToAction("InsertarLibro");
             }
-            //check si el idEditorial existe en la base de datos
+            /*check si el idEditorial existe en la base de datos*/
             if (!check.CheckIdEditorial(Request.Form["ddlEditorial"]))
             {
                 TempData["errorEditorial"] = true;
                 return RedirectToAction("InsertarLibro");
             }
-            //checking precio, tambien evalua si llega vacio
+            /*checking precio, tambien evalua si llega vacio*/
             if (!check.CheckPrice(Request.Form["txt_price"]))
             {
                 TempData["errorPrice"] = true;
                 return RedirectToAction("InsertarLibro");
             }
-            //checking si la cantidad es un numero (si es null devuelve false)
+            /*checking si la cantidad es un numero (si es null devuelve false)*/
             if(!check.CheckIntNumber(Request.Form["nbr_quantity"]))
             {
                 TempData["errorQuantity"] = true;
                 return RedirectToAction("InsertarLibro");
             }
 
-            //convierto el precio string en decimal
+            /*convierto el precio string en decimal*/
             String precio = Request.Form["txt_price"];
             decimal price = check.ConvertStringToDecimal(precio);           
             
-            //para la descripcion no hago check
+            /*para la descripcion no hago check*/
 
-            //pregunto si se recibió null como imagen
+            /*pregunto si se recibió null como imagen*/
             String imagen = Request.Form["itf_urlImage"];
            
             if (imagen != "")
             {
-                //check formato de imagen jpg, png, gif, bmp         
+                /*check formato de imagen jpg, png, gif, bmp*/         
                 if (!check.checkImageFormat(ruta + Request.Form["itf_urlImage"]))
                 {
                     TempData["errorImg"] = true;
@@ -656,7 +616,7 @@ namespace Librery_MVC.Controllers
                 }
             }
               
-            //ckeck existencia del libro en la base de datos por idAutor y nombre de libro
+            /*ckeck existencia del libro en la base de datos por idAutor y nombre de libro*/
             if(check.checkAutorAndBookName(Request.Form["txt_bookName"], Request.Form["ddlAutor"]))
             {
                 TempData["duplicatedBook"] = true;
@@ -664,7 +624,7 @@ namespace Librery_MVC.Controllers
             }
 
 
-            // **************** fin validaciones back-end *********************//
+            /**************** fin validaciones back-end *********************/
 
             book.Nombre = Request.Form["txt_bookName"];
             book.AnioDeLanzamiento = Convert.ToInt32(Request.Form["nbr_lanzamiento"]);
@@ -676,9 +636,9 @@ namespace Librery_MVC.Controllers
             book.Precio = price;
 
             /*Para obtener la ruta absoluta de la img Usar esto:
-            //var nombreImagen = Request.Form["itf_urlImage"];
-            //var path = Path.Combine(Server.MapPath("~/principal/imagenes/"), nombreImagen);
-            //book.UrlImagen = path;
+              var nombreImagen = Request.Form["itf_urlImage"];
+              var path = Path.Combine(Server.MapPath("~/principal/imagenes/"), nombreImagen);
+              book.UrlImagen = path;
             */
             if (imagen == "")
                 book.UrlImagen = imagen;
@@ -690,7 +650,7 @@ namespace Librery_MVC.Controllers
             LibroService ls = new LibroService();
             int filasAfectadas = 0;
             filasAfectadas = ls.InsertBook(book);
-            //si filasAfectadas devuelve 1, es porque se pudo insertar en la base de datos
+            /*si filasAfectadas devuelve 1, es porque se pudo insertar en la base de datos*/
             if (filasAfectadas > 0)
             {               
                 ViewBag.Msg = 1;
@@ -703,14 +663,14 @@ namespace Librery_MVC.Controllers
 
         public ActionResult ListarClientes()
         {
-            
+           
             return View();
         }
 
         public ActionResult FiltrarCliente(String option, String search)
         {
-            //no hago back-end de option o search, si el usuario escribe cualquier cosa
-            //porque en la view va a aparecer 0 registros encontrados!
+            /*no hago back-end de option o search, si el usuario escribe cualquier cosa
+              porque en la view va a aparecer 0 registros encontrados!*/
 
             UsserService us = new UsserService();
             String consulta = "";
@@ -732,7 +692,7 @@ namespace Librery_MVC.Controllers
                     consulta = "SELECT * FROM usuarios";
             }
             else
-            { //por si pinchan los values de los radio button
+            { /*por si pinchan los values de los radio button*/
                 ViewBag.Msg = "Error al recibir los value de los radio button";
                 return View();
             }
@@ -746,11 +706,11 @@ namespace Librery_MVC.Controllers
             return View();
         }
 
-        public ActionResult FiltrarVenta(String option, String idSale, String userName)
+        public ActionResult FiltrarVenta(String option, String idSale, String userName, String month1, String month2, String year)
         {
             String consulta = "";
 
-            if (option == "nro-sale" || option == "allPurchases")
+            if (option == "nro-sale" || option == "allPurchases" || option == "date")
             {
                 if (option == "nro-sale")
                 {
@@ -762,12 +722,25 @@ namespace Librery_MVC.Controllers
                     else
                         consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName + "' AND ventas.IdVenta = " + idSale;
                 }
+                /*si elije la opcion "buscar ventas por fecha"*/               
+                else if(option == "date")
+                {                  
+                    String a = "Select ventas.IdVenta, ventas.NombreUsuario, ventas.PrecioTotal, ventas.Fecha";
+                    String b = " from ventas";
+                    String c = " where month(Fecha) >= " + month1;
+                    String d = " and month(Fecha) <= " + month2 ;
+                    String e = " and year(Fecha) = " + year;
+                    String f = " and ventas.NombreUsuario = '" + userName + "'";
+                    String g = " order by date(ventas.Fecha) desc";
 
+                    consulta = a + b + c + d + e + f + g;
+                }
+                /*si elije la opcion "todas las ventas"*/
                 else
-                    consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName +"'";
+                    consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName + "' order by date(ventas.Fecha) desc";
             }
             else
-            { //por si pinchan los values de los radio button
+            { /*por si pinchan los values de los radio button*/
                 ViewBag.Msg = "Error al recibir los value de los radio button";
                 return View();
             }

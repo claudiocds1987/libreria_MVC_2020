@@ -65,7 +65,7 @@
 
                             <li class="dropdown">
 
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user" id="glyphicon-user"></span>@ViewBag.adminEmail<span class="caret"></span></a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user" id="glyphicon-user"></span>@TempData["adminEmail"]<span class="caret"></span></a>
                                 <ul class="dropdown-menu" id="dropdown-menu">
                                     <li><a href="@Url.Action("index", "Home")"><span class="glyphicon glyphicon-off" id="glyphicon-wrench" aria-hidden="true"></span>Cerrar sesión</a></li>
                                 </ul>
