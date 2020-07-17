@@ -32,13 +32,13 @@
 <body>
 
     @if (ViewBag.Msg != null)
-    {
-        <h4 style="color:red">@ViewBag.Msg</h4>
+    {       
+        <h4 class="text-center" style="color:red">@ViewBag.Msg</h4>
     }
 
     <h2 class="text-center">Registrar administrador</h2>
 
-    @using (Html.BeginForm("RegistrarAdmin", "Home", FormMethod.Post, new { name = "formAdmin" }))
+    @using (Html.BeginForm("RegistrarAdmin", "Home", FormMethod.Post, new { name = "formAdmin", onsubmit = "return checkAdminData();" }))
     {
         @Html.AntiForgeryToken()
 
@@ -46,31 +46,31 @@
 
             <div class="form-group">
                 <label for="lblEmail">Email:</label>
-                <input type="email" class="form-control" id="txtEmail" name="txtEmail" onkeyup="return removeClass(this);" maxlength="45" placeholder="Email" required>
+                <input type="email" class="form-control" id="txtEmail" name="txtEmail" onblur="removeClass(this);" maxlength="45" placeholder="Email" required>
             </div>
 
             <div class="form-group">
                 <label for="lblName">Nombre:</label>
-                <input type="text" class="form-control a" id="txtName" name="txtName" onkeyup="return removeClass(this);" maxlength="45" placeholder="Nombre" required>
+                <input type="text" class="form-control a" id="txtName" name="txtName" maxlength="45" onblur="removeClass(this)"; placeholder="Nombre" required>
             </div>
 
             <div class="form-group">
                 <label for="lblApe">Apellido:</label>
-                <input type="text" class="form-control" id="txtSurname" name="txtSurname" onkeyup="return removeClass(this);" maxlength="45" placeholder="Apellido" required>
+                <input type="text" class="form-control" id="txtSurname" name="txtSurname" maxlength="45" onblur="removeClass(this)"; placeholder="Apellido" required>
             </div>
 
             <div class="form-group">
                 <label for="lblPwd">Contraseña:</label>
-                <input type="password" class="form-control" name="txtClave1" onkeyup="return removeClass(this);" id="clave1" maxlength="45" placeholder="Contraseña" required>
+                <input type="password" class="form-control" name="txtClave1" id="clave1" maxlength="45" onblur="removeClass(this)"; placeholder="Contraseña" required>
             </div>
 
             <div class="form-group">
                 <label for="lblPwd">Repita la contraseña:</label>
-                <input type="password" class="form-control" name="txtClave2" onkeyup="return removeClass(this);" id="clave2" maxlength="45" placeholder="Repetir contraseña" required>
+                <input type="password" class="form-control" name="txtClave2" id="clave2" maxlength="45" onblur="removeClass(this)"; placeholder="Repetir contraseña" required>
             </div>
 
             <div id="button-group">
-                <button class="btn btn-primary" id="btn-guardar" onclick="checkAdminData();">Guardar</button>
+                <button class="btn btn-primary" type="submit" id="btn-guardar">Guardar</button>               
                 <button type="reset" class="btn btn-warning" id="btn-reset">Resetear</button>
                 <a class="btn btn-danger" href="@Url.Action("index", "Home")">Cancelar</a>
             </div>
@@ -85,31 +85,23 @@
 
     <script type="text/javascript">
 
+        /*Importante: checkadminData() la llamo desde el form*/
         function checkAdminData() {
 
             if (validarCamposInput()) {
-
-                //hay un error, si no hay campos vacios y el email esta mal, js avisa
-                //pero a pesar del error se envian los datos del formulario.
 
                 if (!validateEmail()) {
 
                     alert("El Email es invalido!");
                     $("#txtEmail").addClass('bordeRojoValidacion');
 
-                    //document.getElementById("btn-guardar").addEventListener("click", function (event) {
-                    //    event.preventDefault()
-                    //});
+                    
                     return false;
                 }
 
                 else if (!EqualPasswords()) {
 
                     alert("Las contraseñas deben ser iguales!");
-
-                    //document.getElementById("btn-guardar").addEventListener("click", function (event) {
-                    //    event.preventDefault()
-                    //});
                     return false;
                 }
 
@@ -123,16 +115,10 @@
             else {
 
                 alert("Hay campos vacios!");
-
-                //document.getElementById("btn-guardar").addEventListener("click", function (event) {
-                //    event.preventDefault()
-                //});
                 return false;
             }
            
-            //document.getElementById("btn-guardar").addEventListener("click", function (event) {
-            //    event.preventDefault()
-            //});
+            
         }
 
         function validateEmail() {
@@ -144,14 +130,15 @@
                 return true;
         }
 
+
         function EqualPasswords() {
 
-            var clave1 = document.formAdmin.txtClave1.value
-            var clave2 = document.formAdmin.txtClave2.value
+            let clave1 = $('#clave1').val();
+            let clave2 = $('#clave2').val();
 
             if (clave1 != clave2) {
 
-                addClassToClaves()
+                addClassToClaves()                
                 return false;
             }
             else
