@@ -1,31 +1,54 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿
+@{
+    ViewBag.Title = "adminPrincipal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     TempData.Keep("adminEmail");
 }
 
-@*<div style="background:#222222 !important" class="jumbotron">*@
-    <div style="background-image: url('/principal/imagenes/libroos.jpg'); background-repeat: no-repeat;background-size: cover; width: 100%; height: 50vh; !important" class="jumbotron">
-        @*<div class="jumbotron">*@
-        <h1 id="titulo">Libreria MVC</h1>
-        <p style="color:white" class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a id="boton" href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Sección Clientes</h2>
-            <p>
-                Obtenga Informacion, contacto y seguimiento del cliente.
-            </p>
-            <p><a class="btn btn-default" href="/Home/ListarClientes">Ir a clientes &raquo;</a></p>
+<div style="background-image: url('/principal/imagenes/libroos.jpg'); background-repeat: no-repeat;background-size: cover; width: 100%; height: 50vh; !important" class="jumbotron">
+
+    <h1 id="titulo">Libreria MVC</h1>
+    <p style="color:white" class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a id="boton" href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+<div class="row">
+    <div class="col-md-4">
+
+        <h2 class="text-center">Sección Clientes</h2>
+
+        <div class="text-center seccion">
+
+            <img src="~/principal/imagenes/cliente.jpg" class="img-circle" alt="cliente">
+            <p>Información, contacto y seguimiento del cliente.</p>
+            <a class="btn btn-default" href="/Home/ListarClientes">Ir a clientes &raquo;</a>
+
         </div>
-        <div class="col-md-4">
-            <h2>Sección Productos</h2>
+
+    </div>
+
+    <div class="col-md-4 seccion">
+
+        <h2 class="text-center">Sección Productos</h2>
+
+        <div class="text-center">
+
+            <img src="~/principal/imagenes/producto.png" class="img-circle" alt="producto">
             <p>Producto mas vendido</p>
             <p><a class="btn btn-default" href="/Home/Libros">Ir a libros &raquo;</a></p>
+
         </div>
-        <div class="col-md-4">
-            <h2>Sección facturación</h2>
-            <p>Buscar facura - detalles de factura</p>
-            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </div>
+
+
     </div>
+
+    <div class="col-md-4">
+
+        <h2>Sección facturación</h2>
+        <p>Buscar facura - detalles de factura</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+    </div>
+
+</div>
+
+

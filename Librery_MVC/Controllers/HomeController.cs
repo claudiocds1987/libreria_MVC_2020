@@ -724,16 +724,26 @@ namespace Librery_MVC.Controllers
                 }
                 /*si elije la opcion "buscar ventas por fecha"*/               
                 else if(option == "date")
-                {                  
-                    String a = "Select ventas.IdVenta, ventas.NombreUsuario, ventas.PrecioTotal, ventas.Fecha";
-                    String b = " from ventas";
-                    String c = " where month(Fecha) >= " + month1;
-                    String d = " and month(Fecha) <= " + month2 ;
-                    String e = " and year(Fecha) = " + year;
-                    String f = " and ventas.NombreUsuario = '" + userName + "'";
-                    String g = " order by date(ventas.Fecha) desc";
+                {
+                    //Esta obligado a elegir el rango de meses y el año
+                    if(String.IsNullOrEmpty(month1) || String.IsNullOrEmpty(month2) || String.IsNullOrEmpty(year))
+                    {
+                        ViewBag.Msg = "Debe elegir el rango de meses y el año";
+                        return View();
+                    }
+                    else
+                    {
+                        String a = "Select ventas.IdVenta, ventas.NombreUsuario, ventas.PrecioTotal, ventas.Fecha";
+                        String b = " from ventas";
+                        String c = " where month(Fecha) >= " + month1;
+                        String d = " and month(Fecha) <= " + month2;
+                        String e = " and year(Fecha) = " + year;
+                        String f = " and ventas.NombreUsuario = '" + userName + "'";
+                        String g = " order by date(ventas.Fecha) desc";
 
-                    consulta = a + b + c + d + e + f + g;
+                        consulta = a + b + c + d + e + f + g;
+                    }
+                   
                 }
                 /*si elije la opcion "todas las ventas"*/
                 else
@@ -747,7 +757,7 @@ namespace Librery_MVC.Controllers
 
             VentaService vs = new VentaService();
             ViewBag.userName = userName;
-            return View(vs.FiltrarVenta(consulta));
+            return View(vs.SalesByQueryGet(consulta));
         }
 
         public ActionResult DetalleVenta(string idVenta, string userName)

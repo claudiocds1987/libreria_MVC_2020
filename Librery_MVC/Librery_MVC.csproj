@@ -248,6 +248,7 @@
     <Content Include="principal\imagenes\Capitan America odisea de un heroe.jpg" />
     <Content Include="principal\imagenes\carrito.jpg" />
     <Content Include="principal\imagenes\CincuentaSombrasDeGrey.jpg" />
+    <Content Include="principal\imagenes\cliente.jpg" />
     <Content Include="principal\imagenes\configurar.png" />
     <Content Include="principal\imagenes\ContraLosZombis.jpg" />
     <Content Include="principal\imagenes\DonQuijote.jpg" />
@@ -295,6 +296,7 @@
     <Content Include="principal\imagenes\mujeres-tenian-que-ser.jpg" />
     <Content Include="principal\imagenes\next.png" />
     <Content Include="principal\imagenes\previous.png" />
+    <Content Include="principal\imagenes\producto.png" />
     <Content Include="principal\imagenes\Sapo-En-Buenos-Aires.jpg" />
     <Content Include="principal\imagenes\seguimiento.png" />
     <Content Include="principal\imagenes\Sinceramente.png" />
@@ -331,7 +333,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\adminPrincipal.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -380,6 +381,7 @@
     <Content Include="Views\Home\MovimientosCliente.cshtml" />
     <Content Include="Views\Home\FiltrarVenta.cshtml" />
     <Content Include="Views\Home\DetalleVenta.cshtml" />
+    <Content Include="Views\Home\adminPrincipal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

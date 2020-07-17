@@ -38,7 +38,7 @@ namespace Librery_MVC.Services
         }
 
 
-        public List<Venta> FiltrarVenta(String consulta)
+        public List<Venta> SalesByQueryGet(String consulta)
         {
             List<Venta> list = new List<Venta>();          
             MySqlConnection cn = da.ConnectToDB();

@@ -16,16 +16,15 @@
 
         <div class="col-md-4">
 
-            <input type="radio" @*onclick="enableInput(txtSearch);"*@ name="option" id="nro-sale" value="nro-sale" checked /> Buscar por id venta
+            <input type="radio" name="option" id="nro-sale" value="nro-sale" checked /> Buscar por id venta
 
             <br />
 
-            <input type="radio" @*onclick="disabledInput(txtSearch);"*@ name="option" id="allPurchases" value="allPurchases" /> Ver todas las ventas
+            <input type="radio" name="option" id="allPurchases" value="allPurchases" /> Ver todas las ventas
 
             <br />
-
-            @*<input id="busqueda" type="checkbox">Buscar venta por Fecha*@
-            <input type="radio" name="option" id="date" value="date" /> Buscar venta por fecha
+         
+            <input type="radio" name="option" id="date" value="date" /> Buscar ventas por fecha
 
         </div>
 
@@ -157,31 +156,39 @@
         let idSale = $('#txtSearch').val();
         let month1 = $('#month1').val();
         let month2 = $('#month2').val();
-        let year = $('#year').val();
+        let year = $('#year').val();     
 
         if (option == "nro-sale") {
 
             if (idSale == null || idSale == "") {
 
-                alert("Escriba el nombre de usuario");
+                alert("Complete el nombre de usuario");
                 return false;
             }
 
         }
 
+        if (option == "date") {
 
+            if (month1 == null || month2 == null || year == null) {
+
+                alert("Elija el rango de meses y el año");
+                return false;
+             }
+
+        }
 
         var uri = '@Url.Action("FiltrarVenta", "Home")';
 
         $.ajax({
             url: uri,
-            data: { option: option, idSale: idSale, userName: userName, month1: month1, month2: month2, year: year},
+            data: { option: option, idSale: idSale, userName: userName, month1: month1, month2: month2, year: year },
             type: 'POST',
             success: function (respuestaDelServidor) {
                 $("#ajaxResponseFilterSalesClient").html(respuestaDelServidor);
             }
-        });
-
+        });    
+                                       
     }
 
 </script>
