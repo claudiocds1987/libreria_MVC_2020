@@ -1,4 +1,13 @@
 ﻿
+
+//function loadPriceWithDecimalDot(idInput) {
+
+//    var getprice = $('#'+ idInput).val();
+//    //si es num decimal, cambio la coma ","por el punto "." para poder hacer el calculo
+//    var price = parseFloat(getprice.replace(/,/g, "."));
+//    $('#' + idInput).val(price)
+//}
+
 /*---------------------------------------------------------------------------- 
  * FUNCTION: cleanUnnecessaryWhiteSpaces(R).                                                                                                     
  * PARAMETRO: inputText(this), id del input text.                                                                                                                                  

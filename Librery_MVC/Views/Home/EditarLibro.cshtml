@@ -16,27 +16,30 @@
     EditorialService es = new EditorialService();
     TempData.Keep("adminEmail");
 
+    string price = Convert.ToString(Model.Precio);
+    price = price.Replace(',', '.');
+
 }
 
 <h2 style="margin-bottom: 20px !important;" class="text-center" id="titulo">Editar libro</h2>
 
 @if (ViewBag.Msg != null)
 {
-    <h5 style="color:red">@ViewBag.Msg</h5>
+    <h5 style="color:red" class="text-center">@ViewBag.Msg</h5>
 }
-else
+
+@using (Html.BeginForm("LibroEditado", "Home", FormMethod.Post, new { onsubmit = "return confirmation();" }))
 {
-    using (Html.BeginForm("LibroEditado", "Home", FormMethod.Post, new { onsubmit = "return confirmation();" }))
-    {
-        autor = sa.getAutor(Model.IdAutor);
-        List<Autor> autorList = new List<Autor>();
-        List<Categoria> categoryList = new List<Categoria>();
-        List<Editorial> editorialList = new List<Editorial>();
-        autorList = sa.ListAutores();
-        categoryList = cs.getAllCategories();
-        editorialList = es.getAllEditorials();
-        category = cs.getCategoria(Model.IdCategoria);
-        editorial = es.GetEditorial(Model.IdEditorial);
+    autor = sa.getAutor(Model.IdAutor);
+    List<Autor> autorList = new List<Autor>();
+    List<Categoria> categoryList = new List<Categoria>();
+    List<Editorial> editorialList = new List<Editorial>();
+    autorList = sa.ListAutores();
+    categoryList = cs.getAllCategories();
+    editorialList = es.getAllEditorials();
+    category = cs.getCategoria(Model.IdCategoria);
+    editorial = es.GetEditorial(Model.IdEditorial);
+
 
         <div class="text-center" id="div-form-editarLibro">
 
@@ -127,10 +130,11 @@ else
                     <label>Cantidad:</label>
                     <input type="number" class="form-control" id="nbr_quantity" name="nbr_quantity" min="1" max="10000" value="@Model.Cantidad" required />
                 </div>
-                @*//para input number agregue atributo "any" para que permita poner numero con punto o coma*@
+                
                 <div class="form-group col-md-2">
                     <label>Precio:</label>
-                    <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@Model.Precio" required />
+                    <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@price" pattern="^([0-9]|[^,$\w])*$" required />
+                    @*<input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@Model.Precio" required />*@
                 </div>
 
             </div>
@@ -158,25 +162,22 @@ else
             </div>
 
         </div>
+       
 
     }
-
-}
-
-
 
 
 <script type="text/javascript">
 
     //Mysql guarda el dato float con "." decimal. Pero al mostrar el dato floa de Mysqlt en el input, lo muestra con coma ",".
     //entonces la funcion loadPricewithDecimalDot() reemplaza la coma por el punto decimal y lo muestra en el input.
-    function loadPricewithDecimalDot() {
+    //function loadPricewithDecimalDot() {
 
-        var getprice = $("#txt_price").val();
-        //si es num decimal, cambio la coma ","por el punto "." para poder hacer el calculo
-        var price = parseFloat(getprice.replace(/,/g, "."));
-        $("#txt_price").val(price)
-    }
+    //    var getprice = $("#txt_price").val();
+    //    //si es num decimal, cambio la coma ","por el punto "." para poder hacer el calculo
+    //    var price = parseFloat(getprice.replace(/,/g, "."));
+    //    $("#txt_price").val(price)
+    //}
 
     //nota: esta funcion confirmation() se activa desde un parametro del formulario
     function confirmation() {
@@ -193,9 +194,9 @@ else
 </script>
 
 
-<script>
+@*<script type="text/javascript">
     window.addEventListener("load", loadPricewithDecimalDot, false);
-</script>
+</script>*@
 
 @*Hacer validaciones con js*@
 

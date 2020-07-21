@@ -20,11 +20,11 @@
     TempData.Keep("adminEmail");
 }
 
-<h2>Agregar Libro</h2>
+<h4 style="margin: 20px 0 20px 0 !important;" class="text-center">Agregar libro</h4>
 
 @if (ViewBag.Msg !=null)
 {
-    <h4 style="color:red">@ViewBag.Msg</h4>
+    <h4 style="color:red" class="text-center">@ViewBag.Msg</h4>
 }
 
 @using (Html.BeginForm("LibroInsertado", "Home", FormMethod.Post, new { onsubmit = "return checkDataInsertBook();" }))
@@ -35,7 +35,7 @@
 
             <div class="form-group col-md-10">
                 <label>Nombre:</label>
-                <input type="Text" onblur="cleanUnnecessaryWhiteSpaces(this, txt_bookName);" class="form-control" id="txt_bookName" name="txt_bookName" @*pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}"*@ title="Ingrese solo palabras" placeholder="Nombre de libro" required />
+                <input type="text" onblur="cleanUnnecessaryWhiteSpaces(this, txt_bookName);" class="form-control" id="txt_bookName" name="txt_bookName" @*pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}"*@ title="Ingrese solo palabras" placeholder="Nombre de libro" required />
             </div>
 
             <div class="form-group col-md-2">
@@ -94,7 +94,7 @@
 
             <div class="form-group col-md-2">
                 <label>Precio:</label>
-                <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" required />             
+                <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" pattern="^([0-9]|[^,$\w])*$" required />             
             </div>
 
             <div class="form-group col-md-2">
