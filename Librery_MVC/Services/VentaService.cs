@@ -10,8 +10,7 @@ namespace Librery_MVC.Services
     public class VentaService
     {
         DataAccess da = new DataAccess();
-        //MySqlConnection cn;
-
+       
         private void ArmarParametrosSale(ref MySqlCommand Comando, Venta sale)
         {
             MySqlParameter mySqlParametros = new MySqlParameter();
@@ -79,34 +78,7 @@ namespace Librery_MVC.Services
             cn.Close();
 
             return list;
-        }
-
-        //no funciona
-        public List<String> getSalesRanking()
-        {
-            MySqlConnection cn = da.ConnectToDB();
-            String a = "select ventas.Fecha, ventas.IdVenta, usuarios.NombreUsuario, usuarios.Nombre, usuarios.apellido, ventas.PrecioTotal";
-            String b = " from ventas inner join usuarios";
-            String c = " where usuarios.NombreUsuario = ventas.NombreUsuario";
-            String d = " group by ventas.NombreUsuario";
-            String e = " order by ventas.PrecioTotal desc";
-            String consulta = a + b + c + d + e;
-
-            MySqlCommand cmd = new MySqlCommand(consulta, cn);
-            MySqlDataReader dr = cmd.ExecuteReader();
-            List<String> list = new List<String>();
-
-            while (dr.Read())
-            {
-                list.Add(dr.ToString());
-            }
-
-            cn.Close();
-            dr.Close();
-
-            return list;
-
-        }
-       
+        }       
+               
     }
 }

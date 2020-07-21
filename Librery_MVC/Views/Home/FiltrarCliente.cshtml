@@ -44,8 +44,7 @@
 
                 @foreach (Usser item in Model)
                 {
-                    <tr>
-                        @*<th>@Html.ActionLink("Movimientos", "MovimientosCliente", "Home", new { userName = item.UsserName }, new { @class = "btn btn-info" })</th>*@
+                    <tr>                      
                         <th>@Html.ActionLink("Ventas", "VentasPorCliente", "Home", new { userName = item.UsserName }, new { @class = "btn btn-info" })</th>
                         <th>@item.UsserName</th>
                         <th>@item.Surname</th>

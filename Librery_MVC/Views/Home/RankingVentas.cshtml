@@ -1,7 +1,9 @@
-﻿@model List<String>
+﻿@model List<Librery_MVC.Models.RankingSales>
+@using Librery_MVC.Models
 
 @{
     Layout = null;
+    int cont = 1;
 }
 
 <!DOCTYPE html>
@@ -12,12 +14,39 @@
     <title>RankingVentas</title>
 </head>
 <body>
-    
-    @for(int i = 0; i < Model.Count; i++)
-    {
-        Model[i].ToString();<br />
-    }
 
+    
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th scope="col">Ranking Nro</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Monto</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (RankingSales item in Model)
+            {
+                <tr>
+                    <td>@cont</td>
+                    <td>@item.Date.ToShortDateString()</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Name</td>
+                    <td>@item.Surname</td>
+                    <td>@item.TotalPrice</td>
+                </tr>
+
+                cont++;
+            }
+
+        </tbody>
+    </table>
 
 </body>
 </html>

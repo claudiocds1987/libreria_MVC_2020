@@ -779,9 +779,9 @@ namespace Librery_MVC.Controllers
 
         public ActionResult RankingVentas()
         {
-            List<String> list = new List<String>();
-            VentaService vs = new VentaService();
-            list = vs.getSalesRanking();
+            List<RankingSales> list = new List<RankingSales>();
+            RankingSalesService RankingSales = new RankingSalesService();
+            list = RankingSales.getSalesRanking();
 
             return View(list);
         }

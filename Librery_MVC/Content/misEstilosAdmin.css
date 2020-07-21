@@ -129,8 +129,8 @@
 *************************************************************************/
 .seccion img{
 
-    width: 250px !important;
-    height: 200px !important;
+    width: 150px !important;
+    height: 150px !important;
 }
 
 /*************************************************************************
@@ -233,7 +233,7 @@
 }
 
 /*************************************************************************
-                  MovimientosCliente.cshtml
+                  VentasPorCliente.cshtml
 *************************************************************************/
 .DivFilterSale {
     background: #F4F4F4 !important;
@@ -244,6 +244,14 @@
 /*************************************************************************
                   Ventas.cshtml
 *************************************************************************/
-.optionSales{
+#cont-option-sales {
+    background: #F4F4F4 !important;
+    margin: 25px 0 20px 0 !important;
+    padding: 20px !important;
+}
+
+.optionSale{
     margin-top: 10px !important;
 }
+
+
