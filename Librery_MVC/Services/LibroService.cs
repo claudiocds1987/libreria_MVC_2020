@@ -100,7 +100,7 @@ namespace Librery_MVC.Services
         }
 
 
-        public List <Libro> filtrarLibro(String consulta)
+        public List <Libro> LibrosByQueryGet(String consulta)
         {
             List<Libro> list = new List<Libro>();
             MySqlConnection cn = new MySqlConnection();
@@ -212,7 +212,7 @@ namespace Librery_MVC.Services
         {
             Libro book = new Libro();
             MySqlConnection cn = da.ConnectToDB();
-            String consulta = "Select * From libros where IdLibro = "+ id +" And Estado=1";
+            String consulta = "Select * From libros where IdLibro = "+ id;
             MySqlCommand cm = new MySqlCommand(consulta, cn);
             MySqlDataReader dr = cm.ExecuteReader();
 

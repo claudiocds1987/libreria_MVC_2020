@@ -58,13 +58,13 @@
         <thead>
             <tr>
                 <th></th>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Autor</th>
-                <th>Categoria</th>
-                <th>Descripcion</th>
-                <th>Precio</th>
-                <th>Imagen</th>
+                <th scope="col" class="text-center">Id</th>
+                <th scope="col" class="text-center">Nombre</th>
+                <th scope="col" class="text-center">Autor</th>
+                <th scope="col" class="text-center">Categoria</th>
+                <th scope="col" class="text-center">Descripcion</th>
+                <th scope="col" class="text-center">Precio</th>
+                <th scope="col" class="text-center">Imagen</th>
             </tr>
         </thead>
         <tbody>
@@ -82,29 +82,37 @@
             {
                 foreach (Libro item in Model)
                 {
-                    //el dato float de Mysql lo muestra con coma en el input, lo reemplazo por punto decimal
-                    String num = Convert.ToString(item.Precio);
-                    num = num.Replace(",", ".");
+                    //el dato decimal de Mysql lo muestra con coma en el input, lo reemplazo por punto decimal
+                    //String num = Convert.ToString(item.Precio);
+                    //num = num.Replace(",", ".");
 
                     autor = sa.getAutor(item.IdAutor);
                     editorial = es.GetEditorial(item.IdEditorial);
                     category = cs.getCategoria(item.IdCategoria);
 
                     <tr>
-                        <th>
+                        <td class="text-center">
                             <input type="submit" name="btn_mostrar" value="mostrar" class="btn btn-primary" />
                             @Html.ActionLink("Editar", "EditarLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-info" })
-                            @*@Html.ActionLink("Editar", "EditarLibro", "Home", null, new { idLibro = item.IdLibro, @class = "btn btn-info" })*@
-                            @*@Html.ActionLink("Baja", "BajaLibro", "Home", new { idLibro = item.IdLibro, }, new { onclick = "return confirmation();" })*@
-                            @Html.ActionLink("Baja", "BajaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-danger", onclick = "return confirmation();" })
-                        </th>
-                        <th>@item.IdLibro</th>
-                        <th class="col-md-2">@item.Nombre</th>
-                        <th>@autor.Nombre</th>
-                        <th>@category.Nombre</th>
-                        <th class="col-md-3"><textarea rows="4" cols="40" readonly>@item.Descripcion</textarea></th>
-                        <th>@num</th>
-                        <th><img src="/@item.UrlImagen.Replace("\\", "/")" width="80" height="100" /></th>
+
+                            @if (item.Estado == true)
+                            {
+                                @Html.ActionLink("Baja", "BajaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-danger", onclick = "return BajaConfirmation();" })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Alta", "AltaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-success", onclick = "return AltaConfirmation();" })
+                            }
+                           
+
+                        </td>
+                        <td class="text-center">@item.IdLibro</td>
+                        <td class="col-md-2 text-center">@item.Nombre</td>
+                        <td class="text-center">@autor.Nombre</td>
+                        <td class="text-center">@category.Nombre</td>
+                        <td class="col-md-3 text-center"><textarea rows="4" cols="40" readonly>@item.Descripcion</textarea></td>
+                        <td class="text-center">$@item.Precio</td>
+                        <td class="text-center"><img src="/@item.UrlImagen.Replace("\\", "/")" width="80" height="100" /></td>
                     </tr>
                 }
             }
@@ -114,8 +122,17 @@
 
 <script type="text/javascript">
 
-    function confirmation() {
-        if (confirm("Si da de baja el libro no se vera mas en la lista, esta seguro/a que Desea dar de baja?")) {
+    function BajaConfirmation() {
+        if (confirm("Realmente desea dar de baja el libro?")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function AltaConfirmation() {
+        if (confirm("Realmente desea dar de alta el libro?")) {
             return true;
         }
         else {

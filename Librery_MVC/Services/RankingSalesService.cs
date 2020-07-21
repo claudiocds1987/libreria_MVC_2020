@@ -15,12 +15,11 @@ namespace Librery_MVC.Services
         public List<RankingSales> getSalesRanking()
         {
             MySqlConnection cn = da.ConnectToDB();
-            String a = "select ventas.Fecha, ventas.IdVenta, usuarios.NombreUsuario, usuarios.Nombre, usuarios.apellido, ventas.PrecioTotal";
-            String b = " from ventas inner join usuarios";
-            String c = " where usuarios.NombreUsuario = ventas.NombreUsuario";
-            String d = " group by ventas.NombreUsuario";
-            String e = " order by ventas.PrecioTotal desc";
-            String consulta = a + b + c + d + e;
+            String a = "select ventas.NombreUsuario, sum(ventas.PrecioTotal) as 'Monto'";
+            String b = " from ventas";
+            String c = " group by ventas.NombreUsuario";
+            String d = " order by 2 desc";
+            String consulta = a + b + c + d;
 
             MySqlCommand cmd = new MySqlCommand(consulta, cn);
             MySqlDataReader dr = cmd.ExecuteReader();
@@ -28,13 +27,9 @@ namespace Librery_MVC.Services
 
             while (dr.Read())
             {
-                list.Add(new RankingSales(
-                                          dr.GetDateTime("Fecha"),
-                                          dr.GetInt32("IdVenta"),
-                                          dr.GetString("nombreUsuario"),
-                                          dr.GetString("nombre"),
-                                          dr.GetString("apellido"),
-                                          dr.GetDecimal("PrecioTotal")
+                list.Add(new RankingSales(                                        
+                                          dr.GetString("NombreUsuario"),                                    
+                                          dr.GetDecimal("Monto")
                 ));
             }
 

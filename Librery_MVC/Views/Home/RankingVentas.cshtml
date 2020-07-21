@@ -20,11 +20,8 @@
 
         <thead>
             <tr>
-                <th scope="col">Ranking Nro</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Usuario</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
+                <th scope="col">Ranking Nro</th>        
+                <th scope="col">Usuario</th>                
                 <th scope="col">Monto</th>
             </tr>
         </thead>
@@ -34,12 +31,9 @@
             @foreach (RankingSales item in Model)
             {
                 <tr>
-                    <td>@cont</td>
-                    <td>@item.Date.ToShortDateString()</td>
-                    <td>@item.UserName</td>
-                    <td>@item.Name</td>
-                    <td>@item.Surname</td>
-                    <td>@item.TotalPrice</td>
+                    <td>@cont</td>                   
+                    <td>@item.UserName</td>                   
+                    <td>$@item.Monto</td>
                 </tr>
 
                 cont++;

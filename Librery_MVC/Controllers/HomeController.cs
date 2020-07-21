@@ -208,7 +208,7 @@ namespace Librery_MVC.Controllers
             LibroService ls = new LibroService();            
             String consulta = "Select * from libros";
        
-            return View(ls.filtrarLibro(consulta));
+            return View(ls.LibrosByQueryGet(consulta));
             
         }
 
@@ -221,7 +221,7 @@ namespace Librery_MVC.Controllers
             String consulta = "Select * from libros";
 
             if(search == "")
-                return View(ls.filtrarLibro(consulta));
+                return View(ls.LibrosByQueryGet(consulta));
            
                           
             if (option == "bookName" || option == "idBook")
@@ -237,7 +237,7 @@ namespace Librery_MVC.Controllers
                return View();
            }
             
-            return View(ls.filtrarLibro(consulta));
+            return View(ls.LibrosByQueryGet(consulta));
 
         }
 
@@ -248,7 +248,31 @@ namespace Librery_MVC.Controllers
             book.IdLibro = idLibro;
             LibroService ls = new LibroService();
             int filasAfectadas = ls.DeleteBook(book);
-            return View(filasAfectadas);
+
+            if (filasAfectadas > 0)
+                ViewBag.afectedRows = 1;
+            else
+                ViewBag.afectedRows = 0;
+
+            return View();
+        }
+
+        public ActionResult AltaLibro(int idLibro)
+        {
+            ViewBag.Message = "Your contact page.";
+            LibroService ls = new LibroService();
+            Libro book = new Libro();
+            book = ls.GetBook(idLibro);          
+            book.Estado = true;
+           
+            int filasAfectadas = ls.UpdateBook(book);
+
+            if (filasAfectadas > 0)
+                ViewBag.afectedRows = 1;
+            else
+                ViewBag.afectedRows = 0;
+
+            return View();
         }
 
 

@@ -18,7 +18,7 @@
 
 }
 
-<h1 id="titulo">Editar Libro</h1>
+<h2 style="margin-bottom: 20px !important;" class="text-center" id="titulo">Editar libro</h2>
 
 @if (ViewBag.Msg != null)
 {
@@ -55,11 +55,9 @@ else
 
 
                 <div class="form-group col-md-2">
-                    <label>Lanzamiento:</label>
-                    @*<input type="number" class="form-control" id="txt_lanzamiento" name="txt_lanzamiento" min="500" max="9999" value="@Model.AnioDeLanzamiento" required />*@
+                    <label>Lanzamiento:</label>                  
                     <input type="number" class="form-control" id="nbr_lanzamiento" name="nbr_lanzamiento" min="500" max="9999" value="@Convert.ToInt32(Model.AnioDeLanzamiento)" required />
                 </div>
-
 
             </div>
 
@@ -129,13 +127,9 @@ else
                     <label>Cantidad:</label>
                     <input type="number" class="form-control" id="nbr_quantity" name="nbr_quantity" min="1" max="10000" value="@Model.Cantidad" required />
                 </div>
-                @*//para input number agregue atributo "any" para que permita poner numero con punto o coma
-                    //Corregir si quiero guardar en precio por ej 240000,78 me guarda 240001
-                    //Una posible solucion es cambiar en la base de datos el campo precio al tipo double*@
-
+                @*//para input number agregue atributo "any" para que permita poner numero con punto o coma*@
                 <div class="form-group col-md-2">
                     <label>Precio:</label>
-                    @*<input type="number" class="form-control" id="nbr_price" name="nbr_price" step="any" maxlength="10" min="1" max="500000" value="@Model.Precio" required />*@
                     <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@Model.Precio" required />
                 </div>
 
@@ -147,7 +141,7 @@ else
                 <div class="form-group col-md-8">
                     <label>Imagen:</label>
                     @*//Si no se modifica la imagen le paso a LibroEditado.cshtml la url de la imagen original que viene desde el Model*@
-                    <input type="hidden" id="txt_urlImage" name="txt_urlImage" value="@Model.UrlImagen" />
+                    <input type="hidden" id="txt_urlImage" name="txt_urlImage" value="@Model.UrlImagen" placeholder="@Model.UrlImagen" />
                     @*//------------------------------------------------------------------------------------------------------*@
 
                     <input type="file" class="form-control" id="itf_urlImage" name="itf_urlImage" value="@Model.UrlImagen" />
