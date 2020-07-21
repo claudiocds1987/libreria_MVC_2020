@@ -700,7 +700,7 @@ namespace Librery_MVC.Controllers
             return View(us.filtrarUsuario(consulta));
         }
 
-        public ActionResult MovimientosCliente(String userName)
+        public ActionResult VentasPorCliente(String userName)
         {
             ViewBag.userName = userName;
             return View();
@@ -770,6 +770,22 @@ namespace Librery_MVC.Controllers
             ViewBag.userName = userName;
             return View(list);
         }
+
+        public ActionResult Ventas()
+        {
+
+            return View();
+        }
+
+        public ActionResult RankingVentas()
+        {
+            List<String> list = new List<String>();
+            VentaService vs = new VentaService();
+            list = vs.getSalesRanking();
+
+            return View(list);
+        }
+
 
         //[HttpGet]
         //public FileResult ObtenerImagen(string itf_urlImage)

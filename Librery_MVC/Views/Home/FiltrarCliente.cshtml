@@ -45,8 +45,8 @@
                 @foreach (Usser item in Model)
                 {
                     <tr>
-                        <th>@Html.ActionLink("Movimientos", "MovimientosCliente", "Home", new { userName = item.UsserName }, new { @class = "btn btn-info" })</th>
-                        @*<th><button onclick="sendToActionMovimientosCliente(this);" value="@item.UsserName" id="btn-Movimientos" class = "btn btn-info">Movimientos</button></th>*@
+                        @*<th>@Html.ActionLink("Movimientos", "MovimientosCliente", "Home", new { userName = item.UsserName }, new { @class = "btn btn-info" })</th>*@
+                        <th>@Html.ActionLink("Ventas", "VentasPorCliente", "Home", new { userName = item.UsserName }, new { @class = "btn btn-info" })</th>
                         <th>@item.UsserName</th>
                         <th>@item.Surname</th>
                         <th>@item.Name</th>

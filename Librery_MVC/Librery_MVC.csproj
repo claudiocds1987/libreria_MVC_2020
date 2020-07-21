@@ -378,10 +378,12 @@
     <Content Include="Views\Usser\RegistrarCompra.cshtml" />
     <Content Include="Views\Usser\CarritoDeCompra.cshtml" />
     <Content Include="Views\Home\FiltrarCliente.cshtml" />
-    <Content Include="Views\Home\MovimientosCliente.cshtml" />
     <Content Include="Views\Home\FiltrarVenta.cshtml" />
     <Content Include="Views\Home\DetalleVenta.cshtml" />
     <Content Include="Views\Home\adminPrincipal.cshtml" />
+    <Content Include="Views\Home\Ventas.cshtml" />
+    <Content Include="Views\Home\RankingVentas.cshtml" />
+    <Content Include="Views\Home\VentasPorCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
