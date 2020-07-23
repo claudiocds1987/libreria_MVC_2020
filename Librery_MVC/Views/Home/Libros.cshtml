@@ -4,234 +4,55 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Autor autor = new Autor();
-    Categoria category = new Categoria();
-    Editorial editorial = new Editorial();
-    AutorService sa = new AutorService();
-    CategoriaService cs = new CategoriaService();
-    EditorialService es = new EditorialService();
+    //Autor autor = new Autor();
+    //Categoria category = new Categoria();
+    //Editorial editorial = new Editorial();
+    //AutorService sa = new AutorService();
+    //CategoriaService cs = new CategoriaService();
+    //EditorialService es = new EditorialService();
 
     TempData.Keep("adminEmail");
 }
 
 
-<h1 id="titulo">Lista de libros</h1>
-
-@Html.ActionLink("ir a pagina principal", "Index")
+<h2 id="titulo">Lista de libros</h2>
 
 <br /><br />
 
-      <div class="adminFiltros">
+<div class="adminFiltros">
 
-          <div class="row">
+    <div class="row">
 
-              <div class="col-md-3">
+        <div class="col-md-3">
 
-                  <p>Seleccione una opción:</p>
+            <p>Seleccione una opción:</p>
 
-                  <div>
-                      <input type="radio" name="option" id="bookName" value="bookName" checked/> Buscar por nombre de libro
-                      <br />
-                      <input type="radio" name="option" id="idBook" value="idBook" /> Buscar por ID
-                  </div>
+            <div>
+                <input type="radio" name="option" id="bookName" value="bookName" checked /> Buscar por nombre de libro
+                <br />
+                <input type="radio" name="option" id="idBook" value="idBook" /> Buscar por ID
+            </div>
 
-              </div>
+        </div>
 
-              <div class="form-group col-md-6">
-                  <input type="text" class="form-control" id="txtData" name="txtData" maxlength="80" placeholder="Todos" required/>
-              </div>
-             
-              <div class="form-group col-md-3">
-                  <button type="button" class="btn btn-default" onclick="Send();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
-              </div>
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" id="txtData" name="txtData" maxlength="80" placeholder="Todos" required />
+        </div>
 
-          </div>
-         
-          
-      </div>
+        <div class="form-group col-md-3">
+            <button type="button" class="btn btn-default" onclick="Send();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
+        </div>
+
+    </div>
 
 
-<br /><br />
-
-<div class="table-responsive" id="respuestaAjax">
-    <table class="table table-striped table-primary mt-5 table-bordered" id="myTable">
-        <thead>
-            <tr>
-                <th></th>
-                <th scope="col" class="text-center">Id</th>
-                <th scope="col" class="text-center">Nombre</th>
-                <th scope="col" class="text-center">Autor</th>
-                <th scope="col" class="text-center">Categoria</th>
-                <th scope="col" class="text-center">Descripcion</th>
-                <th scope="col" class="text-center">Precio</th>
-                <th scope="col" class="text-center">Imagen</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @if (Model.Count() == 0)
-            {
-                <tr>
-                    <td colspan="6" style="color:red">
-                        No Match any document
-                    </td>
-                </tr>
-            }
-
-            else
-            {
-                foreach (Libro item in Model)
-                {
-                    //el dato decimal de Mysql lo muestra con coma en el input, lo reemplazo por punto decimal
-                    //String num = Convert.ToString(item.Precio);
-                    //num = num.Replace(",", ".");
-                    
-                    autor = sa.getAutor(item.IdAutor);
-                    editorial = es.GetEditorial(item.IdEditorial);
-                    category = cs.getCategoria(item.IdCategoria);
-
-                    string price = Convert.ToString(item.Precio);
-                    price = price.Replace(',', '.');
-
-                <tr>
-                    <td class="text-center">
-                        <input type="submit" name="btn_mostrar" value="mostrar" class="btn btn-primary" />
-                        @Html.ActionLink("Editar", "EditarLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-info" })
-
-                        @if (item.Estado == true)
-                        {
-                            @Html.ActionLink("Baja", "BajaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-danger", onclick = "return BajaConfirmation();" })
-                        }
-                        else
-                        {
-                            @Html.ActionLink("Alta", "AltaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-success", onclick = "return AltaConfirmation();" })
-                        }
-
-                    </td>
-                    <td class="text-center">@item.IdLibro</td>
-                    <td class="col-md-2 text-center">@item.Nombre</td>
-                    <td class="text-center">@autor.Nombre</td>
-                    <td class="text-center">@category.Nombre</td>
-                    <td class="col-md-3 text-center"><textarea rows="4" cols="40" readonly>@item.Descripcion</textarea></td>
-                    <td class="text-center">$@price</td>                   
-                    <td class="text-center"><img src="/@item.UrlImagen.Replace("\\", "/")" width="80" height="100" /></td>
-                </tr>
-                }
-            }
-        </tbody>
-    </table>
 </div>
 
-<script type="text/javascript">
-
-    function BajaConfirmation() {
-        if (confirm("Realmente desea dar de baja el libro?")) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    function AltaConfirmation() {
-        if (confirm("Realmente desea dar de alta el libro?")) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    function Send() {
-
-        var option = $("input:radio[name='option']:checked").val();
-        var search = $('#txtData').val();      
-     
-           
-        //if option = "bookName" info = option, search = bookName o idBook 
-
-        var uri = '@Url.Action("adminFiltrarLibro", "Home")';
-
-        $.ajax({
-            url: uri,
-            data: { option: option, search: search},           
-            type: 'POST',
-            success: function (respuestaDelServidor) {
-                $("#respuestaAjax").html(respuestaDelServidor);
-            }
-        });
-
-    }
 
 
-</script>
-
-<script>
-    //get the table element
-    var $table = document.getElementById("myTable"),
-        // number of rows per page
-        $n = 10,
-        // number of rows of the table
-        $rowCount = $table.rows.length,
-        // get the first cell's tag name (in the first row)
-        $firstRow = $table.rows[0].firstElementChild.tagName,
-        // boolean var to check if table has a head row
-        $hasHead = ($firstRow === "TH"),
-        // an array to hold each row
-        $tr = [],
-        // loop counters, to start count from rows[1] (2nd row) if the first row has a head tag
-        $i, $ii, $j = ($hasHead) ? 1 : 0,
-        // holds the first row if it has a (<TH>) & nothing if (<TD>)
-        $th = ($hasHead ? $table.rows[(0)].outerHTML : "");
-    // count the number of pages
-    var $pageCount = Math.ceil($rowCount / $n);
-    // if we had one page only, then we have nothing to do ..
-    if ($pageCount > 1) {
-        // assign each row outHTML (tag name & innerHTML) to the array
-        for ($i = $j, $ii = 0; $i < $rowCount; $i++ , $ii++)
-            $tr[$ii] = $table.rows[$i].outerHTML;
-        // create a div block to hold the buttons
-        $table.insertAdjacentHTML("afterend", "<div id='buttons'></div");
-        // the first sort, default page is the first one
-        sort(1);
-    }
-
-    // ($p) is the selected page number. it will be generated when a user clicks a button
-    function sort($p) {
-        /* create ($rows) a variable to hold the group of rows
-        ** to be displayed on the selected page,
-        ** ($s) the start point .. the first row in each page, Do The Math
-        */
-        var $rows = $th, $s = (($n * $p) - $n);
-        for ($i = $s; $i < ($s + $n) && $i < $tr.length; $i++)
-            $rows += $tr[$i];
-
-        // now the table has a processed group of rows ..
-        $table.innerHTML = $rows;
-        // create the pagination buttons
-        document.getElementById("buttons").innerHTML = pageButtons($pageCount, $p);
-        // CSS Stuff
-        document.getElementById("id" + $p).setAttribute("class", "active");
-    }
-
-
-    // ($pCount) : number of pages,($cur) : current page, the selected one ..
-    function pageButtons($pCount, $cur) {
-        /* this variables will disable the "Prev" button on 1st page
-           and "next" button on the last one */
-        var $prevDis = ($cur == 1) ? "disabled" : "",
-            $nextDis = ($cur == $pCount) ? "disabled" : "",
-            /* this ($buttons) will hold every single button needed
-            ** it will creates each button and sets the onclick attribute
-            ** to the "sort" function with a special ($p) number..
-            */
-            $buttons = "<input class='btnPage' type='button' value='&lt;&lt; Prev' onclick='sort(" + ($cur - 1) + ")' " + $prevDis + ">";
-        for ($i = 1; $i <= $pCount; $i++)
-            $buttons += "<input class='btnPage' type='button' id='id" + $i + "'value='" + $i + "' onclick='sort(" + $i + ")'>";
-        $buttons += "<input class='btnPage' type='button' value='Next &gt;&gt;' onclick='sort(" + ($cur + 1) + ")' " + $nextDis + ">";
-        return $buttons;
-    }
-</script>
+<div style="margin-top: 30px !important" class="table-responsive" id="respuestaAjax">
+    @Html.Partial("_ListBooksAdminPartial", (Model))
+</div>
 
 
 

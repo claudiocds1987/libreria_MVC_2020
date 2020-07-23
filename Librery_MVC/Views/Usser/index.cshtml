@@ -1,4 +1,4 @@
-﻿@*@using Librery_MVC.Models*@
+﻿
 @model List<Librery_MVC.Models.LightBook>
 @using Librery_MVC.Models;
 @using Librery_MVC.Services;
@@ -17,8 +17,7 @@
     autorList = sa.ListAutores();
     categoryList = cs.getAllCategories();
     TempData.Keep("User");
-    /*TempData.Keep("ProductsAddedToShoppingCar");*/
-
+    
 }
 
 <div class="row" id="row1">

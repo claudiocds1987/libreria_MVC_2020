@@ -133,8 +133,7 @@
                 
                 <div class="form-group col-md-2">
                     <label>Precio:</label>
-                    <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@price" pattern="^([0-9]|[^,$\w])*$" required />
-                    @*<input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@Model.Precio" required />*@
+                    <input type="text" class="form-control" id="txt_price" name="txt_price" maxlength="10" value="@price" pattern="^([0-9]|[^,$\w])*$" required />                  
                 </div>
 
             </div>
@@ -169,17 +168,6 @@
 
 <script type="text/javascript">
 
-    //Mysql guarda el dato float con "." decimal. Pero al mostrar el dato floa de Mysqlt en el input, lo muestra con coma ",".
-    //entonces la funcion loadPricewithDecimalDot() reemplaza la coma por el punto decimal y lo muestra en el input.
-    //function loadPricewithDecimalDot() {
-
-    //    var getprice = $("#txt_price").val();
-    //    //si es num decimal, cambio la coma ","por el punto "." para poder hacer el calculo
-    //    var price = parseFloat(getprice.replace(/,/g, "."));
-    //    $("#txt_price").val(price)
-    //}
-
-    //nota: esta funcion confirmation() se activa desde un parametro del formulario
     function confirmation() {
 
         if (confirm("Esta seguro/a que Desea guardar los cambios?")) {
@@ -193,10 +181,6 @@
 
 </script>
 
-
-@*<script type="text/javascript">
-    window.addEventListener("load", loadPricewithDecimalDot, false);
-</script>*@
 
 @*Hacer validaciones con js*@
 

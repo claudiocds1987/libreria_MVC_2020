@@ -389,6 +389,7 @@
     <Content Include="Views\Home\RankingVentas.cshtml" />
     <Content Include="Views\Home\VentasPorCliente.cshtml" />
     <Content Include="Views\Home\AltaLibro.cshtml" />
+    <Content Include="Views\Shared\_ListBooksAdminPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

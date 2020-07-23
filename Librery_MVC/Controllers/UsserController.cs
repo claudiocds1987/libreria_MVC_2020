@@ -542,6 +542,8 @@ namespace Librery_MVC.Controllers
             String consulta = "SELECT * FROM libros WHERE";
             String estado = " AND libros.estado = 1";
             int cont = 0; // referencia si hay que agregar  el "AND" a la consulta
+            bool orderByPrice = false;//si se eligio precio/s se ordenan de menor a mayor
+
 
             //****************** Check back-end *************************//
 
@@ -607,6 +609,8 @@ namespace Librery_MVC.Controllers
             //check precio 1
             if (check.CheckIntNumber(price1))
             {
+                orderByPrice = true;
+
                 if (cont > 0)
                     consulta += " AND libros.precio >= " + price1;
                 else
@@ -625,6 +629,8 @@ namespace Librery_MVC.Controllers
             //check precio 2
             if (check.CheckIntNumber(price2))
             {
+                orderByPrice = true;
+
                 if (cont > 0)
                     consulta += " AND libros.precio <= " + price2;
                 else
@@ -639,7 +645,12 @@ namespace Librery_MVC.Controllers
 
             //****************** Fin Check back-end *************************//
 
-            list = lbs.filterLightBook(consulta += estado);
+            if (orderByPrice)
+                consulta += estado + " order by libros.precio asc";
+            else
+                consulta += estado;
+
+            list = lbs.filterLightBook(consulta);
        
             totalBooks = list.Count<LightBook>();
 

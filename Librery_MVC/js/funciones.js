@@ -148,7 +148,7 @@ function doPagination(page) {
         var data = "";
 
         for (var z = desde; z <= hasta; z++) {
-            //data += "<div class='col-md-3 container-image text-center'>";
+            
             data += "<div class='container-image text-center fade-in'>";
 
             data += "<img src='/" + originalList[z].UrlImagen + "' alt='" + originalList[z].Nombre + "'>";
