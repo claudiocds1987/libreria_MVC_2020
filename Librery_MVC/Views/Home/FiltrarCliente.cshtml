@@ -4,6 +4,7 @@
 @{
     Layout = null;
     TempData.Keep("adminEmail");
+    int cont = 1;
 }
 
 <!DOCTYPE html>
@@ -31,6 +32,7 @@
             <thead>
                 <tr>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                     <th scope="col">Nombre de usuario</th>
                     <th scope="col">Apellido</th>
                     <th scope="col">Nombre</th>
@@ -44,15 +46,18 @@
 
                 @foreach (Usser item in Model)
                 {
-                    <tr>                      
-                        <th>@Html.ActionLink("Ventas", "VentasPorCliente", "Home", new { userName = item.UsserName }, new { @class = "btn btn-info" })</th>
-                        <th>@item.UsserName</th>
-                        <th>@item.Surname</th>
-                        <th>@item.Name</th>
-                        <th>@item.Email</th>
-                        <th>@item.dateTime.ToShortDateString()</th>
-                        <th>@item.Address</th>
+                    <tr>
+                        <td>@cont</td>
+                        <td>@Html.ActionLink("Ventas", "VentasPorCliente", "Home", new { userName = item.UsserName }, new { @class = "btn btn-info" })</td>
+                        <td>@item.UsserName</td>
+                        <td>@item.Surname</td>
+                        <td>@item.Name</td>
+                        <td>@item.Email</td>
+                        <td>@item.dateTime.ToShortDateString()</td>
+                        <td>@item.Address</td>
                     </tr>
+
+                    cont++;
                 }
 
             </tbody>

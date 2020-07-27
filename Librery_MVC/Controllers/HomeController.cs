@@ -22,17 +22,17 @@ namespace Librery_MVC.Controllers
             if (email != null && password != null)
             {
 
-                if(!check.checkEmailFormat(email))
+                if (!check.checkEmailFormat(email))
                 {
                     ViewBag.Msg = "El email no es valido!";
                     return View();
                 }
 
                 /*check que el password no tenga caracteres raros o espacios vacios si el password */
-                if(adminService.SearchEmailAndPasswordAdmin(email, password))
+                if (adminService.SearchEmailAndPasswordAdmin(email, password))
                 {
                     //guardo el email de admin en la tempdata
-                    TempData["adminEmail"] = email;                  
+                    TempData["adminEmail"] = email;
                     return RedirectToAction("adminPrincipal");
                 }
                 else
@@ -43,12 +43,12 @@ namespace Librery_MVC.Controllers
 
 
             }
-                           
+
             return View();
         }
 
         public ActionResult adminPrincipal()
-        {           
+        {
             return View();
         }
 
@@ -155,13 +155,13 @@ namespace Librery_MVC.Controllers
                 TempData["duplicatedEmailAdmin"] = true;
                 return RedirectToAction("crearAdmin");
             }
-            
+
             /*checking que las 2 contraseñas sean iguales*/
             String pass1 = Request.Form["txtClave1"];
             String pass2 = Request.Form["txtClave2"];
-          
+
             /*Check que tenga el mismo tamaño*/
-            if(pass1.Length != pass2.Length)
+            if (pass1.Length != pass2.Length)
             {
                 TempData["invalidPasswordsAdmin"] = true;
                 return RedirectToAction("crearAdmin");
@@ -174,7 +174,7 @@ namespace Librery_MVC.Controllers
                 {
                     TempData["invalidPasswordsAdmin"] = true;
                     return RedirectToAction("crearAdmin");
-                    
+
                 }
             }
 
@@ -188,28 +188,23 @@ namespace Librery_MVC.Controllers
             admin.pass = Request.Form["txtClave1"];
             admin.Estado = 1;
             /*creando la ViewBag.Email con el email del administrador*/
-            ViewBag.Admin = admin.email; 
+            ViewBag.Admin = admin.email;
             AdminService sa = new AdminService();
 
             int filasAfectadas = sa.InsertAdmin(admin);
 
-            if(filasAfectadas > 0)         
-                ViewBag.Msg = 1;          
+            if (filasAfectadas > 0)
+                ViewBag.Msg = 1;
             else
                 ViewBag.Msg = 0;
 
-            /*pasando el objeto admin y ViewBag.Email a la vista registrarAdmin.cshtml*/
             return View();
 
         }
 
-        public ActionResult Libros(string option, string search)
-        {
-            LibroService ls = new LibroService();            
-            String consulta = "Select * from libros";
-       
-            return View(ls.LibrosByQueryGet(consulta));
-            
+        public ActionResult Libros()
+        {           
+            return View();
         }
 
         public ActionResult adminFiltrarLibro(String option, String search)
@@ -220,23 +215,39 @@ namespace Librery_MVC.Controllers
             LibroService ls = new LibroService();
             String consulta = "Select * from libros";
 
-            if(search == "")
-                return View(ls.LibrosByQueryGet(consulta));
-           
-                          
-            if (option == "bookName" || option == "idBook")
+            if (option == "all")
             {
-                if (option == "bookName")
-                    consulta = consulta + " where libros.nombre like'%" + search + "%'";
-                else
-                    consulta = consulta + " where libros.IdLibro = " + search;              
+                return View(ls.LibrosByQueryGet(consulta));
             }
-           else
+                
+            else if (option == "bookName")
+            {
+                if (String.IsNullOrEmpty(search))
+                {
+                    ViewBag.Msg = "Ingrese el nombre de libro";
+                    return View();
+                }
+                else
+                    consulta = consulta + " where libros.nombre like'%" + search + "%'";
+            }
+
+            else if (option == "idBook")
+            {
+                if (String.IsNullOrEmpty(search))
+                {
+                    ViewBag.Msg = "Ingrese el id de libro";
+                    return View();
+                }
+                else
+                    consulta = consulta + " where libros.IdLibro = " + search;
+            }
+
+            else
             { /*por si pinchan los values de los radio button*/
-               ViewBag.Msg = "Error al recibir los value de los radio button";
-               return View();
-           }
-            
+                ViewBag.Msg = "Error al recibir los value de los radio button";
+                return View();
+            }
+
             return View(ls.LibrosByQueryGet(consulta));
 
         }
@@ -262,9 +273,9 @@ namespace Librery_MVC.Controllers
             ViewBag.Message = "Your contact page.";
             LibroService ls = new LibroService();
             Libro book = new Libro();
-            book = ls.GetBook(idLibro);          
+            book = ls.GetBook(idLibro);
             book.Estado = true;
-           
+
             int filasAfectadas = ls.UpdateBook(book);
 
             if (filasAfectadas > 0)
@@ -283,12 +294,12 @@ namespace Librery_MVC.Controllers
             LibroService ls = new LibroService();
             Libro book = new Libro();
             book = ls.GetBook(idLibro);
-            
+
             /****************** VALIDANDO LADO BACK-END *********************************/
-            
+
             /*nota: todos los TempData son creados en ActionResult Libroeditado();*/
-        
-            /*Aviso error de precio*/ 
+
+            /*Aviso error de precio*/
             if (TempData["errorPrice"] != null)
             {
                 ViewBag.Msg = "El precio no es valido!, si es un numero decimal use el punto decimal con un maximo de dos decimales ej: 1500.88";
@@ -350,7 +361,7 @@ namespace Librery_MVC.Controllers
 
             /******************* fin validaciones back-end ************************/
 
-            
+
             return View(book);
         }
 
@@ -367,52 +378,52 @@ namespace Librery_MVC.Controllers
             /*check length del año de lanzamiento solo cuatro numeros*/
             if (Request.Form["nbr_lanzamiento"].Length != 4)
             {
-                TempData["errorYear"] = true;              
+                TempData["errorYear"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
             /*check que el año de lanzamiento sea solo numeros*/
             if (!check.CheckIntNumber(Request.Form["nbr_lanzamiento"]))
             {
-                TempData["errorYear"] = true;               
+                TempData["errorYear"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
             /*check si existe el idAutor es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlAutor"]))
             {
-                TempData["errorAutor"] = true;              
+                TempData["errorAutor"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
             /*check si el idAutor existe en la base de datos*/
             if (!check.CheckIdAutor(Request.Form["ddlAutor"]))
             {
-                TempData["errorAutor"] = true;               
+                TempData["errorAutor"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
             /*check si existe el idCategoria es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlCategory"]))
             {
-                TempData["errorCategory"] = true;              
+                TempData["errorCategory"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
             /*check si el idCategory existe en la base de datos*/
             if (!check.CheckIdCategory(Request.Form["ddlCategory"]))
             {
-                TempData["errorCategory"] = true;               
+                TempData["errorCategory"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
             /*check si el idEditorial es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlEditorial"]))
             {
-                TempData["errorEditorial"] = true;             
+                TempData["errorEditorial"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
             /*check si el idEditorial existe en la base de datos*/
             if (!check.CheckIdEditorial(Request.Form["ddlEditorial"]))
             {
-                TempData["errorEditorial"] = true;                
+                TempData["errorEditorial"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
 
@@ -426,10 +437,10 @@ namespace Librery_MVC.Controllers
             /*checking precio, tambien evalua si llega vacio*/
             if (!check.CheckPrice(Request.Form["txt_price"]))
             {
-                TempData["errorPrice"] = true;                   
+                TempData["errorPrice"] = true;
                 return RedirectToAction("EditarLibro", new { idLibro = idBook });
             }
-      
+
             /****************** fin validaciones back end ****************************/
 
             /*convierto el precio string en decimal*/
@@ -444,7 +455,7 @@ namespace Librery_MVC.Controllers
             book.IdEditorial = Convert.ToInt32(form[5]);
             /*Obtengo lo que se edito en el textarea llamado "description"*/
             book.Descripcion = Request.Form["description"];
-            book.Cantidad = Convert.ToInt32(form[7]);           
+            book.Cantidad = Convert.ToInt32(form[7]);
             book.Precio = price;
 
             if (Request.Form["itf_urlImage"].Equals(""))
@@ -452,15 +463,15 @@ namespace Librery_MVC.Controllers
             else
                 book.UrlImagen = ruta + Request.Form["itf_urlImage"];
 
-          
+
             book.Estado = true;
 
             LibroService ls = new LibroService();
             int filasAfectadas;
             filasAfectadas = ls.UpdateBook(book);
 
-            if(filasAfectadas > 0)        
-                ViewBag.Filas = 1;  
+            if (filasAfectadas > 0)
+                ViewBag.Filas = 1;
             else
                 ViewBag.Filas = 0;
 
@@ -472,8 +483,8 @@ namespace Librery_MVC.Controllers
         {
             /****************** VALIDANDO LADO BACK-END *********************************/
             /*nota: todos los TempData son creados en ActionResult LibroInsertado();*/
-          
-            /*Aviso error de precio*/ 
+
+            /*Aviso error de precio*/
             if (TempData["errorPrice"] != null)
             {
                 ViewBag.Msg = "El precio no es valido!, si es un numero decimal use el punto decimal con un maximo de dos decimales ej: 1500.88";
@@ -488,13 +499,13 @@ namespace Librery_MVC.Controllers
             }
 
             /*Aviso si el autor existe en la base de datos*/
-            if(TempData["errorAutor"] != null)
+            if (TempData["errorAutor"] != null)
             {
                 ViewBag.Msg = "El autor no existe en la base de datos!";
                 return View();
             }
 
-            if(TempData["errorCategory"] != null)
+            if (TempData["errorCategory"] != null)
             {
                 ViewBag.Msg = "La categoria no existe en la base de datos!";
                 return View();
@@ -506,28 +517,28 @@ namespace Librery_MVC.Controllers
                 return View();
             }
 
-            if(TempData["errorQuantity"] != null)
+            if (TempData["errorQuantity"] != null)
             {
                 ViewBag.Msg = "La cantidad debe ser un numero entero";
                 return View();
             }
 
             /*Aviso si la img no se encuentra en la ruta especificada*/
-            if(TempData["errorPathImg"] != null)
+            if (TempData["errorPathImg"] != null)
             {
                 ViewBag.Msg = "Error. La imagen no se encuentra en la ruta especificada";
                 return View();
             }
 
             /*Aviso si el formato de img es incorrecto*/
-            if(TempData["errorImg"] != null)
+            if (TempData["errorImg"] != null)
             {
                 ViewBag.Msg = "Error. El formato de imagen no es correcto. Formatos permitidos .jpg, .png, .gif, .bmp";
                 return View();
             }
 
             /*Aviso si el libro  ya existe en la base de datos*/
-            if(TempData["duplicatedBook"] != null)
+            if (TempData["duplicatedBook"] != null)
             {
                 ViewBag.Msg = "Error. Ya existe un libro del mismo autor";
                 return View();
@@ -546,9 +557,9 @@ namespace Librery_MVC.Controllers
             CheckData check = new CheckData();
 
             /****************** VALIDACIONES BACK-END ***********************/
-                      
+
             /*check length del año de lanzamiento solo cuatro numeros*/
-            if(Request.Form["nbr_lanzamiento"].Length != 4)
+            if (Request.Form["nbr_lanzamiento"].Length != 4)
             {
                 TempData["errorYear"] = true;
                 return RedirectToAction("InsertarLibro");
@@ -556,10 +567,10 @@ namespace Librery_MVC.Controllers
             /*check que el año de lanzamiento sea solo numeros*/
             if (!check.CheckIntNumber(Request.Form["nbr_lanzamiento"]))
             {
-                TempData["errorYear"] = true;               
+                TempData["errorYear"] = true;
                 return RedirectToAction("InsertarLibro");
             }
-      
+
             /*check si existe el idAutor es un dato int*/
             if (!check.CheckIntNumber(Request.Form["ddlAutor"]))
             {
@@ -605,7 +616,7 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("InsertarLibro");
             }
             /*checking si la cantidad es un numero (si es null devuelve false)*/
-            if(!check.CheckIntNumber(Request.Form["nbr_quantity"]))
+            if (!check.CheckIntNumber(Request.Form["nbr_quantity"]))
             {
                 TempData["errorQuantity"] = true;
                 return RedirectToAction("InsertarLibro");
@@ -613,25 +624,25 @@ namespace Librery_MVC.Controllers
 
             /*convierto el precio string en decimal*/
             String precio = Request.Form["txt_price"];
-            decimal price = check.ConvertStringToDecimal(precio);           
-            
+            decimal price = check.ConvertStringToDecimal(precio);
+
             /*para la descripcion no hago check*/
 
             /*pregunto si se recibió null como imagen*/
             String imagen = Request.Form["itf_urlImage"];
-           
+
             if (imagen != "")
             {
-                /*check formato de imagen jpg, png, gif, bmp*/         
+                /*check formato de imagen jpg, png, gif, bmp*/
                 if (!check.checkImageFormat(ruta + Request.Form["itf_urlImage"]))
                 {
                     TempData["errorImg"] = true;
                     return RedirectToAction("InsertarLibro");
                 }
             }
-              
+
             /*ckeck existencia del libro en la base de datos por idAutor y nombre de libro*/
-            if(check.checkAutorAndBookName(Request.Form["txt_bookName"], Request.Form["ddlAutor"]))
+            if (check.checkAutorAndBookName(Request.Form["txt_bookName"], Request.Form["ddlAutor"]))
             {
                 TempData["duplicatedBook"] = true;
                 return RedirectToAction("InsertarLibro");
@@ -666,7 +677,7 @@ namespace Librery_MVC.Controllers
             filasAfectadas = ls.InsertBook(book);
             /*si filasAfectadas devuelve 1, es porque se pudo insertar en la base de datos*/
             if (filasAfectadas > 0)
-            {               
+            {
                 ViewBag.Msg = 1;
             }
             else
@@ -677,7 +688,7 @@ namespace Librery_MVC.Controllers
 
         public ActionResult ListarClientes()
         {
-           
+
             return View();
         }
 
@@ -688,12 +699,12 @@ namespace Librery_MVC.Controllers
 
             UsserService us = new UsserService();
             String consulta = "";
-                 
+
             if (option == "userName" || option == "allUsers")
             {
                 if (option == "userName")
                 {
-                    if(String.IsNullOrEmpty(search))
+                    if (String.IsNullOrEmpty(search))
                     {
                         ViewBag.Msg = "El nombre de usuario no puede ser vacio";
                         return View();
@@ -701,7 +712,7 @@ namespace Librery_MVC.Controllers
                     else
                         consulta = "SELECT * FROM usuarios where usuarios.NombreUsuario = '" + search + "'";
                 }
-                    
+
                 else
                     consulta = "SELECT * FROM usuarios";
             }
@@ -736,11 +747,11 @@ namespace Librery_MVC.Controllers
                     else
                         consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName + "' AND ventas.IdVenta = " + idSale;
                 }
-                /*si elije la opcion "buscar ventas por fecha"*/               
-                else if(option == "date")
+                /*si elije la opcion "buscar ventas por fecha"*/
+                else if (option == "date")
                 {
                     //Esta obligado a elegir el rango de meses y el año
-                    if(String.IsNullOrEmpty(month1) || String.IsNullOrEmpty(month2) || String.IsNullOrEmpty(year))
+                    if (String.IsNullOrEmpty(month1) || String.IsNullOrEmpty(month2) || String.IsNullOrEmpty(year))
                     {
                         ViewBag.Msg = "Debe elegir el rango de meses y el año";
                         return View();
@@ -757,7 +768,7 @@ namespace Librery_MVC.Controllers
 
                         consulta = a + b + c + d + e + f + g;
                     }
-                   
+
                 }
                 /*si elije la opcion "todas las ventas"*/
                 else

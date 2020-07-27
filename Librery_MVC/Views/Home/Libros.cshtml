@@ -1,21 +1,14 @@
-﻿@model List<Librery_MVC.Models.Libro>
+﻿@*@model List<Librery_MVC.Models.Libro>*@
 @using Librery_MVC.Models;
 @using Librery_MVC.Services;
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //Autor autor = new Autor();
-    //Categoria category = new Categoria();
-    //Editorial editorial = new Editorial();
-    //AutorService sa = new AutorService();
-    //CategoriaService cs = new CategoriaService();
-    //EditorialService es = new EditorialService();
-
     TempData.Keep("adminEmail");
 }
 
 
-<h2 id="titulo">Lista de libros</h2>
+<h2 id="titulo">Sección libros</h2>
 
 <br /><br />
 
@@ -31,12 +24,15 @@
                 <input type="radio" name="option" id="bookName" value="bookName" checked /> Buscar por nombre de libro
                 <br />
                 <input type="radio" name="option" id="idBook" value="idBook" /> Buscar por ID
+                <br />
+                <input type="radio" name="option" id="all" value="all" /> Listar todos 
             </div>
 
         </div>
 
         <div class="form-group col-md-6">
-            <input type="text" class="form-control" id="txtData" name="txtData" maxlength="80" placeholder="Todos" required />
+            <input type="text" onkeyup="removeMsg();"  class="form-control" id="txtData" name="txtData" maxlength="80" /> 
+            <span style="color: red" id="msg"></span>
         </div>
 
         <div class="form-group col-md-3">
@@ -49,10 +45,89 @@
 </div>
 
 
-
 <div style="margin-top: 30px !important" class="table-responsive" id="respuestaAjax">
-    @Html.Partial("_ListBooksAdminPartial", (Model))
+    @*resultados de filtrado con peticion ajax*@
 </div>
+
+<script>
+    /*Selector de tipo para alcanzar todos los radio*/
+    var allRadios = document.querySelectorAll("input[type=radio]");
+    /*Asignamos dentro del bucle un click listener a cada radio*/
+    allRadios.forEach(function (oneRadio) {
+
+        oneRadio.addEventListener('click', function (e) {
+            //capturo el id del radio button activado
+            let idRadio = e.target.id;
+
+
+            if (idRadio === 'idBook') {
+                $('#txtData').val('');//clean
+                //deshabilitamos el input txtSearch
+                $('#txtData').removeAttr('disabled');
+
+            }
+            else if (idRadio === 'bookName') {
+
+                $('#txtData').removeAttr('disabled');
+                $('#txtData').val('');//clean
+
+            }
+
+            else {
+                $('#txtData').val('');//clean
+                //deshabilitamos el input txtSearch
+                $('#txtData').attr('disabled', 'disabled');
+
+            }
+
+        });
+
+    });
+
+    function removeMsg() {
+        $('#msg').html('');
+    }
+
+    function Send() {
+     
+       let option = $("input:radio[name='option']:checked").val();
+
+        if (txtData.value == "") {
+
+            if (option === 'bookName' || option === 'idBook') {
+                $('#msg').html('Complete el campo de búsqueda');
+                return false;
+            }
+        }
+
+
+
+        //if (option === 'bookName' || option === 'idBook') {
+
+        //    if (txtData.value == "") {
+               
+        //        $('#msg').html('Complete el campo de búsqueda');
+        //        return false;
+        //    }
+        //}
+
+        let search = $('#txtData').val();
+     
+        var uri = '@Url.Action("adminFiltrarLibro", "Home")';
+
+        $.ajax({
+            url: uri,
+            data: { option: option, search: search},
+            type: 'POST',
+            success: function (respuestaDelServidor) {
+                $("#respuestaAjax").html(respuestaDelServidor);
+            }
+        });
+
+    }
+
+
+</script>
 
 
 

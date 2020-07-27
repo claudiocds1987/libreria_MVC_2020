@@ -21,8 +21,15 @@
     <title>admin FiltrarLibro</title>
 </head>
 <body>
+    @if (ViewBag.Msg != null)
+    {
+        <h5 class="text-center" style="color: red">@ViewBag.Msg</h5>
+    }
+    else
+    {
+        @Html.Partial("_ListBooksAdminPartial", (Model))
+    }
 
-    @Html.Partial("_ListBooksAdminPartial", (Model))
 
 </body>
 </html>
