@@ -10,9 +10,7 @@
 
 <h2 id="titulo">Sección libros</h2>
 
-<br /><br />
-
-<div class="adminFiltros">
+<div id="cont-options">
 
     <div class="row">
 
@@ -25,14 +23,16 @@
                 <br />
                 <input type="radio" name="option" id="idBook" value="idBook" /> Buscar por ID
                 <br />
-                <input type="radio" name="option" id="all" value="all" /> Listar todos 
+                <input type="radio" name="option" id="topBooks" value="topBooks" /> libros mas vendidos
+                <br />
+                <input type="radio" name="option" id="all" value="all" /> Listar todos
             </div>
 
         </div>
 
         <div class="form-group col-md-6">
             <input type="text" onkeyup="removeMsg();"  class="form-control" id="txtData" name="txtData" maxlength="80" /> 
-            <span style="color: red" id="msg"></span>
+            <span class="text-center" style="color: red" id="msg"></span>
         </div>
 
         <div class="form-group col-md-3">
@@ -56,18 +56,20 @@
     allRadios.forEach(function (oneRadio) {
 
         oneRadio.addEventListener('click', function (e) {
+
+            removeMsg();
+
             //capturo el id del radio button activado
             let idRadio = e.target.id;
 
-
             if (idRadio === 'idBook') {
                 $('#txtData').val('');//clean
-                //deshabilitamos el input txtSearch
+                //deshabilitamos el input txtData
                 $('#txtData').removeAttr('disabled');
 
             }
             else if (idRadio === 'bookName') {
-
+                //habilitamos el input txtData
                 $('#txtData').removeAttr('disabled');
                 $('#txtData').val('');//clean
 
@@ -75,7 +77,7 @@
 
             else {
                 $('#txtData').val('');//clean
-                //deshabilitamos el input txtSearch
+                //deshabilitamos el input txtData
                 $('#txtData').attr('disabled', 'disabled');
 
             }
@@ -89,8 +91,9 @@
     }
 
     function Send() {
-     
-       let option = $("input:radio[name='option']:checked").val();
+        
+        let uri = ''; 
+        let option = $("input:radio[name='option']:checked").val();
 
         if (txtData.value == "") {
 
@@ -100,29 +103,35 @@
             }
         }
 
+        if (option === "topBooks") {
 
+            uri = '@Url.Action("LibrosMasVendidos", "Home")';
 
-        //if (option === 'bookName' || option === 'idBook') {
+            $.ajax({
+                url: uri,
+                data: { /*option: option, search: search*/ },
+                type: 'POST',
+                success: function (respuestaDelServidor) {
+                    $("#respuestaAjax").html(respuestaDelServidor);
+                }
+            });
+        }
+        else {
 
-        //    if (txtData.value == "") {
-               
-        //        $('#msg').html('Complete el campo de búsqueda');
-        //        return false;
-        //    }
-        //}
+            let search = $('#txtData').val();   
+            uri = '@Url.Action("adminFiltrarLibro", "Home")';
 
-        let search = $('#txtData').val();
-     
-        var uri = '@Url.Action("adminFiltrarLibro", "Home")';
+            $.ajax({
+                url: uri,
+                data: { option: option, search: search },
+                type: 'POST',
+                success: function (respuestaDelServidor) {
+                    $("#respuestaAjax").html(respuestaDelServidor);
+                }
+            });
 
-        $.ajax({
-            url: uri,
-            data: { option: option, search: search},
-            type: 'POST',
-            success: function (respuestaDelServidor) {
-                $("#respuestaAjax").html(respuestaDelServidor);
-            }
-        });
+        }
+       
 
     }
 

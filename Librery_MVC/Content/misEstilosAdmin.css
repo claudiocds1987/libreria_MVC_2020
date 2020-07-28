@@ -11,14 +11,24 @@
     margin-top: 15px !important;
 }
 
-/*.marcarBordeRojo {
-    border-color: red;
-}*/
+/* CLASES DEL PAGINATION de _ListBooksAdminPartial */
+/*.btnPage es la clase de c/u de los botones*/
+.btnPage{
+    background-color: black;
+    color: white;    
+    height: 35px;
+}
+/*.active es la clase que se activa cuando se pulsa el boton de numero de pagina*/
+.active {
+    height: 35px;
+}
+/*FIN PAGINATION*/
+
 
 /*************************************************************************
                   _Layaout.cshtml
 *************************************************************************/
-#admin-nav-fixedTop{
+#admin-nav-fixedTop {
     height: 50px !important;
 }
 
@@ -133,6 +143,14 @@
     height: 150px !important;
 }
 
+/*************************************************************************
+                  Libros.cshtml
+*************************************************************************/
+#cont-options {
+    background: #F4F4F4 !important;
+    margin: 20px 0 20px 0 !important;
+    padding: 20px !important;
+}
 /*************************************************************************
                   crearAdmin.cshtml
 *************************************************************************/

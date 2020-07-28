@@ -16,7 +16,6 @@ namespace Librery_MVC.Services
 
         DataAccess da = new DataAccess();
 
-
         public List<Libro> getListLightBooks()
         {
             List<Libro> list = new List<Libro>();

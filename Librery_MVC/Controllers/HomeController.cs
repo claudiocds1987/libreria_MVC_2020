@@ -52,12 +52,6 @@ namespace Librery_MVC.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-            return View();
-        }
-
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
@@ -250,6 +244,16 @@ namespace Librery_MVC.Controllers
 
             return View(ls.LibrosByQueryGet(consulta));
 
+        }
+
+        public ActionResult LibrosMasVendidos()
+        {
+            BestSellingBooksService bestSellingBooksService = new BestSellingBooksService();
+            List<BestSellingBooks> list = new List<BestSellingBooks>();
+
+            list = bestSellingBooksService.TopBooksGet();
+
+            return View(list);
         }
 
         public ActionResult BajaLibro(int idLibro)

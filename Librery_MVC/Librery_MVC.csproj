@@ -178,6 +178,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Autor.cs" />
+    <Compile Include="Models\BestSellingBooks.cs" />
     <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\DataAccess.cs" />
     <Compile Include="Models\DetalleVenta.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminService.cs" />
     <Compile Include="Services\AutorService.cs" />
+    <Compile Include="Services\BestSellingBooksService.cs" />
     <Compile Include="Services\CategoriaService.cs" />
     <Compile Include="Services\CheckData.cs" />
     <Compile Include="Services\DetalleVentaService.cs" />
@@ -335,7 +337,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -390,6 +391,7 @@
     <Content Include="Views\Home\VentasPorCliente.cshtml" />
     <Content Include="Views\Home\AltaLibro.cshtml" />
     <Content Include="Views\Shared\_ListBooksAdminPartial.cshtml" />
+    <Content Include="Views\Home\LibrosMasVendidos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

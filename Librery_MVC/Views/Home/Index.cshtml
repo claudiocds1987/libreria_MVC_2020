@@ -20,40 +20,32 @@
 <body class="fondo-Admin">
 
     <div class="navbar navbar-inverse navbar-fixed-top" id="navbar-indexAdmin">
+        
         <div class="container">
+
             <div class="navbar-header" id="navbar-header">
-                <span class="navbar-brand">Modo administrador</span>
-                
+                <span class="navbar-brand">Modo administrador</span>               
                 <ul class="nav navbar-nav">
-
-                    <li><a href="@Url.Action("crearAdmin", "Home")">Registrarse</a></li>
-                    
-                </ul>
-                @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>*@
-                @*@Html.ActionLink("Login", "Index", "Usser", new { area = "" }, new { @class = "navbar-brand" })*@
-
-            </div>           
+                    <li><a href="@Url.Action("crearAdmin", "Home")">Registrarse</a></li>                   
+                </ul>           
+            </div>  
+            
         </div>
     </div>
 
     <div id="div-view">
 
         <div class="container">
-            <h2 style="color: red">@ViewBag.Msg</h2>
-
+            <h5 class="text-center" style="color: red">@ViewBag.Msg</h5>
            
             @using (Html.BeginForm("index", "Home", FormMethod.Post))
             {
-
                 <div id="caja">
 
                     <div id="cont-img">
                         <img id="img-logo" src="~/principal/imagenes/bookLogo.png" alt="logo">
                     </div>
+                    
                     <h3>INICIAR SESIÓN</h3>
 
                     <div id="form-login">
@@ -63,13 +55,12 @@
                             <input type="password" id="password" name="password" placeholder="Contraseña" required>
                         </div>
 
-                        <div id="wash">
+                        @*<div id="wash">
                             ¿Olvidaste tu contraseña?
-                        </div>
+                        </div>*@
 
                         <div id="cont-btns">
-                            <button type="submit" id="btn-entrar">ENTRAR</button>
-                            @*<button type="button" id="btn-registrar">REGISTRARSE</button>*@
+                            <button type="submit" id="btn-entrar">ENTRAR</button>                 
                             <button type="button" onclick="callCrearAdminView()" id="btn-registrar">Registrarse</button>
                         </div>
 
@@ -80,9 +71,7 @@
             }
 
         </div>
-
-
-        @*<hr />*@
+      
         <div class="footerAdmin">
             <center><p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p></center>
         </div>
