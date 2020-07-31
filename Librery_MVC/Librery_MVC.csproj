@@ -243,6 +243,8 @@
     <Content Include="js-frameworks\bxSlider\vendor\jquery.easing.1.3.js" />
     <Content Include="js-frameworks\bxSlider\vendor\jquery.fitvids.js" />
     <Content Include="js\funciones.js" />
+    <Content Include="js\loader\jquery-3.2.1.js" />
+    <Content Include="js\loader\styles.css" />
     <Content Include="principal\imagenes\al-gran-pueblo-Argentino-salud.jpg" />
     <Content Include="principal\imagenes\Antidoto para personas toxicas.jpg" />
     <Content Include="principal\imagenes\Apocalipsis.jpg" />
@@ -309,6 +311,7 @@
     <Content Include="principal\imagenes\slider-img2.jpg" />
     <Content Include="principal\imagenes\slider-img3.jpg" />
     <Content Include="principal\imagenes\snext.png" />
+    <Content Include="principal\imagenes\spinning-circles.svg" />
     <Content Include="principal\imagenes\sprevious.png" />
     <Content Include="principal\imagenes\TheCrazyHaacksYLaCamaraImposible.jpg" />
     <Content Include="principal\imagenes\ventasSeccion.jpg" />

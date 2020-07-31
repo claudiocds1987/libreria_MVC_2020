@@ -815,7 +815,7 @@ namespace Librery_MVC.Controllers
             return View(list);
         }
 
-
+       
         //[HttpGet]
         //public FileResult ObtenerImagen(string itf_urlImage)
         //{
