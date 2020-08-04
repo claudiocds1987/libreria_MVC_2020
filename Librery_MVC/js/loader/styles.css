@@ -1,7 +1,7 @@
 body {
   margin: 0;
 }
-#loading-screen {
+.loading-screen {
   background-color: rgba(25,25,25,0.7);
   height: 100%;
   width: 90%;
@@ -11,7 +11,7 @@ body {
   top: 0;
   text-align: center;
 }
-#loading-screen img {
+.loading-screen img {
   width: 100px;
   height: 100px;
   position: relative;

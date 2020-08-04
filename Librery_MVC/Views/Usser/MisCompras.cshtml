@@ -83,6 +83,12 @@ else
             <button class="btn btn-warning" id="btn_allPurchases" type="button" onclick="sendAllpurchases();"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>Todas mis compras</button>
         </div>
 
+        @*/*aca el div de loader*/*@
+        <div class="loading-screen" style="display:none">
+            <img src="~/principal/imagenes/spinning-circles.svg">
+        </div>
+
+
     </div>
 
     <div id="div-respuesta-ajax">
@@ -115,7 +121,22 @@ else
 
 <script>
 
+    var screen = $('.loading-screen');
+    
+
+    function configureLoadingScreen(screen) {
+        $(document)
+            .ajaxStart(function () {
+                screen.fadeIn();
+            })
+            .ajaxStop(function () {
+                screen.fadeOut();
+            });
+    }
+
     function sendAllpurchases() {
+
+        configureLoadingScreen(screen);
 
         //Al pulsar el boton, le escribo los valores en el input
 
@@ -137,6 +158,8 @@ else
     }
 
     function sendToActionFiltrarCompras(){
+
+        configureLoadingScreen(screen);
 
         var selected_month1 = $("#selectMonth1").val();
         var selected_month2 = $("#selectMonth2").val();

@@ -50,7 +50,7 @@
         @*resultados de filtrado con peticion ajax*@
     </div>
 
-    <div id="loading-screen" style="display:none">
+    <div class="loading-screen" style="display:none">
         <img src="~/principal/imagenes/spinning-circles.svg">
     </div>
 
@@ -113,7 +113,7 @@
     function Send() {
 
         /***********Loader para la consulat de AJAX********************** */
-        var screen = $('#loading-screen');
+        var screen = $('.loading-screen');
         configureLoadingScreen(screen);
         /***************************************************** */
 
