@@ -395,6 +395,7 @@
     <Content Include="Views\Home\AltaLibro.cshtml" />
     <Content Include="Views\Shared\_ListBooksAdminPartial.cshtml" />
     <Content Include="Views\Home\LibrosMasVendidos.cshtml" />
+    <Content Include="Views\Shared\_AjaxLoaderPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,6 +14,8 @@
 
     <div class="row">
 
+        @Html.Partial("_AjaxLoaderPartial")
+
         <div class="col-md-4">
 
             <p>Seleccione una opción:</p>
@@ -56,7 +58,23 @@
 
 <script type="text/javascript">
 
+    function configureLoadingScreen(screen) {
+        $(document)
+            .ajaxStart(function () {
+                screen.fadeIn();
+            })
+            .ajaxStop(function () {
+                screen.fadeOut();
+            });
+    }
+
     function SendToActionListarCliente(){
+
+        /***********Loader para la consulat de AJAX********************** */
+        //.loading-screen la clase del div que esta en la vista partial _AjaxLoaderPartial (carpeta shred)
+        var screen = $('.loading-screen');
+        configureLoadingScreen(screen);
+        /***************************************************** */
 
         let option = $("input:radio[name='option']:checked").val();
         let search = $('#txtData').val();      

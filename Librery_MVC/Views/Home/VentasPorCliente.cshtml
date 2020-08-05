@@ -8,6 +8,10 @@
     TempData.Keep("adminEmail");
 }
 
+@Html.Partial("_AjaxLoaderPartial")
+@*<div class="loading-screen" style="display:none">
+    <img src="~/principal/imagenes/spinning-circles.svg">
+</div>*@
 
 <h4 style="margin-top: 25px !important;">Ventas del cliente: @ViewBag.userName</h4>
 
@@ -84,7 +88,6 @@
 
     </div>
 
-
 </div>
 
 
@@ -147,7 +150,23 @@
         });
     });
 
+    function configureLoadingScreen(screen) {
+        $(document)
+            .ajaxStart(function () {
+                screen.fadeIn();
+            })
+            .ajaxStop(function () {
+                screen.fadeOut();
+            });
+    }
+
     function SendToActionFiltrarVenta() {
+
+        /***********Loader para la consulat de AJAX************/
+        //.loading-screen la clase del div que esta en la vista partial _AjaxLoaderPartial (carpeta shred)
+        var screen = $('.loading-screen');
+        configureLoadingScreen(screen);
+        /******************************************************/
 
         let userName = @Html.Raw(Json.Encode(ViewBag.userName));
         let option = $("input:radio[name='option']:checked").val();

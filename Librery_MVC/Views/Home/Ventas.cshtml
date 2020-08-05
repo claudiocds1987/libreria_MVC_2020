@@ -8,6 +8,8 @@
     TempData.Keep("adminEmail");
 }
 
+@Html.Partial("_AjaxLoaderPartial")
+
 <h2 class="text-center">Sección ventas</h2>
 
 <div id="cont-option-sales">
@@ -139,9 +141,23 @@
         });
     });
 
-
+    function configureLoadingScreen(screen) {
+        $(document)
+            .ajaxStart(function () {
+                screen.fadeIn();
+            })
+            .ajaxStop(function () {
+                screen.fadeOut();
+            });
+    }
 
     function SendToAction() {
+
+        /***********Loader para la consulat de AJAX********************** */
+        //.loading-screen la clase del div que esta en la vista partial _AjaxLoaderPartial (carpeta shred)
+        var screen = $('.loading-screen');
+        configureLoadingScreen(screen);
+        /***************************************************** */
 
         let option = $("input:radio[name='option']:checked").val();
         let idSale = $('#txtSearch').val();

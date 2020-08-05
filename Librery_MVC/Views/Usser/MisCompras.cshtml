@@ -22,6 +22,8 @@ else
 {
     <div class="row">
 
+        @Html.Partial("_AjaxLoaderPartial")
+
         <div class="panel-body" id="panel-body-select">
 
             <div class="form-group col-sm-4 selectores">
@@ -83,12 +85,6 @@ else
             <button class="btn btn-warning" id="btn_allPurchases" type="button" onclick="sendAllpurchases();"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>Todas mis compras</button>
         </div>
 
-        @*/*aca el div de loader*/*@
-        <div class="loading-screen" style="display:none">
-            <img src="~/principal/imagenes/spinning-circles.svg">
-        </div>
-
-
     </div>
 
     <div id="div-respuesta-ajax">
@@ -121,9 +117,9 @@ else
 
 <script>
 
+    //.loading-screen es la clase del div que esta en la vista partial _AjaxLoaderPartial (carpeta shred)
     var screen = $('.loading-screen');
     
-
     function configureLoadingScreen(screen) {
         $(document)
             .ajaxStart(function () {
@@ -185,8 +181,6 @@ else
 
 
     }
-
-
 
 </script>
 
