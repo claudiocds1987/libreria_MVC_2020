@@ -815,7 +815,19 @@ namespace Librery_MVC.Controllers
             return View(list);
         }
 
-       
+        public ActionResult getSales(String option, String month1, String month2, String year)
+        {
+            VentaService ventaService = new VentaService();
+            List<Venta> list = new List<Venta>();
+
+            if (option == "allSales")
+            {
+                list = ventaService.getAllSales();
+            }
+
+            return View(list);
+        }
+
         //[HttpGet]
         //public FileResult ObtenerImagen(string itf_urlImage)
         //{

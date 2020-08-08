@@ -2,8 +2,7 @@
 @using Librery_MVC.Models;
 
 @{
-    Layout = null;
-    int cont = 1;
+    Layout = null;   
     TempData.Keep("adminEmail");
 }
 
@@ -12,25 +11,25 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Filtrar Venta</title>
+    
 </head>
 <body>
-
     @if (ViewBag.Msg != null)
     {
         <span style="color: red">@ViewBag.Msg</span>
     }
     else
     {
+        <h4>Cantidad de ventas: @Model.Count</h4>
+
         <table class="table table-striped">
 
             <thead>
-                <tr>
-                    <th></th>
-                    <th scope="col"></th>
+                <tr>                  
                     <th scope="col">Id Venta</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Precio total</th>
+                    <th scope="col">Usuario</th>
                 </tr>
             </thead>
 
@@ -47,24 +46,19 @@
                 else
                 {
                     foreach (Venta item in Model)
-                    {                    
-                    <tr>
-                        <td>@cont</td>
-                        <td><a class = "btn btn-default" href="@Url.Action("DetalleVenta", "Home", new { idVenta = item.IdVenta, userName = item.NombreUsuario })">Detalle</a></td>                 
-                        <td scope="row">@item.IdVenta</td>
-                        <td>@item.Fecha.ToShortDateString()</td>
-                        <td>@item.PrecioTotal</td>
-
-                    </tr>
-                        cont++;
+                    {
+                        <tr>                          
+                            <td scope="row">@item.IdVenta</td>
+                            <td>@item.Fecha.ToShortDateString()</td>
+                            <td>@item.PrecioTotal</td>
+                            <td>@item.NombreUsuario</td>
+                        </tr>                       
                     }
-
                 }
 
             </tbody>
 
         </table>
     }
-
 </body>
 </html>

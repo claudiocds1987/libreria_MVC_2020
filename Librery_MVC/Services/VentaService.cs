@@ -78,7 +78,31 @@ namespace Librery_MVC.Services
             cn.Close();
 
             return list;
-        }       
-               
+        }
+
+        public List<Venta> getAllSales()
+        {
+            List<Venta> list = new List<Venta>();
+            String consulta = "SELECT * FROM ventas";
+            MySqlConnection cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                list.Add(new Venta(dr.GetInt32("IdVenta"),
+                                   dr.GetString("NombreUsuario"),
+                                   dr.GetDecimal("PrecioTotal"),
+                                   dr.GetDateTime("fecha")));
+            }
+
+            dr.Close();
+            cn.Close();
+
+            return list;
+
+        }
+
+        
     }
 }

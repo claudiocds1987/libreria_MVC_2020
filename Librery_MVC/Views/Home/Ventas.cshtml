@@ -20,15 +20,15 @@
 
             <input type="radio" name="option" id="ranking" value="ranking" checked /> Ranking de ventas
             <br />
-            <input type="radio" name="option" id="date" value="date" /> Listar ventas por fecha
+            <input type="radio" name="option" id="dateAndClient" value="dateAndClient" /> Mostrar ventas por fecha y cliente
             <br />
-            <input type="radio" name="option" id="nro-sale" value="nro-sale" /> Buscar venta
+            <input type="radio" name="option" id="allSales" value="allSales" /> Mostrar todas las ventas
 
         </div>
 
         <div class="col-md-4 optionSale">
 
-            <input type="text" disabled class="form-control" id="txtSearch" name="txtSearch" maxlength="80" required placeholder="id venta" />
+            <input type="text" disabled class="form-control" id="userName" name="userName" maxlength="80" required placeholder="Usuario" />
 
             <select class="form-control select" id="month1" disabled>
                 <option disabled selected>desde el mes</option>
@@ -85,7 +85,7 @@
 
 <div style="margin-top: 25px !important" id="ajaxSalesResponse">
 
-    <div class="table-responsive" id="ajaxSalesFilter">
+    <div class="table-responsive" id="ajaxResponse">
         @*Muestro respuesta de ajax en el filtrado*@
     </div>
 
@@ -105,7 +105,7 @@
             //capturo el id del radio button activado
             let idRadio = e.target.id;
             /*Verifico si el radio button id="date" esta activado*/
-            isEnabled = !(e.target.id === 'date');//devuelve false si esta activado
+            isEnabled = !(e.target.id === 'dateAndClient');//devuelve false si esta activado
 
             /*Cambiamos el estado de los select segun el estado de isEnabled*/
             allSelects.forEach(function (oneSelect) {
@@ -113,25 +113,25 @@
                 oneSelect.disabled = isEnabled;
 
                 if (idRadio == 'ranking') {
-                    $('#txtSearch').val('');//clean
-                    //deshabilitamos el input txtSearch
-                    $('#txtSearch').attr('disabled', 'disabled');
+                    $('#userName').val('');//clean
+                    //deshabilitamos el input userName
+                    $('#userName').attr('disabled', 'disabled');
                     $('#month1').val('desde el mes');
                     $('#month2').val('hasta el mes');
                     $('#year').val('Año');
                 }
-                else if (idRadio == 'nro-sale') {
+                else if (idRadio == 'dateAndClient') {
 
-                    $('#txtSearch').removeAttr('disabled');
+                    $('#userName').removeAttr('disabled');
                     $('#month1').val('desde el mes');
                     $('#month2').val('hasta el mes');
                     $('#year').val('Año');
                 }
 
                 else {
-                    $('#txtSearch').val('');//clean
-                    //deshabilitamos el input txtSearch
-                    $('#txtSearch').attr('disabled', 'disabled');
+                    $('#userName').val('');//clean
+                    //deshabilitamos el input userName
+                    $('#userName').attr('disabled', 'disabled');
                     $('#month1').val('desde el mes');
                     $('#month2').val('hasta el mes');
                     $('#year').val('Año');
@@ -160,13 +160,12 @@
         /***************************************************** */
 
         let option = $("input:radio[name='option']:checked").val();
-        let idSale = $('#txtSearch').val();
+        let userName = $('#userName').val();
         let month1 = $('#month1').val();
         let month2 = $('#month2').val();
         let year = $('#year').val();    
         let uri = "";
-        let data = "";
-
+        
         if (option == "ranking") {
 
             uri = '@Url.Action("RankingVentas", "Home")';
@@ -175,44 +174,41 @@
             //data: { option: option, idSale: idSale, userName: userName, month1: month1, month2: month2, year: year },
             type: 'POST',
             success: function (respuestaDelServidor) {
-                $("#ajaxSalesFilter").html(respuestaDelServidor);
+                $("#ajaxResponse").html(respuestaDelServidor);
             }
         });
 
         }
 
+        //if (option == "dateAndClient") {
 
-        if (option == "nro-sale") {
+        //    if (userName == null || userName == "" || month1 == null || month2 == null || year == null) {
 
-            if (idSale == null || idSale == "") {
-
-                alert("Escriba el id de la venta");
-                return false;
-            }
+        //        alert("Escriba el nombre de usuario y fecha");
+        //        return false;
+        //    }
+        //    else {
+        //        peticion ajax
+        //    }
             
-        }
+        //}
 
-        if (option == "date") {
-
-            if (month1 == null || month2 == null || year == null) {
-
-                alert("Elija el rango de meses y el año");
-                return false;
-            }
-            
-        }
         
 
-        @*var uri = '@Url.Action("FiltrarVenta", "Home")';
+        if (option == "allSales") {
 
-        $.ajax({
-            url: uri,
-            data: { option: option, idSale: idSale, userName: userName, month1: month1, month2: month2, year: year },
-            type: 'POST',
-            success: function (respuestaDelServidor) {
-                $("#ajaxResponseFilterSalesClient").html(respuestaDelServidor);
-            }
-        });*@
+            uri = '@Url.Action("getSales", "Home")';
+
+            $.ajax({
+                url: uri,
+                data: { option: option, month1: month1, month2: month2, year: year },
+                type: 'POST',
+                success: function (respuestaDelServidor) {
+                    $("#ajaxResponse").html(respuestaDelServidor);
+                }
+            });
+
+        }
 
     }
 
