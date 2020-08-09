@@ -83,7 +83,7 @@ namespace Librery_MVC.Services
         public List<Venta> getAllSales()
         {
             List<Venta> list = new List<Venta>();
-            String consulta = "SELECT * FROM ventas";
+            String consulta = "SELECT * FROM ventas order by ventas.Fecha desc";
             MySqlConnection cn = da.ConnectToDB();
             MySqlCommand cmd = new MySqlCommand(consulta, cn);
             MySqlDataReader dr = cmd.ExecuteReader();
@@ -103,6 +103,34 @@ namespace Librery_MVC.Services
 
         }
 
-        
+        public List<Venta> getSalesByDateAndUser(String userName, String month1, String month2, String year)
+        {
+
+            List<Venta> list = new List<Venta>();
+            String a = "SELECT * from ventas";
+            String b = " where month(Fecha) >= " + month1;
+            String c = " and month(Fecha) <= " + month2;
+            String d = " and year(Fecha) = " + year;
+            String e = " and ventas.NombreUsuario = '" + userName + "'";
+            String f = " order by ventas.Fecha desc";
+
+            String consulta = a + b + c + d + e + f;
+
+            MySqlConnection cn = da.ConnectToDB();
+            MySqlCommand cmd = new MySqlCommand(consulta, cn);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                list.Add(new Venta(dr.GetInt32("IdVenta"),
+                                   dr.GetString("NombreUsuario"),
+                                   dr.GetDecimal("PrecioTotal"),
+                                   dr.GetDateTime("fecha")));
+            }
+
+            dr.Close();
+            cn.Close();
+            return list;
+        }       
     }
 }

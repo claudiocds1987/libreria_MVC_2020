@@ -235,3 +235,5 @@ function CheckNombreCompuesto(nombre) {
         return false;          
 }
 
+
+

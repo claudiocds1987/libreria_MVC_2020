@@ -163,9 +163,9 @@
         let userName = $('#userName').val();
         let month1 = $('#month1').val();
         let month2 = $('#month2').val();
-        let year = $('#year').val();    
+        let year = $('#year').val();
         let uri = "";
-        
+
         if (option == "ranking") {
 
             uri = '@Url.Action("RankingVentas", "Home")';
@@ -180,20 +180,27 @@
 
         }
 
-        //if (option == "dateAndClient") {
+        if (option == "dateAndClient") {
 
-        //    if (userName == null || userName == "" || month1 == null || month2 == null || year == null) {
+            if (userName == null || userName == "" || month1 == null || month2 == null || year == null) {
 
-        //        alert("Escriba el nombre de usuario y fecha");
-        //        return false;
-        //    }
-        //    else {
-        //        peticion ajax
-        //    }
-            
-        //}
+                alert("Debe escribir el nombre de usuario, elegir el rango de meses y el año.");
+                return false;
+            }
+            else {
+                 uri = '@Url.Action("getSales", "Home")';
+                $.ajax({
+                url: uri,
+                data: { option: option, userName: userName, month1: month1, month2: month2, year: year },
+                type: 'POST',
+                success: function (respuestaDelServidor) {
+                    $("#ajaxResponse").html(respuestaDelServidor);
+                }
+            });
+            }
 
-        
+        }
+
 
         if (option == "allSales") {
 
@@ -203,14 +210,14 @@
                 url: uri,
                 data: { option: option, month1: month1, month2: month2, year: year },
                 type: 'POST',
-                success: function (respuestaDelServidor) {
-                    $("#ajaxResponse").html(respuestaDelServidor);
+                success: function (respuestaDelServidor) {                   
+                    $("#ajaxResponse").html(respuestaDelServidor);                  
                 }
             });
 
         }
 
     }
-
+  
 </script>
 

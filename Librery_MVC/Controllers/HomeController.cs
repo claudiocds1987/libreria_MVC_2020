@@ -12,7 +12,7 @@ namespace Librery_MVC.Controllers
     public class HomeController : Controller
     {
         AdminService adminService = new AdminService();
-        CheckData check = new CheckData();
+        CheckData checkData = new CheckData();
 
         public ActionResult index()
         {
@@ -22,7 +22,7 @@ namespace Librery_MVC.Controllers
             if (email != null && password != null)
             {
 
-                if (!check.checkEmailFormat(email))
+                if (!checkData.checkEmailFormat(email))
                 {
                     ViewBag.Msg = "El email no es valido!";
                     return View();
@@ -737,6 +737,35 @@ namespace Librery_MVC.Controllers
 
         public ActionResult FiltrarVenta(String option, String idSale, String userName, String month1, String month2, String year)
         {
+            // Validaciones backend
+            bool isNumber = true;
+
+            isNumber = checkData.CheckIntNumber(month1);
+
+            if (!isNumber)
+            {
+                ViewBag.Msg = "value del mes incorrecto";
+                return View();
+            }
+
+            isNumber = checkData.CheckIntNumber(month2);
+
+            if (!isNumber)
+            {
+                ViewBag.Msg = "value del mes incorrecto";
+                return View();
+            }
+
+            isNumber = checkData.CheckIntNumber(year);
+
+            if (!isNumber)
+            {
+                ViewBag.Msg = "value del año incorrecto";
+                return View();
+            }
+
+            //fin validaciones
+
             String consulta = "";
 
             if (option == "nro-sale" || option == "allPurchases" || option == "date")
@@ -815,7 +844,7 @@ namespace Librery_MVC.Controllers
             return View(list);
         }
 
-        public ActionResult getSales(String option, String month1, String month2, String year)
+        public ActionResult getSales(String option, String userName, String month1, String month2, String year)
         {
             VentaService ventaService = new VentaService();
             List<Venta> list = new List<Venta>();
@@ -824,7 +853,33 @@ namespace Librery_MVC.Controllers
             {
                 list = ventaService.getAllSales();
             }
-
+            else if(option == "dateAndClient" && !String.IsNullOrEmpty(userName) && !String.IsNullOrEmpty(month1) && !String.IsNullOrEmpty(month2) && !String.IsNullOrEmpty(year))
+            {
+                //validando backend
+                if (!checkData.CheckIntNumber(month1))
+                {
+                    ViewBag.Msg = "value del mes incorrecto";
+                    return View();
+                }
+                else if (!checkData.CheckIntNumber(month2))
+                {
+                    ViewBag.Msg = "value del mes incorrecto";
+                    return View();
+                }
+                else if (!checkData.CheckIntNumber(year))
+                {
+                    ViewBag.Msg = "value del año incorrecto";
+                    return View();
+                }
+                else
+                    list = ventaService.getSalesByDateAndUser(userName, month1, month2, year);
+            }
+            else
+            {
+                ViewBag.Msg = "Error de datos";
+                return View();
+            }
+        
             return View(list);
         }
 
