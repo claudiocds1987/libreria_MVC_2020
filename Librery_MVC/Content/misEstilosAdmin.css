@@ -44,16 +44,17 @@
 /*************************************************************************
                   index.cshtml (lado admin)
 *************************************************************************/
-
 #caja {
     background-color: #F2F2F2;
     border-radius: 2px;
-    display: flex;
-    flex-direction: column;
+    /*display: flex;
+    flex-direction: column;*/
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-weight: 700;
-    margin: 0 auto;
+    font-weight: 700;   
+    margin: 50px auto !important;
     width: 300px;
+    /*height: 500px;*/
+    padding: 10px;
 }
 
 #caja h3 {
@@ -62,7 +63,7 @@
 }
 
 #cont-img {
-    margin-top: 45px;
+    margin-top: 15px;
     text-align: center;
 }
 
@@ -72,8 +73,7 @@
 }
 
 #form-login {
-    margin-left: 5px;
-    margin-right: 5px;
+   margin-bottom: 15px;
 }
 
 #cont-inputs {
@@ -93,16 +93,16 @@
     margin-bottom: 8px;
 }
 
-#wash {
+/*#wash {
     color: #5858FA;
     font-weight: 400;
     margin-top: 10px;
     text-align: center;
-}
+}*/
 
 #cont-btns {
     margin-top: 20px;
-    margin-bottom: 45px;
+    /*margin-bottom: 45px;*/
     width: 100%;
 }
 
@@ -138,11 +138,34 @@
 /*************************************************************************
                   adminPrincipal.cshtml
 *************************************************************************/
-.seccion img{
 
+.seccion {
+    background: #F4F4F4 !important;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
+    padding: 10px !important;
+}
+
+.seccion img {
     width: 150px !important;
     height: 150px !important;
 }
+
+
+/*@media screen and (min-width: 320px) {
+
+    .seccion {
+        margin: 20px;
+    }
+    
+}
+
+@media screen and (min-width: 768px) {
+
+    .seccion {
+        margin: 0 0 20px 0;
+    }
+}*/
 
 /*************************************************************************
                   Libros.cshtml
@@ -247,6 +270,8 @@
 *************************************************************************/
 .DivFiltrarCliente {
     background: #F4F4F4 !important;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     margin: 25px 0 20px 0 !important;
     padding: 20px !important;
 }
@@ -256,6 +281,8 @@
 *************************************************************************/
 .DivFilterSale {
     background: #F4F4F4 !important;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     margin: 25px 0 20px 0 !important;
     padding: 20px !important;
 }
@@ -265,6 +292,8 @@
 *************************************************************************/
 #cont-option-sales {
     background: #F4F4F4 !important;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     margin: 25px 0 20px 0 !important;
     padding: 20px !important;
 }

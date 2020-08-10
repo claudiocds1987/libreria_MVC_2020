@@ -482,7 +482,6 @@ namespace Librery_MVC.Controllers
             return View();
         }
 
-
         public ActionResult InsertarLibro()
         {
             /****************** VALIDANDO LADO BACK-END *********************************/
@@ -737,35 +736,7 @@ namespace Librery_MVC.Controllers
 
         public ActionResult FiltrarVenta(String option, String idSale, String userName, String month1, String month2, String year)
         {
-            // Validaciones backend
-            bool isNumber = true;
-
-            isNumber = checkData.CheckIntNumber(month1);
-
-            if (!isNumber)
-            {
-                ViewBag.Msg = "value del mes incorrecto";
-                return View();
-            }
-
-            isNumber = checkData.CheckIntNumber(month2);
-
-            if (!isNumber)
-            {
-                ViewBag.Msg = "value del mes incorrecto";
-                return View();
-            }
-
-            isNumber = checkData.CheckIntNumber(year);
-
-            if (!isNumber)
-            {
-                ViewBag.Msg = "value del año incorrecto";
-                return View();
-            }
-
-            //fin validaciones
-
+                          
             String consulta = "";
 
             if (option == "nro-sale" || option == "allPurchases" || option == "date")
@@ -783,8 +754,14 @@ namespace Librery_MVC.Controllers
                 /*si elije la opcion "buscar ventas por fecha"*/
                 else if (option == "date")
                 {
+                    // validaciones backend
+                    if (!checkData.CheckIntNumber(month1) || !checkData.CheckIntNumber(month2) || !checkData.CheckIntNumber(year))
+                    {
+                        ViewBag.Msg = "value de <select> incorrecto";
+                        return View();
+                    }
                     //Esta obligado a elegir el rango de meses y el año
-                    if (String.IsNullOrEmpty(month1) || String.IsNullOrEmpty(month2) || String.IsNullOrEmpty(year))
+                    else if (String.IsNullOrEmpty(month1) || String.IsNullOrEmpty(month2) || String.IsNullOrEmpty(year))
                     {
                         ViewBag.Msg = "Debe elegir el rango de meses y el año";
                         return View();
@@ -854,23 +831,13 @@ namespace Librery_MVC.Controllers
                 list = ventaService.getAllSales();
             }
             else if(option == "dateAndClient" && !String.IsNullOrEmpty(userName) && !String.IsNullOrEmpty(month1) && !String.IsNullOrEmpty(month2) && !String.IsNullOrEmpty(year))
-            {
+            {             
                 //validando backend
-                if (!checkData.CheckIntNumber(month1))
+                if(!checkData.CheckIntNumber(month1) || !checkData.CheckIntNumber(month2) || !checkData.CheckIntNumber(year))
                 {
-                    ViewBag.Msg = "value del mes incorrecto";
+                    ViewBag.Msg = "value de <select> incorrecto";
                     return View();
-                }
-                else if (!checkData.CheckIntNumber(month2))
-                {
-                    ViewBag.Msg = "value del mes incorrecto";
-                    return View();
-                }
-                else if (!checkData.CheckIntNumber(year))
-                {
-                    ViewBag.Msg = "value del año incorrecto";
-                    return View();
-                }
+                }             
                 else
                     list = ventaService.getSalesByDateAndUser(userName, month1, month2, year);
             }

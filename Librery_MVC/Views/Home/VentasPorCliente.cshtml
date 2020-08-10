@@ -9,9 +9,6 @@
 }
 
 @Html.Partial("_AjaxLoaderPartial")
-@*<div class="loading-screen" style="display:none">
-    <img src="~/principal/imagenes/spinning-circles.svg">
-</div>*@
 
 <h4 style="margin-top: 25px !important;">Ventas del cliente: @ViewBag.userName</h4>
 
@@ -90,12 +87,8 @@
 
 </div>
 
-
-
 <div id="ajaxResponseFilterSalesClient">
-
     @*div donde ajax devuelve la respuesta al filtrado de las ventas*@
-
 </div>
 
 <br />
@@ -207,6 +200,6 @@
         });
 
     }
-
+   
 </script>
 

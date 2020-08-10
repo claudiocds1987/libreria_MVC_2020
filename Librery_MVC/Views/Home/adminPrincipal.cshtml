@@ -5,7 +5,7 @@
     TempData.Keep("adminEmail");
 }
 
-<div style="background-image: url('/principal/imagenes/libroos.jpg'); background-repeat: no-repeat;background-size: cover; width: 100%; height: 50vh; !important" class="jumbotron">
+<div style="background-image: url('/principal/imagenes/libroos.jpg'); background-repeat: no-repeat; background-size: cover; width: 100%; height: 50vh;" class="jumbotron">
 
     <h1 style="color:white" id="titulo">Libreria MVC</h1>
     <p style="color:white" class="lead">Modo administrador</p>
@@ -13,44 +13,41 @@
 </div>
 <div class="row">
 
-    <div class="col-md-4">
-
-        <h2 class="text-center">Sección Clientes</h2>
+    <div class="col-sm-4 col-md-4">
 
         <div class="text-center seccion">
 
+            <h2 class="text-center">Sección clientes</h2>
             <img src="~/principal/imagenes/clientesSeccion.jpg" class="img-circle" alt="cliente">
-            <p>Información, contacto y seguimiento del cliente.</p>
-            <a class="btn btn-default" href="/Home/ListarClientes">Ir a clientes &raquo;</a>
-        
+            <p style="margin-top: 10px">Información, contacto y seguimiento del cliente.</p>
+            <a style="margin-bottom: 10px" class="btn btn-primary" href="/Home/ListarClientes">Ir a clientes &raquo;</a>
+
         </div>
 
     </div>
 
-    <div class="col-md-4">
-
-        <h2 class="text-center">Sección libros</h2>
+    <div class="col-sm-4 col-md-4">
 
         <div class="text-center seccion">
 
+            <h2 class="text-center">Sección libros</h2>
             <img src="~/principal/imagenes/producto.png" class="img-circle" alt="producto">
-            <p>Modo editar, libros mas vendidos...</p>
-            <p><a class="btn btn-default" href="/Home/Libros">Ir a libros &raquo;</a></p>
-        
+            <p style="margin-top: 10px">Modo editar, libros mas vendidos...</p>
+            <a style="margin-bottom: 10px" class="btn btn-primary" href="/Home/Libros">Ir a libros &raquo;</a>
+
         </div>
 
     </div>
 
-    <div class="col-md-4">
-
-        <h2 class="text-center">Sección ventas</h2>
+    <div class="col-sm-4 col-md-4">
 
         <div class="text-center seccion">
 
+            <h2 class="text-center">Sección ventas</h2>
             <img src="~/principal/imagenes/ventasSeccion.jpg" class="img-circle" alt="producto">
-            <p>Ranking de ventas, listado de ventas.</p>
-            <p><a class="btn btn-default" href="/Home/Ventas">Ir a ventas &raquo;</a></p>
-        
+            <p style="margin-top: 10px">Ranking de ventas, listado de ventas.</p>
+            <a style="margin-bottom: 10px" class="btn btn-primary" href="/Home/Ventas">Ir a ventas &raquo;</a>
+
         </div>
         
     </div>
