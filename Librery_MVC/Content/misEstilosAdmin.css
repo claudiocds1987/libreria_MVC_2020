@@ -1,4 +1,7 @@
-﻿body {
+﻿
+/**************** Estilos globales misEstilosAdmin.css ***********************/
+
+body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;    
 }
 
@@ -23,6 +26,14 @@
     height: 35px;
 }
 /*FIN PAGINATION*/
+
+.btn-global {
+    width: 100%;
+    height: 45px;
+    font-size: 15px !important;
+}
+
+/**************************** fin estilos globales **********************/
 
 
 /*************************************************************************
@@ -142,7 +153,6 @@
 .seccion {
     background: #F4F4F4 !important;
     border-radius: 4px;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     padding: 10px !important;
 }
 
@@ -190,7 +200,6 @@
 #div-form-insertarLibro {
     background-color: #F2F2F2;
     border-radius: 4px;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -220,7 +229,6 @@
 #div-form-editarLibro {
     background-color: #F2F2F2;
     border-radius: 4px;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -271,7 +279,6 @@
 .DivFiltrarCliente {
     background: #F4F4F4 !important;
     border-radius: 4px;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     margin: 25px 0 20px 0 !important;
     padding: 20px !important;
 }
@@ -282,7 +289,6 @@
 .DivFilterSale {
     background: #F4F4F4 !important;
     border-radius: 4px;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     margin: 25px 0 20px 0 !important;
     padding: 20px !important;
 }
@@ -293,7 +299,6 @@
 #cont-option-sales {
     background: #F4F4F4 !important;
     border-radius: 4px;
-    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, .75);
     margin: 25px 0 20px 0 !important;
     padding: 20px !important;
 }

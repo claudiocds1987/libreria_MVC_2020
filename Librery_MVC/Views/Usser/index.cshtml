@@ -25,7 +25,7 @@
 
     @Html.Partial("_AjaxLoaderPartial")
 
-    <div class="panel-body" id="filtro-panel-body">
+    <div class="panel-body well" id="filtro-panel-body">
 
         <div class="col-md-4 text-center">
             <label>Nombre de libro</label>
@@ -115,12 +115,23 @@
             <input type="number" class="form-control" id="price2" />
         </div>
 
+        <div class="row text-center">
+            <button class="btn btn-primary" id="btn_buscar" onclick="filtrar();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
+            <button class="btn btn-warning" id="btn_reset" onclick="reset();">Reset</button>
+        </div>
+
     </div>
 
-    <div class="text-center" id="cont-btn_buscar">
-        <button class="btn btn-default" id="btn_buscar" type="button" onclick="filtrar();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
-        <button class="btn btn-warning" id="btn_reset" onclick="reset();">Reset</button>
-    </div>
+    @*<div class="row">
+
+            <div class="col-md-6">
+                <button class="btn btn-primary" id="btn_buscar" onclick="filtrar();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-warning" id="btn_reset" onclick="reset();">Reset</button>
+            </div>
+
+        </div>*@
 
 </div>
 
@@ -171,7 +182,7 @@
     function filtrar() {
 
         //.loading-screen la clase del div que esta en la vista partial _AjaxLoaderPartial (carpeta shred)
-        var screen = $('.loading-screen');     
+        var screen = $('.loading-screen');
         configureLoadingScreen(screen);
 
         var uri = '@Url.Action("userFilterLightBooks", "Usser")';
@@ -221,8 +232,8 @@
 
 @*<script type="text/javascript">*@
 
-     @*window.addEventListener("load", Paginar(), false);
-     window.addEventListener("load", Paginar(1), false);*@
+@*window.addEventListener("load", Paginar(), false);
+    window.addEventListener("load", Paginar(1), false);*@
 
 @*</script>*@
 

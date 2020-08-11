@@ -1,10 +1,16 @@
 ﻿<!DOCTYPE html>
-<html>
+@*<html>*@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    @*/*alertifyjs es un framework de js para ventanas alert elegantes**********/*@
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/alertify.min.css" />
+    <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/themes/semantic.min.css" />
+    <script src="~/js-frameworks/alertifyjs/alertify.min.js"></script>
+    @*/*************************************************************************/*@
+
     @*---------------enlazo mis funciones de js---------------------------*@
     <script type="text/javascript" src="~/js/funciones.js"></script>
 
@@ -15,10 +21,16 @@
     @*-estilos css para el Loader de consultas AJAX------------------*@
     @Styles.Render("~/js/loader/styles.css")
 
-    
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+
+    <style>
+        .bordeRojoValidacion {
+            border-color: red;
+        }
+    </style>
 
 </head>
 <body class="fondo-Admin">

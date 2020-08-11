@@ -1,89 +1,57 @@
-﻿@model Librery_MVC.Models.Admin
-@using Librery_MVC.Services;
-
+﻿
 @{
-    Layout = null;
-    
+    ViewBag.Title = "crearAdmin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
+<h2 class="text-center">Crear administrador</h2>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Formulario Admin</title>
-    @*---------------enlazo adminEstilos.css---------------------------*@
-    @Styles.Render("~/Content/misEstilosAdmin.css")
-    @*---------------------------------------------------------------*@
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+@if (ViewBag.Msg != null)
+{
+    <h4 class="text-center" style="color:red">@ViewBag.Msg</h4>
+}
 
-    @Scripts.Render("~/bundles/jquery")
+@using (Html.BeginForm("RegistrarAdmin", "Home", FormMethod.Post, new { name = "formAdmin", onsubmit = "return checkAdminData();" }))
+{
+    @Html.AntiForgeryToken()
 
-   
+    <div id="cont-formulario-admin">
 
-    <style>
-        .bordeRojoValidacion {
-            border-color: red;
-        }
-    </style>
-
-</head>
-<body>
-
-    @if (ViewBag.Msg != null)
-    {       
-        <h4 class="text-center" style="color:red">@ViewBag.Msg</h4>
-    }
-
-    <h2 class="text-center">Registrar administrador</h2>
-
-    @using (Html.BeginForm("RegistrarAdmin", "Home", FormMethod.Post, new { name = "formAdmin", onsubmit = "return checkAdminData();" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div id="cont-formulario-admin">
-
-            <div class="form-group">
-                <label for="lblEmail">Email:</label>
-                <input type="email" class="form-control" id="txtEmail" name="txtEmail" onblur="removeClass(this);" maxlength="45" placeholder="Email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="lblName">Nombre:</label>
-                <input type="text" class="form-control a" id="txtName" name="txtName" maxlength="45" onblur="removeClass(this)"; placeholder="Nombre" required>
-            </div>
-
-            <div class="form-group">
-                <label for="lblApe">Apellido:</label>
-                <input type="text" class="form-control" id="txtSurname" name="txtSurname" maxlength="45" onblur="removeClass(this)"; placeholder="Apellido" required>
-            </div>
-
-            <div class="form-group">
-                <label for="lblPwd">Contraseña:</label>
-                <input type="password" class="form-control" name="txtClave1" id="clave1" maxlength="45" onblur="removeClass(this)"; placeholder="Contraseña" required>
-            </div>
-
-            <div class="form-group">
-                <label for="lblPwd">Repita la contraseña:</label>
-                <input type="password" class="form-control" name="txtClave2" id="clave2" maxlength="45" onblur="removeClass(this)"; placeholder="Repetir contraseña" required>
-            </div>
-
-            <div class="text-center" id="button-group">
-                <button class="btn btn-primary" type="submit" id="btn-guardar">Guardar</button>               
-                <button type="reset" class="btn btn-warning" id="btn-reset">Resetear</button>
-                <a class="btn btn-danger" href="@Url.Action("index", "Home")">Cancelar</a>
-            </div>
-
+        <div class="form-group">
+            <label for="lblEmail">Email:</label>
+            <input type="email" class="form-control" id="txtEmail" name="txtEmail" onblur="removeClass(this);" maxlength="45" placeholder="Email" required>
         </div>
-    }
 
-    <div class="footerAdmin text-center">
-        <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+        <div class="form-group">
+            <label for="lblName">Nombre:</label>
+            <input type="text" class="form-control a" id="txtName" name="txtName" maxlength="45" onblur="removeClass(this)" ; placeholder="Nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lblApe">Apellido:</label>
+            <input type="text" class="form-control" id="txtSurname" name="txtSurname" maxlength="45" onblur="removeClass(this)" ; placeholder="Apellido" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lblPwd">Contraseña:</label>
+            <input type="password" class="form-control" name="txtClave1" id="clave1" maxlength="45" onblur="removeClass(this)" ; placeholder="Contraseña" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lblPwd">Repita la contraseña:</label>
+            <input type="password" class="form-control" name="txtClave2" id="clave2" maxlength="45" onblur="removeClass(this)" ; placeholder="Repetir contraseña" required>
+        </div>
+
+        <div class="text-center" id="button-group">
+            <button class="btn btn-primary" type="submit" id="btn-guardar">Guardar</button>
+            <button type="reset" class="btn btn-warning" id="btn-reset">Resetear</button>
+            <a class="btn btn-danger" href="@Url.Action("index", "Home")">Cancelar</a>
+        </div>
+
     </div>
+}
 
-
-    <script type="text/javascript">
+<script type="text/javascript">
 
         /*Importante: checkadminData() la llamo desde el form*/
         function checkAdminData() {
@@ -95,7 +63,7 @@
                     alert("El Email es invalido!");
                     $("#txtEmail").addClass('bordeRojoValidacion');
 
-                    
+
                     return false;
                 }
 
@@ -106,9 +74,9 @@
                 }
 
                 else {
-                    
+
                     document.formAdmin.submit();//pulsa el submit y manda los datos del form
-                   
+
                 }
 
             }
@@ -117,13 +85,13 @@
                 alert("Hay campos vacios!");
                 return false;
             }
-           
-            
+
+
         }
 
         function validateEmail() {
 
-            if (!/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formAdmin.txtEmail.value)) {            
+            if (!/^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formAdmin.txtEmail.value)) {
                 return false;
             }
             else
@@ -138,7 +106,7 @@
 
             if (clave1 != clave2) {
 
-                addClassToClaves()                
+                addClassToClaves()
                 return false;
             }
             else
@@ -179,7 +147,6 @@
             $('#clave2').addClass('bordeRojoValidacion');
         }
 
-    </script>
+</script>
 
-</body>
-</html>
+

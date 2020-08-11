@@ -374,7 +374,6 @@
     <Content Include="Views\Usser\MostrarLibro.cshtml" />
     <Content Include="Views\Usser\MisCompras.cshtml" />
     <Content Include="Views\Usser\FiltrarCompras.cshtml" />
-    <Content Include="Views\Home\crearAdmin.cshtml" />
     <Content Include="Views\Home\registrarAdmin.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\InsertarLibro.cshtml" />
@@ -397,6 +396,7 @@
     <Content Include="Views\Home\LibrosMasVendidos.cshtml" />
     <Content Include="Views\Shared\_AjaxLoaderPartial.cshtml" />
     <Content Include="Views\Home\getSales.cshtml" />
+    <Content Include="Views\Home\crearAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

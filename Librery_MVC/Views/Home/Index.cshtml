@@ -33,52 +33,43 @@
         </div>
     </div>
 
-    @*<div id="div-view">*@
+    <h5 class="text-center" style="color: red">@ViewBag.Msg</h5>
 
-        @*<div class="container">*@
+    @using (Html.BeginForm("index", "Home", FormMethod.Post))
+    {
+        <div class="well" id="caja">
 
-            <h5 class="text-center" style="color: red">@ViewBag.Msg</h5>
+            <div id="cont-img">
+                <img id="img-logo" src="~/principal/imagenes/bookLogo.png" alt="logo">
+            </div>
 
-            @using (Html.BeginForm("index", "Home", FormMethod.Post))
-            {
-                <div id="caja">
+            <h3>INICIAR SESIÓN</h3>
 
-                    <div id="cont-img">
-                        <img id="img-logo" src="~/principal/imagenes/bookLogo.png" alt="logo">
-                    </div>
+            <div id="form-login">
 
-                    <h3>INICIAR SESIÓN</h3>
-
-                    <div id="form-login">
-
-                        <div id="cont-inputs">
-                            <input type="text" id="adminEmail" name="adminEmail" placeholder="Email" required>
-                            <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                        </div>
-
-                        @*<div id="wash">
-                                ¿Olvidaste tu contraseña?
-                            </div>*@
-
-                        <div id="cont-btns">
-                            <button type="submit" id="btn-entrar">ENTRAR</button>
-                            <button type="button" onclick="callCrearAdminView()" id="btn-registrar">Registrarse</button>
-                        </div>
-
-                    </div>
-
+                <div id="cont-inputs">
+                    <input type="text" id="adminEmail" name="adminEmail" placeholder="Email" required>
+                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
                 </div>
-            }
 
-        @*</div>*@
+                @*<div id="wash">
+                        ¿Olvidaste tu contraseña?
+                    </div>*@
 
-        <div class="footerAdmin">
-            <center><p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p></center>
+                <div id="cont-btns">
+                    <button type="submit" id="btn-entrar">ENTRAR</button>
+                    <button type="button" onclick="callCrearAdminView()" id="btn-registrar">Registrarse</button>
+                </div>
+
+            </div>
+
         </div>
+    }
 
-    @*</div>*@
+    <div class="footerAdmin">
+        <center><p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p></center>
+    </div>
 
-   
     <script type="text/javascript">
 
     function callCrearAdminView() {

@@ -1,8 +1,9 @@
 ﻿
+/******************************* Estilos globales *******************************/
+
 body {
     /*background-color: #E5E7E9 !important;*/
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
-    /*color: white !important;*/
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;   
     color: black !important;
 }
 
@@ -12,14 +13,17 @@ body {
 }
 
 .vcenter {
-    /*display: inline-block;*/
     margin-top: 50px;
 }
+
+
+
+/********************* fin estilos globales ******************************/
+
 
 /*************************************************************************
                     _UsserLayout.cshtml
 *************************************************************************/
-
 #btn-shopping-cart {
     float: left !important;
 }
@@ -49,9 +53,6 @@ body {
 }
 
 #navigation {
-    /*para cambiar de color el nav*/
-    /*background: #138AF7 !important; buen color celeste*/
-    /*background: #5858FA !important;*/
     background: rgba(51,51,51,1) !important;
     color: white !important;
 }
@@ -72,25 +73,21 @@ body {
 
 .navbar-header #brand {
     background: rgba(51,51,51,1) !important;
-    /*color: #8181F7 !important;*/
     color: orange !important;
     font-weight: 600;
 }
 
 #nav-fixedTop {
-    /*background: #5858FA !important;*/
     background: rgba(51,51,51,1) !important;
     border: none !important;
     height: 50px !important;
 }
 
 .navbar-toggle:hover {
-    /*background: rgba(51,51,51,1) !important;*/
     background: orange !important;
 }
 
 #dropdown-menu {
-    /*background:#5858FA !important;*/
     background: rgba(51,51,51,1) !important;
 }
 
@@ -142,39 +139,14 @@ body {
                   userLogin.cshtml (lado user)
 *************************************************************************/
 
-#cont-master {
-    background: #f5af19 !important;
-}
-
-.cont-slider {
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#navbar-index {
-    background-color: #5858FA !important;
-}
-
-#navbar-header a {
-    color: white !important;
-    /*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;*/
-}
-
-#btn-nav li a {
-    color: white !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
 #caja {
     background-color: #F2F2F2;
     border-radius: 2px;
-    display: flex;
-    flex-direction: column;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 700;
     margin: 0 auto;
     width: 300px;
+    padding: 10px;
     height: 450px;
 }
 
@@ -184,9 +156,7 @@ body {
 }
 
 #form-login {
-    margin-top: 100px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-top: 100px;   
 }
 
 #cont-inputs {
@@ -204,12 +174,9 @@ body {
     border: none !important;
     font-weight: 500 !important;
     height: 45px !important;
+    margin-top: 5px !important;
     padding-left: 10px !important;
     width: 100% !important;
-}
-
-#user {
-    margin-bottom: 8px;
 }
 
 #wash {
@@ -264,16 +231,10 @@ body {
 #cont-formulario {
     background: #F2F2F2;
     border-radius: 2px;
-    display: flex;
-    flex-wrap: wrap; /* flex-wrap: wrap, sirve para que los div se pongan uno abajo del otro cuando la pantalla del navegador se ajusta a tamaños movil */
-    /*justify-content: center;/*centra horizontalmente a los div hijos*/
-    margin: 0 auto;
-    width: 640px;
-}
-
-#cont-formulario div {
-    margin: 10px;
-    width: 300px;
+    justify-content: center;/*centra horizontalmente a los div hijos*/
+    margin: 15px auto;  
+    max-width: 310px;
+    padding: 10px;
 }
 
 #cont-formulario div input {
@@ -334,10 +295,10 @@ body {
 
 #btn_buscar {
     background: #5858FA !important;
-    border: none !important;
-    color: white !important;
+    width: 280px;
     height: 45px;
-    width: 100px;
+    font-size: 15px !important;
+    margin-bottom: 5px !important;
 }
 
 #btn_buscar:hover {
@@ -349,8 +310,10 @@ body {
 }
 
 #btn_reset {
+    width: 280px !important;
     height: 45px !important;
-    width: 100px !important;
+    font-size: 15px !important;
+    margin-bottom: 5px !important;
 }
 
 /*#model-result es el div que marca la cantidad de resultados encontrados en el filtro*/
@@ -369,7 +332,6 @@ body {
     box-sizing: border-box !important;
     padding: 8px !important;   
     width: 153px !important;
-    /*margin: 0 auto !important; no queda muy bien visualmente*/
 }
 
 .container-image img {
@@ -512,7 +474,7 @@ body {
     text-align: right;
 }
 
-/* Estio es usado como la tradicional .clearfix class */
+/* Estilo usado como la tradicional .clearfix class */
 .group:before, .shopping-cart:before, .column-labels:before, .product:before, .totals-item:before,
 .group:after,
 .shopping-cart:after,
