@@ -279,6 +279,10 @@ body {
                             index.cshtml (lado user)
 ******************************************************************************************/
 
+.group {
+    width: 100% !important;
+}
+
 
 #row1 {
     margin-top: 25px !important;
@@ -295,10 +299,11 @@ body {
 
 #btn_buscar {
     background: #5858FA !important;
-    width: 280px;
+    /*width: 280px;*/
+    width: 100% !important;
     height: 45px;
     font-size: 15px !important;
-    margin-bottom: 5px !important;
+    margin-top: 5px !important;
 }
 
 #btn_buscar:hover {
@@ -310,10 +315,11 @@ body {
 }
 
 #btn_reset {
-    width: 280px !important;
+    /*width: 280px !important;*/
+    width: 100% !important;
     height: 45px !important;
     font-size: 15px !important;
-    margin-bottom: 5px !important;
+    margin-top: 5px !important;
 }
 
 /*#model-result es el div que marca la cantidad de resultados encontrados en el filtro*/
@@ -324,13 +330,13 @@ body {
 #cont-libros {
     display: flex !important;
     flex-wrap: wrap !important;
-    justify-content: flex-start !important;   
+    justify-content: flex-start !important;
 }
 
 /*.container-image tambien esta en userFilterLightBook.cshtml y Paginar.cshtml*/
 .container-image {
     box-sizing: border-box !important;
-    padding: 8px !important;   
+    padding: 8px !important;
     width: 153px !important;
 }
 
@@ -371,6 +377,13 @@ body {
 }
 
 
+@media (min-width: 992px) {
+    /*ordenadores, anchura mayor o igual a 992px*/
+    .rowWidth {
+        width: 210px !important;
+    }
+}
+
 /************************** FIN index.cshtml (lado user) *********************************/
 
 
@@ -381,11 +394,11 @@ body {
     margin-top: 15px !important;
 }
 
-#cont-libros {
+/*#cont-libros {  
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: flex-start !important;
-}
+}*/
 
 .contImgBook {
     padding-top: 20px !important;
@@ -718,23 +731,45 @@ label {
                     MisCompras.cshtml
 ***********************************************************************************/
 #panel-body-select {
-    border: 1px solid #dddddd !important;
     margin-bottom: 15px !important;
-    padding: 0 !important;
+    padding: 20px !important;
 }
 
-.selectores {
-    margin-top: 15px !important;
-}
+/*.selectores {
+    margin: 0px !important;
+    padding: 0px !important;
+}*/
 
 #div-respuesta-ajax {
     margin-top: 15px !important;
 }
 
-#btn_allPurchases {
-    height: 45px !important;
+#box_buttons{
+    margin-top: 30px !important;
 }
 
-#btn_allPurchases span {
-    vertical-align: middle !important;
+#button_buscar {
+    /*background: #5858FA !important;*/
+    /*width: 280px;*/
+    width: 100% !important;
+    height: 45px;
+    font-size: 15px !important;
+    /*margin-top: 5px !important;*/
 }
+
+#icon-search, #icon-shopping-cart {
+    margin-right: 4px !important;
+    font-size: 20px !important;
+    float: left !important;
+}
+
+#btn_allPurchases {
+    width: 100% !important;
+    height: 45px;
+    font-size: 15px !important;
+    margin-top: 5px !important;
+}
+
+/*#btn_allPurchases span {
+    vertical-align: middle !important;
+}*/

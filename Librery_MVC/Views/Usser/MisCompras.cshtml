@@ -11,7 +11,6 @@
 
 }
 
-
 <h2>Mis Compras</h2>
 
 @if (TempData["User"] == null)
@@ -24,10 +23,9 @@ else
 
         @Html.Partial("_AjaxLoaderPartial")
 
-        <div class="panel-body" id="panel-body-select">
+        <div class="well" id="panel-body-select">
 
             <div class="form-group col-sm-4 selectores">
-
                 <select class="form-control" id="selectMonth1">
                     <option disabled selected>Desde el mes</option>
                     <option value="1">Enero</option>
@@ -43,7 +41,6 @@ else
                     <option value="11">Noviembre</option>
                     <option value="12">Diciembre</option>
                 </select>
-
             </div>
 
             <div class="form-group col-sm-4 selectores">
@@ -62,11 +59,9 @@ else
                     <option value="11">Noviembre</option>
                     <option value="12">Diciembre</option>
                 </select>
-
             </div>
 
             <div class="form-group col-sm-4 selectores">
-
                 <select class="form-control" id="selectYear">
                     <option disabled selected>Año</option>
                     @*i=2015 porque la empresa abrió en el 2015*@
@@ -75,22 +70,19 @@ else
                         <option value="@i">@i</option>
                     }
                 </select>
-
+            </div>
+        
+            <div class="" id="box_buttons">
+                <button class="btn btn-primary" id="button_buscar" type="button" onclick="sendToActionFiltrarCompras();"><span class="glyphicon glyphicon-search" id="icon-search" aria-hidden="true"></span>Buscar</button>
+                <button class="btn btn-success" id="btn_allPurchases" type="button" onclick="sendAllpurchases();"><span class="glyphicon glyphicon-shopping-cart" id="icon-shopping-cart" aria-hidden="true"></span>Todas mis compras</button>
             </div>
 
-        </div>
-
-        <div class="text-center" id="cont-btn_buscar">
-            <button class="btn btn-default" id="btn_buscar" type="button" onclick="sendToActionFiltrarCompras();"><span class="glyphicon glyphicon-search" id="glyphicon-search" aria-hidden="true"></span>Buscar</button>
-            <button class="btn btn-warning" id="btn_allPurchases" type="button" onclick="sendAllpurchases();"><span class="glyphicon glyphicon-shopping-cart" id="glyphicon-shopping-cart" aria-hidden="true"></span>Todas mis compras</button>
         </div>
 
     </div>
 
     <div id="div-respuesta-ajax">
-
         <table cellspacing="0" class="table table-striped table-primary mt-5 table-bordered">
-
             <thead>
                 <tr>
                     <th class="text-center">Fecha</th>
@@ -99,17 +91,12 @@ else
                     <th class="text-center">Cantidad</th>
                 </tr>
             </thead>
-
             <tbody>
-
                 <tr>
-                    <th colspan="4"> 0 resultados</th>
+                    <td colspan="4"> 0 resultados</td>
                 </tr>
-
             </tbody>
-
         </table>
-
     </div>
 
 }
@@ -117,9 +104,14 @@ else
 
 <script>
 
-    //.loading-screen es la clase del div que esta en la vista partial _AjaxLoaderPartial (carpeta shred)
-    var screen = $('.loading-screen');
+    // oculto estos div estan en _UsserLayout
+    $("#div_socialNetworks").hide();
+    $('#cont-img-logo-loyout').hide();
+    $('#div_bookstore').hide();
     
+    // .loading-screen es la clase del div que esta en la vista partial _AjaxLoaderPartial (carpeta shred)
+    var screen = $('.loading-screen');
+
     function configureLoadingScreen(screen) {
         $(document)
             .ajaxStart(function () {
@@ -133,9 +125,8 @@ else
     function sendAllpurchases() {
 
         configureLoadingScreen(screen);
-
-        //Al pulsar el boton, le escribo los valores en el input
-
+        
+        // Al pulsar el boton, le escribo los valores en el input
         $("#selectMonth1").val('Desde el mes');
         $("#selectMonth2").val('Hasta el mes');
         $("#selectYear").val('Año');
@@ -166,7 +157,6 @@ else
             alertify.alert("Debe elegir un rango de meses y el año.").set('label', 'Aceptar');
         }
         else {
-
               var uri = '@Url.Action("FiltrarCompras", "Usser")';
               $.ajax({
                    url: uri,
@@ -176,9 +166,7 @@ else
                    $("#div-respuesta-ajax").html(respuestaDelServidor);
                    }
               });
-
         }
-
 
     }
 

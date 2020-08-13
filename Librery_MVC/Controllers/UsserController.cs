@@ -15,7 +15,7 @@ namespace Librery_MVC.Controllers
         {
             List<LightBook> list = new List<LightBook>();
             LightBookService lbs = new LightBookService();
-            //Guardo en la ViewBag.User el nombre del usuario guardado en TempData
+            // Guardo en la ViewBag.User el nombre del usuario guardado en TempData
             ViewBag.User = "";
 
             if (TempData["User"] != null)
@@ -23,20 +23,13 @@ namespace Librery_MVC.Controllers
                 ViewBag.User = TempData["User"];
             }
          
-            //Obteniendo todos los libros de la db
-            list = lbs.getListLightBooks();
-                       
+            // Obteniendo todos los libros de la db
+            list = lbs.getListLightBooks();                     
             return View(list);
-
         }
-
-       
+     
         public ActionResult userLogin()
-        {
-            //Cuando el usuario cierre sesion, se borra el Tempdata["Email"]
-            //if (TempData["User"] != null)
-            //    TempData.Remove("User");
-
+        {           
             String user = Request.Form["user"];
             String password = Request.Form["password"];
             UsserService us = new UsserService();
@@ -44,8 +37,8 @@ namespace Librery_MVC.Controllers
 
             if (user != null && password != null)
             {
-                //funcion que verifica si existe el nombre de usuario.
-                //bool R = us.SearchEmailUsser(email);
+                // funcion que verifica si existe el nombre de usuario.
+                // bool R = us.SearchEmailUsser(email);
                 bool R = us.SearchUsserName(user);
 
                 if (R == false)
@@ -55,15 +48,15 @@ namespace Librery_MVC.Controllers
                 }
                 else
                 {
-                    //compruebo que la contraseña pertenezca al mismo usuario
+                    // compruebo que la contraseña pertenezca al mismo usuario
                     exist = us.SearchUserPassword(user, password);
                 }
-                //si el nombreDeUsuario y password son correctos redirige a actionResult index()
+                // si el nombreDeUsuario y password son correctos redirige a actionResult index()
                 if (exist == true)
                 {
-                    //TempData es similar a session/local storage, tiene corta duracion, 
-                    //al recargarse la pagina desaparece, para evitar esto, 
-                    //en _UsserLayout poner  @{TempData.Keep("Email");}
+                    // TempData es similar a session/local storage, tiene corta duracion, 
+                    // al recargarse la pagina desaparece, para evitar esto, 
+                    // en _UsserLayout poner  @{TempData.Keep("Email");}
 
                     TempData["User"] = user;//guardo el nombre de usuario ingreasdo en TempData
                     return RedirectToAction("index");//redirige al actionResult index()
@@ -81,60 +74,61 @@ namespace Librery_MVC.Controllers
 
         public ActionResult CrearUsuario()
         {
+            ViewBag.User = TempData["User"];
             //****************** VALIDANDO LADO BACK-END *********************************//
 
-            //nota: todos los TempData son creados en ActionResult registrarUsuario();
+            // nota: todos los TempData son creados en ActionResult registrarUsuario();
 
-            //Aviso que hay campos vacios
+            // Aviso que hay campos vacios
             if (TempData["emptyData"] != null)
             {
                 ViewBag.Msg = "Hay campos vacios!";
                 return View();
             }
 
-            //Aviso si el nombre no es de tipo String
+            // Aviso si el nombre no es de tipo String
             if (TempData["errorName"] != null)
             {
                 ViewBag.Msg = "El nombre debe tener solo letras.";
                 return View();
             }
 
-            //Aviso si el apellido no es de tipo String
+            // Aviso si el apellido no es de tipo String
             if (TempData["errorSurname"] != null)
             {
                 ViewBag.Msg = "El apellido debe tener solo letras.";
                 return View();
             }
 
-            //Aviso que la fecha es invalida
+            // Aviso que la fecha es invalida
             if (TempData["fechaInvalida"] != null)
             {
                 ViewBag.Msg = "La fecha es invalida!, rango permitido entre 18 y 100 años.";
                 return View();
             }
 
-            //Aviso que se supero el maxLength de el/los input
+            // Aviso que se supero el maxLength de el/los input
             if (TempData["lengthError"] != null)
             {
                 ViewBag.Msg = "Error!, no se permite mas de 45 caracteres en los campos: Nombre, Apellido, Email, Nombre de usuario, Contraseñas, Domicilio.";
                 return View();
             }
 
-            //Aviso que el formato de email es incorrecto
+            // Aviso que el formato de email es incorrecto
             if (TempData["invalidEmail"] != null)
             {
                 ViewBag.Msg = "El formato de email es invalido!";
                 return View();
             }
 
-            //Aviso si el nombre de usuario ya esta registrado
+            // Aviso si el nombre de usuario ya esta registrado
             if (TempData["duplicatedUser"] != null)
             {
                 ViewBag.Msg = "Error. El nombre de usuario ya esta registrado!, elija otro nombre.";
                 return View();
             }
 
-            //Aviso si las dos contraseñas son distintas
+            // Aviso si las dos contraseñas son distintas
             if (TempData["invalidPasswordsUser"] != null)
             {
                 ViewBag.Msg = "Error. Ambas contraseñas deben ser iguales con un minimo de 5 y un maximo de 45 caracteres.";
@@ -154,7 +148,7 @@ namespace Librery_MVC.Controllers
 
             CheckData check = new CheckData();
 
-            //Checkeando inputs vacios
+            // checkeando inputs vacios
 
             foreach (var item in _data)
             {
@@ -169,14 +163,14 @@ namespace Librery_MVC.Controllers
                 }
             }
 
-            //check si el nombre solo contiene letras
+            // check si el nombre solo contiene letras
             if (!check.CheckStringWithWhiteSpace(Request.Form["txtName"]))
             {
                 TempData["errorName"] = true;
                 return RedirectToAction("CrearUsuario");
             }
 
-            //check si el apellido solo contiene letras
+            // check si el apellido solo contiene letras
             if (!check.CheckStringWithWhiteSpace(Request.Form["txtSurname"]))
             {
                 TempData["errorSurname"] = true;
@@ -195,7 +189,7 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("CrearUsuario");
             }
 
-            //Checkeando si ya existe el nombreDeUsuario
+            // checkeando si ya existe el nombreDeUsuario
 
             string userName = Request.Form["txtUsserName"];
             bool existNameUser = us.SearchUsserName(userName);
@@ -206,14 +200,14 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("CrearUsuario");
             }
 
-            //check fecha valida
+            // check fecha valida
             if (!check.CheckDateFormat(Request.Form["date-input"]))
             {
                 TempData["fechaInvalida"] = true;
                 return RedirectToAction("CrearUsuario");
             }
 
-            //checkeando Fecha de nacimiento entre 18 y 100 años///
+            // checkeando Fecha de nacimiento entre 18 y 100 años
             if (!check.CheckAdultAge(Convert.ToDateTime(Request.Form["date-input"])))
             {
                 TempData["fechaInvalida"] = true;
@@ -234,7 +228,7 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("CrearUsuario");
             }
 
-            //checking que las 2 contraseñas sean iguales con un min de 5 y max de 45 caracteres
+            // checking que las 2 contraseñas sean iguales con un min de 5 y max de 45 caracteres
 
             String pass1 = Request.Form["txtClave1"];
             String pass2 = Request.Form["txtClave2"];
@@ -247,7 +241,7 @@ namespace Librery_MVC.Controllers
 
             //****************** FIN VALIDACIONES LADO BACK-END *****************//
 
-            //Declaro el objeto usser, implemento el metodo set para guardar los datos de los input
+            // declaro el objeto usser, implemento el metodo set para guardar los datos de los input
             Usser usser = new Usser();
 
             usser.Name = Request.Form["txtName"];
@@ -259,10 +253,19 @@ namespace Librery_MVC.Controllers
             usser.Address = Request.Form["txtAddress"];
             usser.AdminType = 2;
             usser.Estado = 1;
+                                     
+            UsserService usserService = new UsserService();
+            int filasAfectadas = usserService.InsertUser(usser);
 
-            ViewBag.User = usser.Email; //creando la ViewBag.Email con el email del usuario
-            return View(usser); //pasando el objeto usser y ViewBag.Email a la vista registrarUsuario.cshtml
+            if (filasAfectadas > 0)
+            {
+                String name = usser.Name;
+                ViewBag.Msg = "Bienvenido " + name + "! vaya a la opción Login para iniciar sesión.";
+            }
+            else
+                ViewBag.Msg = "Error!, los datos no se pudieron guardar.";
 
+            return View(); 
         }
         
         public ActionResult MostrarLibro(int idLibro)
@@ -270,7 +273,7 @@ namespace Librery_MVC.Controllers
             LibroService ls = new LibroService();
             Libro book = new Libro();
             book = ls.GetBook(idLibro);
-            //Obtengo el userName guardado en TempData["User"] TempData es similar a session/LocalStorage
+            // Obtengo el userName guardado en TempData["User"] TempData es similar a session/LocalStorage
             ViewBag.User = TempData["User"];
             return View(book);
         }
@@ -308,8 +311,7 @@ namespace Librery_MVC.Controllers
 
      
         public ActionResult RegistrarCompra(int[] dataIdBook, int[] quantityBook, String userName, string finalPrice)
-        {
-           
+        {          
             ViewBag.User = userName;
 
             //******************** Validacion back-end *********************************
@@ -386,7 +388,6 @@ namespace Librery_MVC.Controllers
 
             if (afectedRows > 0)//si se pudo insertar en la tabla ventas, se inserta en detalleVentas
             {
-
                 DetalleVenta saleDetail = new DetalleVenta();
                 DetalleVentaService dvs = new DetalleVentaService();
 
@@ -425,7 +426,6 @@ namespace Librery_MVC.Controllers
 
             ViewBag.Sold = false;
             return View();
-
         }
        
         public ActionResult MisCompras()
@@ -444,7 +444,6 @@ namespace Librery_MVC.Controllers
 
         public ActionResult FiltrarCompras(String listAll, String month1, String month2, String year)
         {
-
             ViewBag.User = TempData["User"];
             CompraService cs = new CompraService();
             String userName = ViewBag.User;
@@ -502,8 +501,6 @@ namespace Librery_MVC.Controllers
             String idCategory = data[2];
             String price1 = data[3];
             String price2 = data[4];
-
-            //int totalBooks = 0;
             int totalBooks = list.Count();
             int itemsxPage = 20;//cant de items por pagina que quiero mostrar
             int totalPages = 0;
@@ -517,8 +514,7 @@ namespace Librery_MVC.Controllers
             }
             else
                 totalPages = totalBooks / itemsxPage;
-
-           
+          
             //si no filtra y hace click en "buscar" lista todos los libros
             if (bookName == "" && idAutor == "todos" && idCategory == "todos" && price1 == "" && price2 == "")
             {                             
@@ -544,7 +540,6 @@ namespace Librery_MVC.Controllers
             int cont = 0; // referencia si hay que agregar  el "AND" a la consulta
             bool orderByPrice = false;//si se eligio precio/s se ordenan de menor a mayor
 
-
             //****************** Check back-end *************************//
 
             if (!String.IsNullOrEmpty(bookName))
@@ -552,7 +547,6 @@ namespace Librery_MVC.Controllers
                 consulta += " libros.nombre LIKE '%" + bookName + "%'";
                 cont++;
             }
-
 
             if (check.CheckIntNumber(idAutor)) //idAutor es un numero int?
             {
@@ -642,7 +636,6 @@ namespace Librery_MVC.Controllers
                 return View();
             }
 
-
             //****************** Fin Check back-end *************************//
 
             if (orderByPrice)
@@ -707,5 +700,6 @@ namespace Librery_MVC.Controllers
 
         }
 
+        
     }
 }
