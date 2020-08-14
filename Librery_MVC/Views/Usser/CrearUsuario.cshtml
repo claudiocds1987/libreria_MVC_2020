@@ -28,12 +28,12 @@
 
         <div class="form-group">
             <label for="lblName">Nombre:</label>
-            <input type="text" class="form-control" id="txtName" name="txtName" onkeyup="return removeClass(this);" minlength="3" maxlength="25" placeholder="Nombre" required>
+            <input type="text" class="form-control" onblur="cleanUnnecessaryWhiteSpaces(this, txtName);" id="txtName" name="txtName" onkeyup="return removeClass(this);" minlength="3" maxlength="25" placeholder="Nombre" required>
         </div>
 
         <div class="form-group">
             <label for="lblApe">Apellido:</label>
-            <input type="text" class="form-control" id="txtSurname" name="txtSurname" onkeyup="return removeClass(this);" maxlength="45" placeholder="Apellido" required>
+            <input type="text" class="form-control" onblur="cleanUnnecessaryWhiteSpaces(this, txtSurname);" id="txtSurname" name="txtSurname" onkeyup="return removeClass(this);" maxlength="45" placeholder="Apellido" required>
         </div>
 
         <div class="form-group">
@@ -49,7 +49,7 @@
 
         <div class="form-group">
             <label for="lblUserName">Nombre de usuario:</label>
-            <input type="text" class="form-control" id="txtUsserName" name="txtUsserName" onkeyup="return removeClass(this);" placeholder="Nombre de usuario" maxlength="45">
+            <input type="text" class="form-control"  onblur="cleanWhiteSpace(this, txtUsserName);" id="txtUsserName" name="txtUsserName" onkeyup="return removeClass(this);" placeholder="Nombre de usuario" maxlength="45">
         </div>
 
         <div class="form-group">
@@ -83,57 +83,55 @@
 @*------------------------------------------------------------------------*@
 
 <script type="text/javascript">
-
-   
+  
     function checkData() {
        
         var name = $('#txtName').val();
         var surname = $('#txtSurname').val();
         var pass1 = $('#clave1').val();
-        
 
         if (validarCamposInput()) {
 
             if (name.length < 3 || name.length > 25) {
                 alert("El nombre debe tener un min de 3 caracteres y un maximo de 25 letras!")
                 $("#txtName").addClass('bordeRojoValidacion')
-                return
+                return false;
             }
-            else if (!checkStringWithoutSpace(name)) {
-                alert("El nombre debe tener solo letras y sin espacios!")
+            else if (!onlyLetters(name)) {
+                alert("El nombre debe tener solo letras")
                 $("#txtName").addClass('bordeRojoValidacion')
-                return
+                return false;
             }
             else if (surname.length < 3 || surname.length > 25) {
                 alert("El apellido debe tener un min de 3 caracteres y un maximo de 25 letras!")
                 $("#txtSurname").addClass('bordeRojoValidacion')
-                return
+                return false;
             }
-            else if (!checkStringWithoutSpace(surname)) {
-                alert("El apellido debe tener solo letras y sin espacios!")
+            else if (!onlyLetters(surname)) {
+                alert("El apellido debe tener solo letras!")
                 $("#txtSurname").addClass('bordeRojoValidacion')
-                return
+                return false;
             }
             else if (pass1.length < 5 || pass1.lengh > 45) {
                 alert("La contraseña debe tener un minimo de 5 y un maximo de 45 caracteres!")
                 $("#clave1").addClass('bordeRojoValidacion')
                 return false;
             }
-            else if (checkWhiteSpace(pass1)) {
+            else if (isWhiteSpace(pass1)) {
                 alert("La contraseña no puede tener espacios!")
                 $("#clave1").addClass('bordeRojoValidacion')
                 return false;
             }
             else if (!validateEmail()) {
                 alert("El Email es invalido!")
-                return
+                return false;
             }
             else if (!validateDate()){
-                return
+                return false;
             }
             else if (!EqualPasswords()) {
                 alert("Las contraseñas deben ser iguales!")
-                return
+                return false;
             }
             else {
                 document.f1.submit();//pulsa el submit y manda los datos del form
@@ -145,25 +143,10 @@
             return;
         }      
     }
-  
-    function checkStringWithoutSpace(cadena) {
 
-        //expresion regular que verifica si el elemento tiene solo letras
-        const pattern = new RegExp('^[A-Z]+$', 'i');
-        var noValido = /\s/;//espacio vacio
-
-        if (!pattern.test(cadena)) {//1ro comprueba si tiene solo letras
-            return false
-        }
-        else if (noValido.test(cadena)) { // 2do se chequea que el string no tenga espacio
-            return false
-        }
-        else {
-            return true
-        }    
-    }
-
-    function checkWhiteSpace(cadena) {
+    
+    // check si hay espacio vacio (tipo bool)
+    function isWhiteSpace(cadena) {
 
         var whiteSpace = /\s/;//espacio vacio
 
@@ -194,7 +177,6 @@
         }
         else
             return true;
-
     }
 
     function validateDate() {

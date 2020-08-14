@@ -8,6 +8,12 @@
 //    $('#' + idInput).val(price)
 //}
 
+function cleanWhiteSpace(inputText, idInputText) {
+    let word = inputText.value;
+    word = word.replace(/\s{2,}/g,'').trim();
+    $(idInputText).val(word);
+}
+
 /*---------------------------------------------------------------------------- 
  * FUNCTION: cleanUnnecessaryWhiteSpaces(R).                                                                                                     
  * PARAMETRO: inputText(this), id del input text.                                                                                                                                  
@@ -220,11 +226,58 @@ function disabledInput(idInput) {
     $(idInput).attr('disabled', 'disabled');
 }
 
+
 function enableInput(idInput) {
 
     $(idInput).removeAttr('disabled');
 }
 
+
+function cleanWhiteSpace(inputText, idInputText) {
+
+    let word = inputText.value;
+    word = word.replace(/\s+/g, '');
+    $(idInputText).val(word);
+}
+
+function onlyLetters(cadena) {
+    // permite solo letras pero tambien acepta espacios vacios
+    var pattern = new RegExp("^[a-zA-Z ]+$");
+
+    if (!pattern.test(cadena)) {
+        return false
+    }
+    else
+        return true;
+}
+
+
+function onlyLettersWithoutSpace(cadena) {
+    // permite solo letras sin espacios vacios
+    const pattern = new RegExp('^[A-Z]+$', 'i');
+    var noValido = /\s/;//espacio vacio
+
+    if (!pattern.test(cadena)) {//1ro comprueba si tiene solo letras
+        return false
+    }
+    else if (noValido.test(cadena)) { // 2do se chequea que el string no tenga espacio
+        return false
+    }
+    else {
+        return true
+    }
+}
+
+//function checkWhiteSpace(cadena) {
+
+//    var whiteSpace = /\s/;//espacio vacio
+
+//    if (whiteSpace.test(cadena)) {
+//        return true;
+//    } else {
+//        return false;
+//    }
+//}
 
 
 function CheckNombreCompuesto(nombre) {
