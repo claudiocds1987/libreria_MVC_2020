@@ -219,20 +219,18 @@ function buttonsPagination(totalBooks, booksxPage, idDiv) {
 
 }
 
-
-function disabledInput(idInput) {
-    
+// inabilita el input text indicado
+function disabledInput(idInput) {   
     $(idInput).val('');
     $(idInput).attr('disabled', 'disabled');
 }
 
-
+// habilita el input text indicado
 function enableInput(idInput) {
-
     $(idInput).removeAttr('disabled');
 }
 
-
+// limpia espacios vacios, dejando el string sin espacios
 function cleanWhiteSpace(inputText, idInputText) {
 
     let word = inputText.value;
@@ -240,8 +238,8 @@ function cleanWhiteSpace(inputText, idInputText) {
     $(idInputText).val(word);
 }
 
-function onlyLetters(cadena) {
-    // permite solo letras pero tambien acepta espacios vacios
+// checkea solo letras en el string (acepta espacios vacios)
+function onlyLetters(cadena) {    
     var pattern = new RegExp("^[a-zA-Z ]+$");
 
     if (!pattern.test(cadena)) {
@@ -251,16 +249,16 @@ function onlyLetters(cadena) {
         return true;
 }
 
-
+// checkea solo letras en el string sin espacios vacios
 function onlyLettersWithoutSpace(cadena) {
-    // permite solo letras sin espacios vacios
+  
     const pattern = new RegExp('^[A-Z]+$', 'i');
     var noValido = /\s/;//espacio vacio
 
     if (!pattern.test(cadena)) {//1ro comprueba si tiene solo letras
         return false
     }
-    else if (noValido.test(cadena)) { // 2do se chequea que el string no tenga espacio
+    else if (noValido.test(cadena)) { // 2do se chequea que el string no tenga espacios vacios
         return false
     }
     else {

@@ -21,7 +21,6 @@ namespace Librery_MVC.Controllers
 
             if (email != null && password != null)
             {
-
                 if (!checkData.checkEmailFormat(email))
                 {
                     ViewBag.Msg = "El email no es valido!";
@@ -41,7 +40,6 @@ namespace Librery_MVC.Controllers
                     return View();
                 }
 
-
             }
 
             return View();
@@ -60,37 +58,37 @@ namespace Librery_MVC.Controllers
 
         public ActionResult crearAdmin()
         {
-            /*nota: todos los TempData son creados en ActionResult registrarAdmin();*/
+            /* nota: todos los TempData son creados en ActionResult registrarAdmin(); */
 
-            /*Aviso que hay campos vacios*/
+            /* Aviso que hay campos vacios */
             if (TempData["emptyDataAdmin"] != null)
             {
                 ViewBag.Msg = "Hay campos vacios!";
                 return View();
             }
 
-            /*Aviso que se supero el maxLength de el/los input*/
+            /* Aviso que se supero el maxLength de el/los input */
             if (TempData["lengthErrorAdminInput"] != null)
             {
                 ViewBag.Msg = "Error!, no se permite mas de 45 caracteres en los campos: Nombre, Apellido, Email, Nombre de usuario, Contraseñas, Domicilio.";
                 return View();
             }
 
-            /*Aviso que el formato de email es incorrecto*/
+            /* Aviso que el formato de email es incorrecto */
             if (TempData["invalidAdminEmail"] != null)
             {
                 ViewBag.Msg = "El formato de email es invalido!";
                 return View();
             }
 
-            /*Aviso si el email de admin ya esta registrado*/
+            /* Aviso si el email de admin ya esta registrado */
             if (TempData["duplicatedEmailAdmin"] != null)
             {
                 ViewBag.Msg = "Error, ya existe un administrador con el mismo email.";
                 return View();
             }
 
-            /*Aviso si las dos contraseñas no son iguales*/
+            /* Aviso si las dos contraseñas no son iguales */
             if (TempData["invalidPasswordsAdmin"] != null)
             {
                 ViewBag.Msg = "Error, Las dos contraseñas deben ser iguales.";
@@ -104,7 +102,7 @@ namespace Librery_MVC.Controllers
         {
             /****************** VALIDANDO LADO BACK-END **********************/
 
-            /*Checkeando inputs vacios*/
+            /* Checkeando inputs vacios */
 
             foreach (var item in _form)
             {
@@ -112,15 +110,15 @@ namespace Librery_MVC.Controllers
 
                 if (String.IsNullOrEmpty(valor))
                 {
-                    /*Si hay inputs vacios se crea la TempData*/
+                    /* Si hay inputs vacios se crea la TempData */
                     TempData["emptyDataAdmin"] = true;
-                    /*redirecciono a ActionResult CrearUsuario() enviando la TempData*/
+                    /* redirecciono a ActionResult CrearUsuario() enviando la TempData */
                     return RedirectToAction("crearAdmin");
                 }
 
             }
 
-            /*Checking length de inputs*/
+            /* Checking length de inputs */
 
             int emailSize = Convert.ToInt32(Request.Form["txtEmail"].Length);
             int nameSize = Convert.ToInt32(Request.Form["txtName"].Length);
@@ -134,7 +132,7 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("crearAdmin");
             }
 
-            /*Checkeando formato valido de email*/
+            /* Checkeando formato valido de email */
             string email = Request.Form["txtEmail"];
 
             if (!adminService.IsValidEmail(email))
@@ -143,25 +141,25 @@ namespace Librery_MVC.Controllers
                 return RedirectToAction("crearAdmin");
             }
 
-            /*Checkeando si ya existe el email*/
+            /* Checkeando si ya existe el email */
             if (adminService.SearchEmailAdmin(email))
             {
                 TempData["duplicatedEmailAdmin"] = true;
                 return RedirectToAction("crearAdmin");
             }
 
-            /*checking que las 2 contraseñas sean iguales*/
+            /* checking que las 2 contraseñas sean iguales */
             String pass1 = Request.Form["txtClave1"];
             String pass2 = Request.Form["txtClave2"];
 
-            /*Check que tenga el mismo tamaño*/
+            /* Check que tenga el mismo tamaño */
             if (pass1.Length != pass2.Length)
             {
                 TempData["invalidPasswordsAdmin"] = true;
                 return RedirectToAction("crearAdmin");
             }
 
-            /*ya sabiendo que tienen el mismo tamaño pregunto si son iguales*/
+            /* sabiendo que tienen el mismo tamaño pregunto si son iguales */
             for (int i = 0; i < pass1.Length; i++)
             {
                 if (pass2[i] != pass1[i])
@@ -181,7 +179,7 @@ namespace Librery_MVC.Controllers
             admin.apellido = Request.Form["txtSurname"];
             admin.pass = Request.Form["txtClave1"];
             admin.Estado = 1;
-            /*creando la ViewBag.Email con el email del administrador*/
+            /* creando la ViewBag.Email con el email del administrador */
             ViewBag.Admin = admin.email;
             AdminService sa = new AdminService();
 
