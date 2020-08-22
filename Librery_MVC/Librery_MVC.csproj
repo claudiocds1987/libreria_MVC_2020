@@ -397,6 +397,7 @@
     <Content Include="Views\Shared\_AjaxLoaderPartial.cshtml" />
     <Content Include="Views\Home\getSales.cshtml" />
     <Content Include="Views\Home\crearAdmin.cshtml" />
+    <Content Include="Views\Usser\prueba.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

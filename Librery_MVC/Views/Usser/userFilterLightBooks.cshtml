@@ -28,7 +28,10 @@
     }
     else
     {
-        <div id="model-result"><h4>Resultados: @ViewBag.Resultados</h4></div>
+        @*<div id="model-result"><h4>Resultados: @ViewBag.Resultados</h4></div>*@
+        <div id="model-result">
+            <span style="margin-left: 10px; color: red"><< Resultados: @ViewBag.Resultados >></span>
+        </div>
 
         <div id="divFilterLightBooks">
 
@@ -36,7 +39,7 @@
             {
                 foreach (LightBook item in Model)
                 {
-                    //si muestra un solo item en la view, hago col-md-12 en la imagen 
+                    //si muestra un solo item en la view, hago col-md-12 en la imagen
                     <div class="col-md-12 container-image text-center fade-in">
 
                         <img src="~/@item.UrlImagen" alt="@item.Nombre">
@@ -138,7 +141,7 @@
     </script>
 
     <script type="text/javascript">
-        window.addEventListener("load", hideButtonsPagination(), false);       
+        window.addEventListener("load", hideButtonsPagination(), false);
     </script>
 
 </body>

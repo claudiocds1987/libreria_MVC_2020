@@ -275,10 +275,44 @@ body {
 /************************** FIN CrearUsuario.cshtml *********************************/
 
 
+/***********************************************************************
+                            prueba
+***********************************************************************/
+/*#borde1 {
+    border: 5px solid red;
+}
+#borde2 {
+    border: 5px solid yellow;
+}
+.borde3 {
+    border: 5px solid blue; 
+}
+
+
+#cont-libros2 {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-start !important;
+    
+}
+
+.container-image2 {
+    box-sizing: border-box !important;
+    padding: 8px !important;
+    width: 153px;
+    
+}
+
+.container-image2 img {
+    width: 100% !important;
+    max-height: 292px;
+}*/
+
+
+
 /******************************************************************************************
                             index.cshtml (lado user)
 ******************************************************************************************/
-
 .group {
     width: 100% !important;
 }
@@ -331,6 +365,7 @@ body {
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: flex-start !important;
+    /*justify-content: center !important;*/
 }
 
 /*.container-image tambien esta en userFilterLightBook.cshtml y Paginar.cshtml*/
