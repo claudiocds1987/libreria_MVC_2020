@@ -10,7 +10,7 @@
 
 function cleanWhiteSpace(inputText, idInputText) {
     let word = inputText.value;
-    word = word.replace(/\s{2,}/g,'').trim();
+    word = word.replace(/\s{2,}/g, '').trim();
     $(idInputText).val(word);
 }
 
@@ -21,13 +21,13 @@ function cleanWhiteSpace(inputText, idInputText) {
  * Funcion util para titulos o descripciones.
  *                                                                                                                                                                                         
  *---------------------------------------------------------------------------*/
- function cleanUnnecessaryWhiteSpaces(inputText, idInputText) {
+function cleanUnnecessaryWhiteSpaces(inputText, idInputText) {
 
-     let word = inputText.value;    
-     word = word.replace(/\s{2,}/g, ' ').trim();     
-     $(idInputText).val(word);
+    let word = inputText.value;
+    word = word.replace(/\s{2,}/g, ' ').trim();
+    $(idInputText).val(word);
 
- }
+}
 
 /********************************************************************************
  * FUNCTION: Pagination(List, itemsxPage, numberPage, IdDiv)
@@ -49,7 +49,7 @@ function Pagination(originalList, booksxPage, numberPage, idDiv) {
         doPagination(1);
     }
     else {
-        
+
         doPagination(page);
     }
 
@@ -77,27 +77,44 @@ function doPagination(page) {
         numberPage = 1
     }
     else {
-
-        numberPage = page.value;//recibe el value del boton clickeado en la funcion  buttonsPagination()
-
+        //recibe el value del boton clickeado en la funcion  buttonsPagination()
+        numberPage = page.value;
     }
 
-    //Cuento el total de libros que hay en la lista original
+    // Cuento el total de libros que hay en la lista original
     var totalBooks = originalList.length;
     var desde = 0;
     var hasta = 0;
+    var data = "";
 
-    if (booksxPage > totalBooks) {
+    if (totalBooks == 0) {
+        alert("No hay libros en la base de datos para listar");
+    }
+    else if (totalBooks <= booksxPage) {
 
+        for (var g = 0; g < totalBooks - 1; g++) {
+            data += "<div class='container-image text-center fade-in'>";
+            //data += "<div class='container-image2 fade-in'>";
+            data += "<img src='/" + originalList[g].UrlImagen + "' alt='" + originalList[g].Nombre + "'>";
 
-        //alert("Error de paginación. La cantidad de items por pagina debe ser menor al total de items de la lista")
-        //return;
-        hasta = totalBooks - 1;
+            data += "<div class='title-book text-center'>";
+
+            data += '<a href="#" ' + 'value="' + originalList[g].IdLibro + '"' + ' onclick="sendToActionMostrarLibro(' + originalList[g].IdLibro + ');">' + originalList[g].Nombre + '(' + originalList[g].AnioDeLanzamiento + ')</a>';
+
+            data += "</div>"
+
+            data += "<div class='price-book text-center'>" + "$" + originalList[g].Precio + "</div>";
+
+            data += "</div>";
+        }
+        //si previamente existen elementos en el div, ".html(data)" los borra y pone los nuevos elementos.
+        $(idDiv).html(data);
     }
     else {
-
-        var pages = totalBooks % booksxPage; //obtengo el resto de la division
-
+        alert("Aca la logica de la poiscion de los indices")
+        hasta = totalBooks - 1;
+        // total de paginas del pagination
+        var pages = totalBooks % booksxPage;
         if (pages != 0) // si de resto no da cero, es un numero decimal
         {
             //Math.ceil redondea hacia arriba ej 1,7 => lo redondeo a 2
@@ -110,66 +127,49 @@ function doPagination(page) {
         var cont = 0;
         var librosAmostrar = 0;
         var librosListados = 0;
-
-        //guardo en el vector las diferentes formas de iniciar el recorrido de la lista
-        //segun la cantidad de booksxPage
-
+        // guardo en el vector las diferentes formas de iniciar el recorrido de la lista
+        // segun la cantidad de booksxPage
         for (var i = 0; i < pages; i++) {
 
             if (i == 0) {
-
-                pos.splice(0, 0, 0);//0: numero de indice, 0: elementos a borrar, 0: agrego un cero al array
                 cont = booksxPage;
             }
             else {
-
+                // pos.splice(0, 0, 0);//0: numero de indice, 0: elementos a borrar, 0: agrego un cero al array
                 pos.splice(i, 0, cont);
                 cont += booksxPage;
                 librosListados += booksxPage;
                 librosAmostrar = totalBooks - librosListados;
             }
         }
-
         //determinando los indices para recorrer la lista segun la pagina elegida
         if (numberPage == 1) {
 
             desde = pos[0];
             hasta = (desde + booksxPage) - 1;
         }
-
         else if (numberPage == pages) {
 
             desde = totalBooks - librosAmostrar;
             hasta = totalBooks - 1;
         }
-
         else {
-
             desde = pos[numberPage - 1];
             hasta = (desde + booksxPage) - 1;
         }
 
         //Creando la estructura para mostrar la lista de libros
-
-        var data = "";
-
+        //var data = "";
         for (var z = desde; z <= hasta; z++) {
-            
+
             data += "<div class='container-image text-center fade-in'>";
             //data += "<div class='container-image2 fade-in'>";
-            
             data += "<img src='/" + originalList[z].UrlImagen + "' alt='" + originalList[z].Nombre + "'>";
-
             data += "<div class='title-book text-center'>";
-
             data += '<a href="#" ' + 'value="' + originalList[z].IdLibro + '"' + ' onclick="sendToActionMostrarLibro(' + originalList[z].IdLibro + ');">' + originalList[z].Nombre + '(' + originalList[z].AnioDeLanzamiento + ')</a>';
-
             data += "</div>"
-
             data += "<div class='price-book text-center'>" + "$" + originalList[z].Precio + "</div>";
-
             data += "</div>";
-
         }
         //si previamente existen elementos en el div, ".html(data)" los borra y pone los nuevos elementos.
         $(idDiv).html(data);
@@ -221,7 +221,7 @@ function buttonsPagination(totalBooks, booksxPage, idDiv) {
 }
 
 // inabilita el input text indicado
-function disabledInput(idInput) {   
+function disabledInput(idInput) {
     $(idInput).val('');
     $(idInput).attr('disabled', 'disabled');
 }
@@ -240,7 +240,7 @@ function cleanWhiteSpace(inputText, idInputText) {
 }
 
 // checkea solo letras en el string (acepta espacios vacios)
-function onlyLetters(cadena) {    
+function onlyLetters(cadena) {
     var pattern = new RegExp("^[a-zA-Z ]+$");
 
     if (!pattern.test(cadena)) {
@@ -252,7 +252,7 @@ function onlyLetters(cadena) {
 
 // checkea solo letras en el string sin espacios vacios
 function onlyLettersWithoutSpace(cadena) {
-  
+
     const pattern = new RegExp('^[A-Z]+$', 'i');
     var noValido = /\s/;//espacio vacio
 
@@ -283,8 +283,8 @@ function CheckNombreCompuesto(nombre) {
 
     let regex = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
 
-    if (!regex.test(nombre))  
-        return false;          
+    if (!regex.test(nombre))
+        return false;
 }
 
 

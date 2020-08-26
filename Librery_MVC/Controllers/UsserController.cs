@@ -10,7 +10,6 @@ namespace Librery_MVC.Controllers
 {
     public class UsserController : Controller
     {
-
         public ActionResult prueba()
         {
             List<LightBook> list = new List<LightBook>();
@@ -27,7 +26,6 @@ namespace Librery_MVC.Controllers
             list = lbs.getListLightBooks();
             return View(list);
         }
-
 
         public ActionResult index()
         {
@@ -522,7 +520,7 @@ namespace Librery_MVC.Controllers
             int totalBooks = list.Count();
             int itemsxPage = 20;//cant de items por pagina que quiero mostrar
             int totalPages = 0;
-
+           
             totalPages = totalBooks % itemsxPage; //obtengo el resto de la division
 
             if (totalPages != 0) // si de resto no da cero, es un numero decimal

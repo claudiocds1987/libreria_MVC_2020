@@ -7,6 +7,8 @@ using System.Web;
 using Librery_MVC.Models;
 using MySql.Data.MySqlClient;
 using System.Globalization;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Librery_MVC.Services
 {
@@ -14,6 +16,9 @@ namespace Librery_MVC.Services
     {
 
         DataAccess da = new DataAccess();
+        SqlCommand cmd;
+        SqlDataReader dr;
+        SqlConnection cn = new SqlConnection();
 
         //public String cleanInnecesaryWhiteSpace(String word)
         //{
@@ -37,9 +42,9 @@ namespace Librery_MVC.Services
         public bool checkAutorAndBookName(String bookName, String idAutor)
        {
            String consulta = "SELECT libros.nombre, libros.idAutor FROM libros WHERE libros.nombre='" + bookName + "' AND libros.idAutor = " + idAutor;
-           MySqlConnection cn = da.ConnectToDB();
-           MySqlCommand cmd = new MySqlCommand(consulta, cn);
-           MySqlDataReader dr = cmd.ExecuteReader();
+           cn = da.ConnectToDB();
+           cmd = new SqlCommand(consulta, cn);
+           dr = cmd.ExecuteReader();
 
            if (dr.Read())
            {
@@ -234,10 +239,10 @@ namespace Librery_MVC.Services
         //busca en la tabla actores de la db si existe el idAutor
         public bool CheckIdAutor(String id)
         {
-            MySqlConnection cn = da.ConnectToDB();
+            cn = da.ConnectToDB();
             String consulta = "select nombre from autores where autores.idAutor = " + id;
-            MySqlCommand cmd = new MySqlCommand(consulta, cn);
-            MySqlDataReader dr = cmd.ExecuteReader();
+            cmd = new SqlCommand(consulta, cn);
+            dr = cmd.ExecuteReader();
 
             if(dr.Read())
             {
@@ -253,10 +258,10 @@ namespace Librery_MVC.Services
 
         public bool CheckIdCategory(String id)
         {
-            MySqlConnection cn = da.ConnectToDB();
+            cn = da.ConnectToDB();
             String consulta = "select nombreCategoria from categorias where categorias.idCategoria = " + id;
-            MySqlCommand cmd = new MySqlCommand(consulta, cn);
-            MySqlDataReader dr = cmd.ExecuteReader();
+            cmd = new SqlCommand(consulta, cn);
+            dr = cmd.ExecuteReader();
 
             if (dr.Read())
             {
@@ -272,10 +277,10 @@ namespace Librery_MVC.Services
 
         public bool CheckIdEditorial(String id)
         {
-            MySqlConnection cn = da.ConnectToDB();
+            cn = da.ConnectToDB();
             String consulta = "select nombreEditorial from editoriales where editoriales.IdEditorial = " + id;
-            MySqlCommand cmd = new MySqlCommand(consulta, cn);
-            MySqlDataReader dr = cmd.ExecuteReader();
+            cmd = new SqlCommand(consulta, cn);
+            dr = cmd.ExecuteReader();
 
             if (dr.Read())
             {

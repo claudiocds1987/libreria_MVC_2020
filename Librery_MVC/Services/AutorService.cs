@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using Librery_MVC.Models;
 using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Librery_MVC.Services
 {
@@ -11,15 +13,19 @@ namespace Librery_MVC.Services
     {
         DataAccess datos = new DataAccess();
         Autor autor = new Autor();
+        SqlConnection cn;
+        SqlCommand cmd;
+        SqlDataReader dr;
 
         public String getNameAutor(int id)
         {
-            MySqlConnection cn = datos.ConnectToDB();
+            cn = datos.ConnectToDB();
             String name = "";
             String idAutor = Convert.ToString(id);
-            String query = "SELECT nombre FROM libreria.autores WHERE idAutor = " + id;
-            MySqlCommand cmd = new MySqlCommand(query, cn);
-            MySqlDataReader dr = cmd.ExecuteReader();
+            String query = "SELECT nombre FROM autores WHERE idAutor = " + id;
+            //String query = "SELECT nombre FROM libreria.autores WHERE idAutor = " + id;
+            cmd = new SqlCommand(query, cn);
+            dr = cmd.ExecuteReader();
 
             while (dr.Read())
             {             
@@ -33,11 +39,12 @@ namespace Librery_MVC.Services
 
         public Autor getAutor(int id)
         {
-            MySqlConnection cn = datos.ConnectToDB();
+            cn = datos.ConnectToDB();
             String idAutor = Convert.ToString(id);
-            String query = "SELECT * FROM libreria.autores WHERE idAutor = " + id;
-            MySqlCommand cmd = new MySqlCommand(query, cn);
-            MySqlDataReader dr = cmd.ExecuteReader();
+            String query = "SELECT * FROM autores WHERE idAutor = " + id;
+            //String query = "SELECT * FROM libreria.autores WHERE idAutor = " + id;
+            cmd = new SqlCommand(query, cn);
+            dr = cmd.ExecuteReader();
 
             while (dr.Read())
             {
@@ -52,16 +59,18 @@ namespace Librery_MVC.Services
 
         public List<Autor> ListAutores()
         {
-            MySqlConnection cn = datos.ConnectToDB();
+            cn = datos.ConnectToDB();
             List<Autor> Lista = new List<Autor>();
-            String consulta = "SELECT * FROM libreria.autores";
-            MySqlCommand command = new MySqlCommand(consulta, cn);
-            MySqlDataReader dr = command.ExecuteReader();
+            //String consulta = "SELECT * FROM libreria.autores";
+            String consulta = "SELECT * FROM autores";
+            cmd = new SqlCommand(consulta, cn);
+            dr = cmd.ExecuteReader();
 
             while (dr.Read())
-            {
-                Lista.Add(new Autor(dr.GetInt32("idAutor"), dr.GetString("Nombre")));
-
+            {            
+                Lista.Add(new Autor(Convert.ToInt32(dr["idAutor"]), 
+                                   dr["Nombre"].ToString()
+                ));
             }
 
             dr.Close();//cierro el DataReader
