@@ -92,7 +92,7 @@ function doPagination(page) {
     }
     else if (totalBooks <= booksxPage) {
 
-        for (var g = 0; g < totalBooks - 1; g++) {
+        for (var g = 0; g < totalBooks; g++) {
             data += "<div class='container-image text-center fade-in'>";
             //data += "<div class='container-image2 fade-in'>";
             data += "<img src='/" + originalList[g].UrlImagen + "' alt='" + originalList[g].Nombre + "'>";

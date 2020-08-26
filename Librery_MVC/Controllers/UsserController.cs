@@ -533,15 +533,26 @@ namespace Librery_MVC.Controllers
           
             //si no filtra y hace click en "buscar" lista todos los libros
             if (bookName == "" && idAutor == "todos" && idCategory == "todos" && price1 == "" && price2 == "")
-            {                             
-                //a listaPaginada le voy a guardar los elementos de la lista que 
-                //tiene todos los libros desde su indice 0 hasta la cantidad
-                //fijada en itemsXpage
-                for (int i = 0; i < itemsxPage; i++)
+            {
+
+                if (totalBooks <= itemsxPage)
                 {
-                    listaPaginada.Add(list[i]);
+                    for (int x = 0; x < totalBooks; x++)
+                    {
+                        listaPaginada.Add(list[x]);
+                    }
                 }
-          
+                else
+                {
+                    //a listaPaginada le voy a guardar los elementos de la lista que 
+                    //tiene todos los libros desde su indice 0 hasta la cantidad
+                    //fijada en itemsXpage
+                    for (int i = 0; i < itemsxPage; i++)
+                    {
+                        listaPaginada.Add(list[i]);
+                    }
+                }
+         
                 //creando las TempData y ViewBag
                 TempData["filterBooks"] = list;                          
                 TempData["totalPages"] = totalPages;
