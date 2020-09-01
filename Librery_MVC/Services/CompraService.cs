@@ -30,7 +30,7 @@ namespace Librery_MVC.Services
             String e = " and month(Fecha) >= " + month1;
             String f = " and month(Fecha) <= " + month2;
             String g = " and year(Fecha) = " + year;
-            String h = " order by date(ventas.Fecha) desc";
+            String h = " order by ventas.Fecha desc";
             String consulta = a + b + c + d + e + f + g + h;
 
             cmd = new SqlCommand(consulta, cn);
@@ -60,7 +60,7 @@ namespace Librery_MVC.Services
             String b = " inner join usuarios on ventas.NombreUsuario = usuarios.NombreUsuario";
             String c = " inner join detalleventas on detalleventas.IdVenta = ventas.IdVenta";
             String d = " where usuarios.NombreUsuario = " + "'" + userName + "'";
-            String e = " order by date(ventas.Fecha) desc";
+            String e = " order by ventas.Fecha desc";
             String consulta = a + b + c + d + e;
             cmd = new SqlCommand(consulta, cn);
             dr = cmd.ExecuteReader();

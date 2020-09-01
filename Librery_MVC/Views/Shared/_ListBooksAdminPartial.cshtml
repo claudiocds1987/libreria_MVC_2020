@@ -19,6 +19,7 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col" class="text-center">Id</th>
+                <th scope="col" class="text-center">Cantidad</th>
                 <th scope="col" class="text-center col-md-2">Nombre</th>
                 <th scope="col" class="text-center">Autor</th>
                 <th scope="col" class="text-center">Categoria</th>
@@ -49,30 +50,31 @@
                     string price = Convert.ToString(item.Precio);
                     price = price.Replace(',', '.');
 
-                    <tr>
-                        <td class="text-center">
+                <tr>
+                    <td class="text-center">
 
-                            @Html.ActionLink("Editar", "EditarLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Editar", "EditarLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-info" })
 
-                            @if (item.Estado == true)
-                            {
-                                @Html.ActionLink("Baja", "BajaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-danger", onclick = "return BajaConfirmation();" })
-                            }
-                            else
-                            {
-                                @Html.ActionLink("Alta", "AltaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-success", onclick = "return AltaConfirmation();" })
-                            }
+                        @if (item.Estado == true)
+                        {
+                            @Html.ActionLink("Baja", "BajaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-danger", onclick = "return BajaConfirmation();" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Alta", "AltaLibro", "Home", new { idLibro = item.IdLibro }, new { @class = "btn btn-success", onclick = "return AltaConfirmation();" })
+                        }
 
-                        </td>
-                        <td class="text-center">@item.IdLibro</td>
-                        <td class="text-center">@item.Nombre</td>
-                        <td class="text-center">@autor.Nombre</td>
-                        <td class="text-center">@category.Nombre</td>
-                        <td class="text-center"><textarea style="resize:none" rows="5" cols="40" readonly>@item.Descripcion</textarea></td>
-                        <td class="text-center">$@price</td>
-                        <td class="text-center"><img src="/@item.UrlImagen.Replace("\\", "/")" width="80" height="100" /></td>
+                    </td>
+                    <td class="text-center">@item.IdLibro</td>
+                    <td class="text-center">@item.Cantidad</td>
+                    <td class="text-center">@item.Nombre</td>
+                    <td class="text-center">@autor.Nombre</td>
+                    <td class="text-center">@category.Nombre</td>
+                    <td class="text-center"><textarea style="resize:none" rows="5" cols="40" readonly>@item.Descripcion</textarea></td>
+                    <td class="text-center">$@price</td>
+                    <td class="text-center"><img src="/@item.UrlImagen.Replace("\\", "/")" width="80" height="100" /></td>
 
-                    </tr>
+                </tr>
                 }
             }
         </tbody>
