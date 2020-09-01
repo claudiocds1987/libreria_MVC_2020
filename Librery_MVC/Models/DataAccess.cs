@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using MySql.Data.MySqlClient;
+//using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 using System.Data;
 
@@ -11,30 +11,15 @@ namespace Librery_MVC.Models
 {
     public class DataAccess
     {
+        // conection string mySql local
         //String rutaDB = "datasource=localhost;port=3306;database=libreria;username=root;password=root";
-        String rutaDB = "Data Source=localhost\\SQLEXPRESSCLAU;Initial Catalog=libreria;Integrated Security=True";
-        //CONEXION A BASE DE DATOS MYSQL
-        //public MySqlConnection ConnectToDB()
-        //{
-        //    MySqlConnection cn = new MySqlConnection(rutaDB);
+        
+        // conection string sqlServer local
+        //String rutaDB = "Data Source=localhost\\SQLEXPRESSCLAU;Initial Catalog=libreria;Integrated Security=True";
 
-        //    try
-        //    {
-        //        cn.Open();
-        //        return cn;
-        //    }
-        //    catch (MySqlException e)
-        //    {
-        //        //return null;
-        //        throw new Exception(e.Message);
-        //    }
-
-        //    //finally
-        //    //{
-        //    //    //
-        //    //}
-        //}
-
+        // conection string SOMEE
+        String rutaDB = "workstation id=libreriaMVC.mssql.somee.com;packet size=4096;user id=cla8787_SQLLogin_1;pwd=ltzgfuzf41;data source=libreriaMVC.mssql.somee.com;persist security info=False;initial catalog=libreriaMVC";
+        
         public SqlConnection ConnectToDB()
         {
             SqlConnection cn = new SqlConnection(rutaDB);
