@@ -747,7 +747,7 @@ namespace Librery_MVC.Controllers
                         return View();
                     }
                     else
-                        consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName + "' AND ventas.IdVenta = " + idSale;
+                        consulta = "SELECT * FROM ventas WHERE NombreUsuario = '" + userName + "' AND ventas.IdVenta = " + idSale;
                 }
                 /*si elije la opcion "buscar ventas por fecha"*/
                 else if (option == "date")
@@ -766,13 +766,13 @@ namespace Librery_MVC.Controllers
                     }
                     else
                     {
-                        String a = "Select ventas.IdVenta, ventas.NombreUsuario, ventas.PrecioTotal, ventas.Fecha";
+                        String a = "Select IdVenta, NombreUsuario, PrecioTotal, Fecha";
                         String b = " from ventas";
                         String c = " where month(Fecha) >= " + month1;
                         String d = " and month(Fecha) <= " + month2;
                         String e = " and year(Fecha) = " + year;
-                        String f = " and ventas.NombreUsuario = '" + userName + "'";
-                        String g = " order by date(ventas.Fecha) desc";
+                        String f = " and NombreUsuario = '" + userName + "'";
+                        String g = " order by Fecha desc";
 
                         consulta = a + b + c + d + e + f + g;
                     }
@@ -780,7 +780,7 @@ namespace Librery_MVC.Controllers
                 }
                 /*si elije la opcion "todas las ventas"*/
                 else
-                    consulta = "SELECT * FROM ventas WHERE ventas.NombreUsuario = '" + userName + "' order by date(ventas.Fecha) desc";
+                    consulta = "SELECT * FROM ventas WHERE NombreUsuario = '" + userName + "' order by Fecha desc";
             }
             else
             { /*por si pinchan los values de los radio button*/

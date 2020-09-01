@@ -22,8 +22,8 @@ namespace Librery_MVC.Services
         {
             SqlParameter SqlParametros = new SqlParameter();
 
-            SqlParametros = Comando.Parameters.Add("@IdVenta", SqlDbType.Int);
-            SqlParametros.Value = saleDetail.IdVenta;
+            //SqlParametros = Comando.Parameters.Add("@IdVenta", SqlDbType.Int);
+            //SqlParametros.Value = saleDetail.IdVenta;
 
             SqlParametros = Comando.Parameters.Add("@IdLibro", SqlDbType.Int);
             SqlParametros.Value = saleDetail.IdLibro;
@@ -46,7 +46,8 @@ namespace Librery_MVC.Services
         public int getLastIdVenta()
         {
             cn = da.ConnectToDB();
-            String consulta = "select IdVenta from ventas order by IdVenta Desc Limit 1";
+            //String consulta = "select IdVenta from ventas order by IdVenta Desc Limit 1";
+            String consulta = "select top 1 IdVenta from ventas order by IdVenta Desc";
             cmd = new SqlCommand(consulta, cn);
             dr = cmd.ExecuteReader();
             int id = -1;

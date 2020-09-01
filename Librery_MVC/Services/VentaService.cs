@@ -21,8 +21,8 @@ namespace Librery_MVC.Services
         {
             SqlParameter SqlParametros = new SqlParameter();
 
-            SqlParametros = Comando.Parameters.Add("@IdVenta", SqlDbType.Int);
-            SqlParametros.Value = sale.IdVenta;
+            //SqlParametros = Comando.Parameters.Add("@IdVenta", SqlDbType.Int);
+            //SqlParametros.Value = sale.IdVenta;
 
             SqlParametros = Comando.Parameters.Add("@NombreUsuario", SqlDbType.VarChar, 45);
             SqlParametros.Value = sale.NombreUsuario;

@@ -459,31 +459,31 @@ namespace Librery_MVC.Services
         {
             SqlParameter SqlParametros = new SqlParameter();
 
-            SqlParametros = Comando.Parameters.Add("_nombre", SqlDbType.VarChar, 45);
+            SqlParametros = Comando.Parameters.Add("@nombre", SqlDbType.VarChar, 45);
             SqlParametros.Value = user.Name;
 
-            SqlParametros = Comando.Parameters.Add("_apellido", SqlDbType.VarChar, 45);
+            SqlParametros = Comando.Parameters.Add("@apellido", SqlDbType.VarChar, 45);
             SqlParametros.Value = user.Surname;
 
-            SqlParametros = Comando.Parameters.Add("_fechaNacimiento", SqlDbType.DateTime);
+            SqlParametros = Comando.Parameters.Add("@fechaNacimiento", SqlDbType.DateTime);
             SqlParametros.Value = user.dateTime;
 
-            SqlParametros = Comando.Parameters.Add("_email", SqlDbType.VarChar, 45);
+            SqlParametros = Comando.Parameters.Add("@email", SqlDbType.VarChar, 45);
             SqlParametros.Value = user.Email;
 
-            SqlParametros = Comando.Parameters.Add("_nombreUsuario", SqlDbType.VarChar, 45);
+            SqlParametros = Comando.Parameters.Add("@nombreUsuario", SqlDbType.VarChar, 45);
             SqlParametros.Value = user.UsserName;
 
-            SqlParametros = Comando.Parameters.Add("_pass", SqlDbType.VarChar, 45);
+            SqlParametros = Comando.Parameters.Add("@pass", SqlDbType.VarChar, 45);
             SqlParametros.Value = user.Pass;
 
-            SqlParametros = Comando.Parameters.Add("_domicilio", SqlDbType.VarChar, 45);
+            SqlParametros = Comando.Parameters.Add("@domicilio", SqlDbType.VarChar, 45);
             SqlParametros.Value = user.Address;
 
-            SqlParametros = Comando.Parameters.Add("_adminType", SqlDbType.Int);
+            SqlParametros = Comando.Parameters.Add("@adminType", SqlDbType.Int);
             SqlParametros.Value = user.AdminType;
 
-            SqlParametros = Comando.Parameters.Add("_estado", SqlDbType.Int);
+            SqlParametros = Comando.Parameters.Add("@estado", SqlDbType.Int);
             SqlParametros.Value = user.Estado;
 
         }

@@ -87,6 +87,13 @@ function doPagination(page) {
     var hasta = 0;
     var data = "";
 
+    if (totalBooks <= booksxPage) {
+        // oculto los botones del pagination si el total de books es <= a booksxpage
+        // #pagination-buttons es el div que esta en index, contiene los botones del pagination
+        $('#pagination-buttons').hide();
+    }
+
+
     if (totalBooks == 0) {
         alert("No hay libros en la base de datos para listar");
     }
@@ -111,7 +118,6 @@ function doPagination(page) {
         $(idDiv).html(data);
     }
     else {
-        alert("Aca la logica de la poiscion de los indices")
         hasta = totalBooks - 1;
         // total de paginas del pagination
         var pages = totalBooks % booksxPage;
@@ -145,11 +151,10 @@ function doPagination(page) {
         //determinando los indices para recorrer la lista segun la pagina elegida
         if (numberPage == 1) {
 
-            desde = pos[0];
+            //desde = pos[0];
             hasta = (desde + booksxPage) - 1;
         }
         else if (numberPage == pages) {
-
             desde = totalBooks - librosAmostrar;
             hasta = totalBooks - 1;
         }
@@ -163,7 +168,6 @@ function doPagination(page) {
         for (var z = desde; z <= hasta; z++) {
 
             data += "<div class='container-image text-center fade-in'>";
-            //data += "<div class='container-image2 fade-in'>";
             data += "<img src='/" + originalList[z].UrlImagen + "' alt='" + originalList[z].Nombre + "'>";
             data += "<div class='title-book text-center'>";
             data += '<a href="#" ' + 'value="' + originalList[z].IdLibro + '"' + ' onclick="sendToActionMostrarLibro(' + originalList[z].IdLibro + ');">' + originalList[z].Nombre + '(' + originalList[z].AnioDeLanzamiento + ')</a>';
