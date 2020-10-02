@@ -20,57 +20,46 @@
 <body class="fondo-Admin">
 
     <div class="navbar navbar-inverse navbar-fixed-top" id="navbar-indexAdmin">
-
         <div class="container">
-
             <div class="navbar-header" id="navbar-header">
                 <span class="navbar-brand">Modo administrador</span>
                 <ul class="nav navbar-nav">
-                    <li><a href="@Url.Action("crearAdmin", "Home")">Registrarse</a></li>
+                    @*<li><a href="@Url.Action("crearAdmin", "Home")">Registrarse</a></li>*@
                     <li><a href="@Url.Action("index", "Usser")"><span class="glyphicon glyphicon-globe" id="glyphicon-globe" aria-hidden="true"></span>Sitio cliente</a></li></li>
                 </ul>
             </div>
-
         </div>
     </div>
-
     <h5 class="text-center" style="color: red">@ViewBag.Msg</h5>
-
-    @using (Html.BeginForm("index", "Home", FormMethod.Post))
-    {
-        <div class="well" id="caja">
-
-            <div id="cont-img">
-                <img id="img-logo" src="~/principal/imagenes/bookLogo.png" alt="logo">
-            </div>
-
-            <h3>INICIAR SESIÓN</h3>
-
-            <div id="form-login">
-
-                <div id="cont-inputs">
-                    <input type="text" id="adminEmail" name="adminEmail" placeholder="Email" required>
-                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
+    <div id="div-view">
+        @using (Html.BeginForm("index", "Home", FormMethod.Post))
+        {
+            <div class="well" id="caja">
+                <div id="cont-img">
+                    <img id="img-logo" src="~/principal/imagenes/bookLogo.png" alt="logo">
                 </div>
-
-                @*<div id="wash">
-                        ¿Olvidaste tu contraseña?
-                    </div>*@
-
-                <div id="cont-btns">
-                    <button type="submit" id="btn-entrar">ENTRAR</button>
-                    <button type="button" onclick="callCrearAdminView()" id="btn-registrar">Registrarse</button>
+                <h3>INICIAR SESIÓN</h3>
+                <div id="form-login">
+                    <div id="cont-inputs">
+                        <input type="text" id="adminEmail" name="adminEmail" placeholder="Email" required>
+                        <input type="password" id="password" name="password" placeholder="Contraseña" required>
+                    </div>
+                    @*<div id="wash">
+                            ¿Olvidaste tu contraseña?
+                        </div>*@
+                    <div id="cont-btns">
+                        <button type="submit" id="btn-entrar">ENTRAR</button>
+                        @*<button type="button" onclick="callCrearAdminView()" id="btn-registrar">Registrarse</button>*@
+                        @*<input type="button" onclick="location.href='@Url.Action("crearAdmin", "Home")'" />*@
+                    </div>
                 </div>
-
             </div>
+         }
 
-        </div>
-    }
-
+    </div>
     <div class="footerAdmin">
         <center><p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p></center>
     </div>
-
     <script type="text/javascript">
 
     function callCrearAdminView() {
@@ -79,17 +68,15 @@
 
         $.ajax({
              url: uri,
-             //data: { dataId: idArray, dataQuantity: quantityArray, usuario:user, precioTotal:finalPrice },
              type: 'POST',
              success: function (respuestaDelServidor) {
                   $("#div-view").html(respuestaDelServidor);
              }
         });
-
     }
 
     </script>
-
     @Scripts.Render("~/bundles/jquery")
+
 </body>
 </html>

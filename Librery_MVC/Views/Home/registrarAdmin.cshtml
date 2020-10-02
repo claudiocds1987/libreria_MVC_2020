@@ -1,10 +1,7 @@
-﻿@*@model Librery_MVC.Models.Admin
-@using Librery_MVC.Services;*@
-
+﻿
 @{
     Layout = null;
     
-
 }
 
 <!DOCTYPE html>
@@ -32,7 +29,6 @@
     @if (ViewBag.Msg == 1)
     {
         <script type="text/javascript">
-
            window.alert("Los datos fueron guardados exitosamente!")
            window.location.href='@Url.Action("Index", "Home")';
         </script>

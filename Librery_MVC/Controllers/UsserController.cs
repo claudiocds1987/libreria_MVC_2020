@@ -9,24 +9,7 @@ using Librery_MVC.Models;
 namespace Librery_MVC.Controllers
 {
     public class UsserController : Controller
-    {
-        public ActionResult prueba()
-        {
-            List<LightBook> list = new List<LightBook>();
-            LightBookService lbs = new LightBookService();
-            // Guardo en la ViewBag.User el nombre del usuario guardado en TempData
-            ViewBag.User = "";
-
-            if (TempData["User"] != null)
-            {
-                ViewBag.User = TempData["User"];
-            }
-
-            // Obteniendo todos los libros de la db
-            list = lbs.getListLightBooks();
-            return View(list);
-        }
-
+    {       
         public ActionResult index()
         {
             List<LightBook> list = new List<LightBook>();

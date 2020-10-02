@@ -10,62 +10,47 @@
     <link rel="stylesheet" href="~/js-frameworks/alertifyjs/css/themes/semantic.min.css" />
     <script src="~/js-frameworks/alertifyjs/alertify.min.js"></script>
     @*/*************************************************************************/*@
-
     @*---------------enlazo mis funciones de js---------------------------*@
     <script type="text/javascript" src="~/js/funciones.js"></script>
-
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
-
     @*---------------enlazo misEstilos.css---------------------------*@
     @Styles.Render("~/Content/misEstilosAdmin.css")
     @*-estilos css para el Loader de consultas AJAX------------------*@
     @Styles.Render("~/js/loader/styles.css")
 
-
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-
     <style>
+
         .bordeRojoValidacion {
             border-color: red;
         }
     </style>
-
 </head>
 <body class="fondo-Admin">
-
     @{
         TempData.Keep("adminEmail");
     }
-
     <div class="navbar navbar-inverse navbar-fixed-top" id="admin-nav-fixedTop">
-
         <div class="cont-principal">
-
             <nav id="navigation" class="navbar navbar-inverse">
-
                 <div class="container-fluid">
-
                     <div class="navbar-header">
-
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        
+
                         <a class="navbar-brand" id="brand" href="/Home/adminPrincipal">LibraryMVC</a>
-
                     </div>
-
                     <div class="collapse navbar-collapse fade-in" id="myNavbar">
-                        
-                        <ul class="nav navbar-nav">
 
+                        <ul class="nav navbar-nav">
                             <li><a href="@Url.Action("index", "Home")"><span class="glyphicon glyphicon-log-in" id="glyphicon-log-in" aria-hidden="true"></span>Login</a></li>
                             <li><a href="@Url.Action("index", "Usser")"><span class="glyphicon glyphicon-globe" id="glyphicon-globe" aria-hidden="true"></span>Sitio cliente</a></li>
-                            <li><a href="@Url.Action("crearAdmin", "Home")">Registrarse</a></li>
+                            @*<li><a href="@Url.Action("crearAdmin", "Home")">Registrarse</a></li>*@
                             <li><a href="@Url.Action("ListarClientes", "Home")">Clientes</a></li>
                             <li><a href="@Url.Action("Ventas", "Home")">Ventas</a></li>
                             @*<li><a href="@Url.Action("Contact", "Home")">Contacto</a></li>*@
@@ -77,24 +62,20 @@
                                 </ul>
                             </li>
                         </ul>
-                    
+
                         <ul class="nav navbar-nav navbar-right">
-
                             <li class="dropdown">
-
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-user" id="glyphicon-user"></span>@TempData["adminEmail"]<span class="caret"></span></a>
                                 <ul class="dropdown-menu" id="dropdown-menu">
                                     <li><a href="@Url.Action("index", "Home")"><span class="glyphicon glyphicon-off" id="glyphicon-wrench" aria-hidden="true"></span>Cerrar sesión</a></li>
                                 </ul>
                             </li>
-
                         </ul>
                     </div>
                 </div>
             </nav>
         </div>
     </div>
-
 
     <div class="container body-content">
         @RenderBody()
@@ -103,7 +84,6 @@
             <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
         </footer>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
